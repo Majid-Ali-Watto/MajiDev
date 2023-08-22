@@ -11,7 +11,7 @@ import "../src/style.css";
 function MainContent() {
 	return (
 		<div className="main-content">
-			<img src="/public/majid.png" />
+			<img src="/majid.png" />
 			<div className="intro">
 				<span className="dev-name">Majid Ali</span>
 				<span className="dev-proff">Web Developer/ React Native Apps Developer</span>

@@ -116,7 +116,7 @@ function Header() {
 					</ScrollLink>
 				</li>
 				<li id="download-cv">
-					<a href="/public/Majid-Ali-Resume-Updated.pdf" download={true}>
+					<a href="/Majid-Ali-Resume-Updated.pdf" download={true}>
 						Download Resume
 					</a>
 				</li>
