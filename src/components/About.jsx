@@ -1,14 +1,14 @@
 /** @format */
 
 import "../style.css";
-
+import HireMe from "./Hire-Me";
 function About() {
 	const paras = [
-		"Greetings! I'm a versatile developer well-versed in web and mobile technologies like React Native, Vue.js, React, Node.js, Express, and databases including PostgreSQL and MySQL. My journey started as a freelancer, refining my skills by creating dynamic and user-friendly web and Android applications.",
-		"After successfully delivering numerous projects as a freelancer, I transitioned into the role of a Vue.js Developer at Teresol Pvt Ltd. Here, I'm deeply engaged in the Vue.js ecosystem, working on pioneering projects that demand seamless user experiences and intuitive interfaces.",
-		"My hands-on experience with diverse technologies, coupled with my commitment to staying current with industry trends, empowers me to provide top-notch solutions meeting user expectations and business objectives. I thrive on challenges and adopt a problem-solving approach, utilizing my expertise in React Native, Vue.js, React, Node.js, and Express to construct sturdy and efficient applications.",
-		"As a developer, I prioritize understanding users' and businesses' fundamental needs over merely coding. My belief is that technology should elevate lives, and my aim is to contribute through crafting functional and user-friendly software.",
-		"With a freelancing background and a current role at Teresol Pvt Ltd, I'm dedicated to continuous growth, enhancing my skills, and staying abreast of developments. I'm always enthusiastic about embarking on new projects, collaborating with passionate teams, and playing my part in the ever-evolving landscape of web and mobile development.",
+		"Hello! I'm a versatile developer experienced in React Native, Vue.js, React, Node.js, Express, PostgreSQL, and MySQL. I started as a freelancer, honing my skills by creating dynamic web and Android apps.",
+		"I transitioned from freelancing to being a Vue.js Developer at Teresol Pvt Ltd. Here, I work on innovative projects for seamless user experiences.",
+		"I offer top-notch solutions by staying updated with tech trends. I excel in React Native, Vue.js, React, Node.js, and Express, building robust applications.",
+		"I prioritize grasping users' and businesses' core needs. My goal is functional, user-friendly software that improves lives.",
+		"With a freelancing background and role at Teresol Pvt Ltd, I'm committed to growth, skill enhancement, and embracing new projects in web and mobile development.",
 	];
 	return (
 		<section id="about" className="about">
@@ -16,7 +16,8 @@ function About() {
 			{paras.map((para, index) => {
 				return <p key={index}>{para} </p>;
 			})}
-			<p></p>
+
+			<HireMe />
 		</section>
 	);
 }

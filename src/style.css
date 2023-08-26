@@ -12,7 +12,14 @@ body {
 	box-sizing: border-box;
 	font-family: "Poppins", sans-serif;
 }
-
+.mainBody {
+	background-color: tomato;
+	box-sizing: border-box;
+	padding: 1vh 1vw;
+}
+li {
+	list-style: none;
+}
 body::-webkit-scrollbar {
 	display: none;
 }
@@ -30,7 +37,7 @@ p {
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
-	height: 10dvh;
+	height: 10vh;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -38,7 +45,20 @@ p {
 	backdrop-filter: blur(10px); /* Apply a blur effect to the background */
 	z-index: 1; /* Ensure the header is above other elements */
 }
-
+.hireAndDownload ul {
+	display: flex;
+}
+.hireAndDownload {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	/* margin-top: 20px; */
+	flex-wrap: wrap;
+	box-sizing: border-box;
+	margin-left: 0%;
+}
 .footer {
 	display: flex;
 	flex-direction: row;
@@ -48,47 +68,74 @@ p {
 	height: 10vh;
 	background-color: rgba(51, 51, 51, 0.9); /* Adjust the values and opacity as needed */
 	color: #fff;
-	margin-top: 10vh;
+	/* margin-top: 10vh; */
 	box-sizing: border-box;
 	backdrop-filter: blur(10px); /* Apply a blur effect to the background */
 }
 
 @keyframes logoAnimation {
 	0% {
-		transform: translateY(-20px);
+		transform: translate(320px, 200px);
 		opacity: 0;
 	}
 	50% {
-		transform: translateX(80px);
-		opacity: 1;
+		opacity: 0.5;
 	}
 	75% {
-		transform: translateY(50px);
-		opacity: 1;
+		opacity: 0.75;
 	}
 	100% {
-		transform: translateY(0);
 		opacity: 1;
 	}
 }
+@keyframes logoAnimation2 {
+	0% {
+		border-bottom: 2px solid var(--primaryColor);
+		box-shadow: -1px 0px 1px 1px #757575;
+	}
+	50% {
+		border-right: 2px solid var(--primaryColor);
+		box-shadow: 0px 1px 1px 1px #757575;
+	}
+	75% {
+		border-top: 2px solid var(--primaryColor);
+		box-shadow: 1px 0px 1px 1px #757575;
+	}
+	100% {
+		border-left: 2px solid var(--primaryColor);
+		box-shadow: 0px -1px 1px 1px #757575;
+	}
+}
+
 #download-cv a {
 	text-decoration: none;
-	color: var(--accentColor);
+	color: white;
+	background-color: var(--accentColor);
 	border: 1px solid var(--accentColor);
-	padding: 5px;
-	border-radius: 20px;
+	padding: 5px 18px;
 }
 #hire-me a {
 	text-decoration: none;
-	color: var(--accentColor);
+	color: white;
 	border: 1px solid var(--accentColor);
-	padding: 5px;
-	border-radius: 20px;
+	padding: 5px 18px;
+	margin-right: 20px;
+	background-color: var(--accentColor);
 }
+#download-cv a:hover,
+#hire-me a:hover {
+	transition-property: all;
+	transition-duration: 0.4s;
+	transition-timing-function: ease-in-out;
+	color: whitesmoke;
+	background-color: tomato;
+	border: 1px dotted #333;
+}
+
 .logo {
 	display: flex;
 	align-items: center;
-	padding: 10px 20px;
+	padding: 0.8rem 1.1rem;
 	box-sizing: border-box;
 	animation: logoAnimation 1.5s ease-in-out forwards;
 }
@@ -98,15 +145,49 @@ p {
 	font-size: 1.8rem;
 	font-weight: bold;
 	color: white;
+	padding: 0.1rem 1rem;
+	border: 1px solid var(--accentColor);
+	border-radius: 4px;
+	animation: logoAnimation2 2.5s infinite;
+
+	transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+}
+
+.logo h1 {
+	display: inline-block;
+	font-size: 24px;
+	font-weight: bold;
+	width: auto;
+	/* white-space: nowrap; 
+	transform-origin: center bottom;
+	transition: opacity 0.3s, background-color 0.3s; */
 }
 
 .logo h1:hover {
-	transform: translateY(-5px);
+	animation: wave 3.5s infinite;
 	opacity: 0.8;
+	background-color: var(--primaryColor);
 }
-@media (max-width: 768px) {
-	.logo h1 {
-		font-size: 1.4rem;
+@keyframes wave {
+	0% {
+		width: 0%;
+		text-transform: capitalize;
+		overflow: hidden;
+	}
+	25% {
+		text-transform: uppercase;
+		width: 33%;
+		overflow: hidden;
+	}
+	50% {
+		text-transform: lowercase;
+		width: 66%;
+		overflow: hidden;
+	}
+	75% {
+		text-transform: capitalize;
+		width: 100%;
+		overflow: hidden;
 	}
 }
 
@@ -127,33 +208,48 @@ p {
 	display: none;
 }
 
-.nav-item-active {
+.nav-links li a {
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	transition: color 0.3s;
+}
+
+.nav-links li.scroll-to-top.active,
+.nav-links li a.active {
 	color: var(--accentColor);
+	border-bottom: 1px solid var(--accentColor);
+}
+li a:hover,
+.nav-links li a.active:hover {
+	padding: 0.3rem 0.6rem;
+	background-color: var(--accentColor);
+	color: white;
 }
 
 .main-content {
 	display: flex;
 	flex-direction: row;
-	height: 90dvh;
+	height: 100vh;
 	box-sizing: border-box;
 	background-color: midnightblue;
 	justify-content: space-around;
 	align-items: center;
 	position: relative;
-	top: 10vh;
+	/* top: 10vh; */
 	z-index: -5;
 	box-sizing: border-box;
 }
 
 .main-content img {
-	display: flex;
+	display: block;
+	max-height: 70%;
+	border-radius: 50%;
 	flex-direction: row;
 	align-items: center;
-	height: var(--mainContentHeight);
-	width: 35vw;
 	margin-left: 20px;
-	border-radius: 50%;
 	box-sizing: border-box;
+	mix-blend-mode: exclusion;
 }
 
 .intro {
@@ -177,15 +273,13 @@ p {
 		opacity: 0.8;
 	}
 	50% {
-		/* transform: skew(25deg); */
 		opacity: 1;
 		color: #555;
 	}
 	75% {
 		transform: translateY(-10px);
 		color: #ff6600;
-		text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.8),
-			0 0 50px rgba(255, 0, 0, 0.8);
+		text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 8px rgba(255, 0, 0, 0.8), 0 0 11px rgba(255, 0, 0, 0.8);
 		color: #ff6600; /* Neon pink color */
 	}
 	100% {
@@ -194,33 +288,67 @@ p {
 	}
 }
 
-.dev-name {
-	letter-spacing: 5px;
-	font-size: 5ch;
-	animation: pulsateAnimation 8s infinite;
-	color: white;
+@keyframes devName {
+	0% {
+		opacity: 0;
+		transform: translateX(-400px);
+	}
+	50% {
+		opacity: 0.5;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
 }
-.dev-proff {
-	letter-spacing: 3px;
-	font-size: 2ch;
+@keyframes devProff {
+	0% {
+		opacity: 0;
+		transform: translateX(400px);
+	}
+	50% {
+		opacity: 0.5;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.dev-name {
+	letter-spacing: 0.5ch;
+	font-size: 2.5rem;
+	animation: devName 1.5s ease-in-out forwards;
 	color: white;
-	animation: pulsateAnimation 8s infinite;
 }
 
+.dev-proff {
+	font-size: 2rem;
+	color: white;
+	animation: devProff 1.5s ease-in-out forwards;
+	/* pulsateAnimation 8s infinite; */
+}
+.dev-name:hover {
+	animation: pulsateAnimation 2s infinite;
+}
+
+.dev-proff:hover {
+	animation: pulsateAnimation 2s infinite;
+}
 .about,
 .services,
 .projects,
 .contact-form {
 	padding: 10px 40px;
-	margin-inline: 20px;
+	/* margin-inline: 20px; */
 	color: black;
 	border-radius: 4px;
 	box-sizing: border-box;
-	margin-top: 5vh;
+	margin-top: 2vh;
 	background-color: #edf1fe;
-}
-.about {
-	margin-top: 15vh;
 }
 
 .about-content,
@@ -230,17 +358,21 @@ p {
 	margin: 0 auto;
 	text-align: center;
 	box-sizing: border-box;
+	height: fit-content;
 }
 
 .about h2,
 .services h2,
 .projects h2,
 .contact-form h2 {
-	font-size: 2.5rem;
+	font-size: 2rem;
 	margin-bottom: 20px;
 	box-sizing: border-box;
 	color: #757575;
 }
+/* .contact-form {
+	padding-bottom: 40px;
+} */
 label {
 	font-weight: 700;
 }
@@ -257,19 +389,6 @@ textarea {
 	outline: none;
 }
 
-button {
-	background-color: var(--primaryColor);
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 4px;
-	cursor: pointer;
-	box-sizing: border-box;
-}
-
-button:hover {
-	background-color: #555;
-}
 .links {
 	width: 100%;
 	display: flex;
@@ -292,15 +411,40 @@ button:hover {
 	padding-left: 1rem;
 }
 .copy-right {
-	width: 50%;
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	/* font-size: 1.2vw; */
 }
+
 .nav-links-burger {
 	display: none;
 }
+/* Style for the scroll-to-top list item */
+.scroll-to-top {
+	transition: opacity 1s ease-in-out; /* Smooth opacity transition */
+}
+
+/* Apply fade-in animation */
+.scroll-fade-in {
+	animation: 2s ease-in-out 1s both; /* Animation with a delay */
+}
+
+@media (max-width: 768px) {
+	.logo h1 {
+		font-size: 1.4rem;
+	}
+	.dev-name {
+		font-size: 2rem;
+	}
+	.dev-proff {
+		font-size: 1.5rem;
+		animation: pulsateAnimation 8s infinite;
+	}
+}
+
 @media screen and (min-width: 1080px) {
 	.burger-links-menu {
 		display: none;
@@ -310,29 +454,40 @@ button:hover {
 	}
 }
 @media screen and (max-width: 1080px) {
+	.intro {
+		width: 100%;
+	}
 	.main-content img {
 		display: none;
 	}
-	/* .links {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	} */
+	.main-content {
+		position: relative;
+		overflow: hidden;
+		background-image: url("/MajiDev/majid-1.png"); /* Replace with your image URL */
+		background-position: center;
+		background-size: auto;
+		background-repeat: no-repeat;
+		/* background: rgba(102, 17, 238, 0.9); Semi-transparent background */
+	}
+
 	.copy-right {
 		width: 100%;
+		/* font-size: 1.5vw; */
 	}
 	ul {
 		display: flex;
 		flex-direction: column;
 	}
-	#download-cv {
-		margin-top: 10px;
+	.dev-proff {
+		font-size: 1.5rem;
 	}
-	#hire-me {
-		margin-top: 10px;
+
+	.hireAndDownload ul {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
 	}
+
 	.nav-links {
 		display: none;
 	}
@@ -351,12 +506,28 @@ button:hover {
 	/* Styles for the "burger-links-menu" element */
 	.burger-links-menu {
 		display: flex;
+		justify-content: center;
+		align-items: center;
 		position: absolute;
 		top: 10vh;
 		right: 0;
+		width: 100%;
 		background: rgba(56, 56, 57, 0.9); /* Semi-transparent background */
 		backdrop-filter: blur(1px); /* Apply blur effect for a glassy look */
 		z-index: 10;
+	}
+	.nav-links li a {
+		padding: 0;
+	}
+}
+@media screen and (max-width: 425px) {
+	.hireAndDownload {
+		flex-direction: column;
+		width: 100%;
+	}
+	.copy-right {
+		width: 100%;
+		/* font-size: 3vw; */
 	}
 }
 @media screen and (max-width: 890px) {
@@ -366,17 +537,13 @@ button:hover {
 	}
 	.copy-right {
 		width: 100%;
+		/* font-size: 3vw; */
 	}
 	.intro {
 		padding: 5px;
 	}
-}
-/* Style for the scroll-to-top list item */
-.scroll-to-top {
-	transition: opacity 1s ease-in-out; /* Smooth opacity transition */
-}
-
-/* Apply fade-in animation */
-.scroll-fade-in {
-	animation: 2s ease-in-out 1s both; /* Animation with a delay */
+	.copy-right {
+		width: 100%;
+		/* font-size: 2vw; */
+	}
 }

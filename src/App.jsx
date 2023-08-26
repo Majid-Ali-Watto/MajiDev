@@ -14,7 +14,7 @@ function MainContent() {
 			<img src="/MajiDev/majid.png" />
 			<div className="intro">
 				<span className="dev-name">Majid Ali</span>
-				<span className="dev-proff">Web Developer/ React Native Apps Developer</span>
+				<span className="dev-proff">Web / React Native Apps Developer</span>
 				<p className="intro-text">
 					I am an experienced React Native and Vue.js developer, proficient in React, Node, Express, PostgreSQL, and MySQL. I began as a
 					freelancer, creating web and Android apps. Now a Vue.js Developer at Teresol Pvt Ltd, I tackle cutting-edge projects with a
@@ -32,12 +32,16 @@ function App() {
 			<div className="header-area">
 				<Header />
 			</div>
-			<MainContent></MainContent>
+			{/* <div> */}
+			<MainContent />
+			{/* </div> */}
+			<div className="mainBody">
+				<About />
+				<Services />
+				<Projects />
+				<Contact />
+			</div>
 
-			<About />
-			<Services />
-			<Projects />
-			<Contact />
 			<Footer owner="Majid's Portfolio" />
 		</div>
 	);

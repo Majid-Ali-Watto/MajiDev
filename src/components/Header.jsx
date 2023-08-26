@@ -1,20 +1,23 @@
 /** @format */
-
 import { useState, useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
-import "../style.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
+import "../style.css";
+
 function Header() {
-	const [, setActiveLink] = useState("home");
+	const [activeLink, setActiveLink] = useState("home");
 	const [burger, setBurger] = useState(false);
 	const [path, setPath] = useState(null);
+
 	const handleSetActive = (to) => {
 		setActiveLink(to);
 	};
+
 	useEffect(() => {
 		setBurger((prev) => !prev);
 	}, [path]);
+
 	useEffect(() => {
 		window.addEventListener("scroll", () => {
 			if (window.scrollY < 200) {
@@ -22,17 +25,99 @@ function Header() {
 			}
 		});
 	}, []);
+
 	async function scrollToTop() {
 		await animateClick().then(() => {
 			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 		});
 	}
 
+	function Links() {
+		return (
+			<ul className="nav-links">
+				<li
+					className={`scroll-to-top ${activeLink === "home" ? "active" : ""}`}
+					onClick={() => {
+						scrollToTop();
+						setPath("home");
+					}}>
+					<a>Home</a>
+				</li>
+				<li>
+					<ScrollLink
+						to="about"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("about");
+							setPath("about");
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "about" ? "active" : ""}>
+						About
+					</ScrollLink>
+				</li>
+				<li>
+					<ScrollLink
+						to="services"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("services");
+							setPath("services"); // Change "Services" to "services"
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "services" ? "active" : ""} // Change "Services" to "services"
+					>
+						Services
+					</ScrollLink>
+				</li>
+				<li>
+					<ScrollLink
+						to="projects"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("projects");
+							setPath("projects"); // Change "Projects" to "projects"
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "projects" ? "active" : ""} // Change "Projects" to "projects"
+					>
+						Projects
+					</ScrollLink>
+				</li>
+				<li>
+					<ScrollLink
+						to="contact"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("contact");
+							setPath("contact"); // Change "Contact" to "contact"
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "contact" ? "active" : ""} // Change "Contact" to "contact"
+					>
+						Contact
+					</ScrollLink>
+				</li>
+			</ul>
+		);
+	}
+
+	async function animateClick() {
+		const scrollToTopElement = document.querySelector(".scroll-to-top");
+		scrollToTopElement.classList.add("scroll-fade-in");
+	}
+
 	return (
 		<header className="header">
 			<div className="logo">
 				<h1>
-					MAJI<span style={{ fontWeight: "normal", color: "green" }}>D</span>ev
+					MAJI
+					<span style={{ fontWeight: "normal", color: "#ff6600" }}>D</span>
+					ev
 				</h1>
 			</div>
 			<nav className="nav-links">{Links()}</nav>
@@ -50,88 +135,6 @@ function Header() {
 			)}
 		</header>
 	);
-
-	function Links() {
-		return (
-			<ul>
-				<li
-					className="scroll-to-top"
-					onClick={() => {
-						scrollToTop();
-						setPath("home");
-					}}>
-					Home
-				</li>
-
-				<li>
-					<ScrollLink
-						to="about"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive();
-							setPath("about");
-						}}
-						spy={true}
-						offset={-50}>
-						About
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="services"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive();
-							setPath("Services");
-						}}
-						spy={true}
-						offset={-50}>
-						Services
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="projects"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive();
-							setPath("Projects");
-						}}
-						spy={true}
-						offset={-50}>
-						Projects
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="contact"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive();
-							setPath("Contact");
-						}}
-						spy={true}
-						offset={-50}>
-						Contact
-					</ScrollLink>
-				</li>
-				<li id="download-cv">
-					<a href="/MajiDev/Majid-Ali-Resume-Updated.pdf" download={true}>
-						Download Resume
-					</a>
-				</li>
-				<li id="hire-me">
-					<a href="https://www.upwork.com/freelancers/~018c214d3139f0f30e" target="_blank" rel="noreferrer">
-						Hire Me
-					</a>
-				</li>
-			</ul>
-		);
-	}
 }
 
 export default Header;
-async function animateClick() {
-	const scrollToTopElement = document.querySelector(".scroll-to-top");
-	scrollToTopElement.classList.add("scroll-fade-in");
-}
