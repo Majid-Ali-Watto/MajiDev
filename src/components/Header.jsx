@@ -87,7 +87,7 @@ function Header() {
 						Projects
 					</ScrollLink>
 				</li>
-				<li>
+				{/* <li>
 					<ScrollLink
 						to="contact"
 						smooth={true}
@@ -101,7 +101,7 @@ function Header() {
 					>
 						Contact
 					</ScrollLink>
-				</li>
+				</li> */}
 			</ul>
 		);
 	}
