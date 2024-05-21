@@ -10,7 +10,7 @@ function Footer({ owner }) {
 	return (
 		<footer className="footer">
 			<p className="copy-right">
-				&copy; {new Date().getFullYear()} {owner}. All rights reserved.
+				&copy; {new Date().getFullYear()} {owner}. Islamabad, Pakistan.
 			</p>
 		</footer>
 	);

@@ -15,15 +15,27 @@ function Header() {
 	};
 
 	useEffect(() => {
-		setBurger((prev) => !prev);
+		if (burger) setBurger((prev) => !prev);
 	}, [path]);
+	const handleScroll = () => {
+		if (window.scrollY < 200) {
+			setActiveLink("home");
+		}
+	};
+	function debounce(func, wait) {
+		let timeout;
+		return function (...args) {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func.apply(this, args), wait);
+		};
+	}
 
 	useEffect(() => {
-		window.addEventListener("scroll", () => {
-			if (window.scrollY < 200) {
-				setActiveLink("home");
-			}
-		});
+		const handleScrollDebounced = debounce(handleScroll, 100);
+		window.addEventListener("scroll", handleScrollDebounced);
+		return () => {
+			window.removeEventListener("scroll", handleScrollDebounced);
+		};
 	}, []);
 
 	async function scrollToTop() {
@@ -63,11 +75,11 @@ function Header() {
 						smooth={true}
 						onSetActive={() => {
 							handleSetActive("services");
-							setPath("services"); // Change "Services" to "services"
+							setPath("services");
 						}}
 						spy={true}
 						offset={-50}
-						className={activeLink === "services" ? "active" : ""} // Change "Services" to "services"
+						className={activeLink === "services" ? "active" : ""}
 					>
 						Services
 					</ScrollLink>
@@ -78,30 +90,14 @@ function Header() {
 						smooth={true}
 						onSetActive={() => {
 							handleSetActive("projects");
-							setPath("projects"); // Change "Projects" to "projects"
+							setPath("projects");
 						}}
 						spy={true}
 						offset={-50}
-						className={activeLink === "projects" ? "active" : ""} // Change "Projects" to "projects"
-					>
+						className={activeLink === "projects" ? "active" : ""}>
 						Projects
 					</ScrollLink>
 				</li>
-				{/* <li>
-					<ScrollLink
-						to="contact"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("contact");
-							setPath("contact"); // Change "Contact" to "contact"
-						}}
-						spy={true}
-						offset={-50}
-						className={activeLink === "contact" ? "active" : ""} // Change "Contact" to "contact"
-					>
-						Contact
-					</ScrollLink>
-				</li> */}
 			</ul>
 		);
 	}
@@ -123,9 +119,15 @@ function Header() {
 			<nav className="nav-links">{Links()}</nav>
 			<div className="nav-links-burger">
 				{!burger ? (
-					<GiHamburgerMenu style={{ fontSize: "30px" }} onClick={() => setBurger(true)} />
+					<GiHamburgerMenu
+						style={{ fontSize: "30px" }}
+						onClick={() => setBurger(true)}
+					/>
 				) : (
-					<AiOutlineClose style={{ fontSize: "30px" }} onClick={() => setBurger(false)} />
+					<AiOutlineClose
+						style={{ fontSize: "30px" }}
+						onClick={() => setBurger(false)}
+					/>
 				)}
 			</div>
 			{burger && (

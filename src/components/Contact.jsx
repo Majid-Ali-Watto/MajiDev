@@ -7,8 +7,67 @@ function Contact() {
 		<section
 			id="contact"
 			className="contact-form">
-			<h2>Contact Me</h2>
-			<div className="links">
+			{/* <h2>Contact Me</h2> */}
+			<div className="top-links">
+				<a
+					href="https://www.linkedin.com/in/majid-ali-074b97245/"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="LinkedIn">
+						<FaLinkedin style={{ fontSize: "25px", color: "blue" }} />
+					</abbr>
+				</a>
+				<a
+					href="https://github.com/Majid-Ali-Watto"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Github">
+						<FaGithub style={{ fontSize: "25px", color: "black" }} />
+					</abbr>
+				</a>
+				<a
+					href="https://www.facebook.com/groups/246606200063950/?ref=share_group_link"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Facebook">
+						<FaSquareFacebook style={{ fontSize: "25px", color: "blue" }} />
+					</abbr>
+				</a>
+				<a
+					href="https://instagram.com/majid_ali_wattu?utm_source=qr&igshid=ZDc4ODBmNjlmNQ%3D%3D"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Instagram">
+						<FaInstagram style={{ fontSize: "25px", color: "black" }} />
+					</abbr>
+				</a>
+				<a
+					href="mailto:majidaliqau@gmail.com"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Email">
+						<FaEnvelope style={{ fontSize: "25px", color: "red" }} />
+					</abbr>
+				</a>
+				<a
+					href="https://wa.me/923275065850"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Whatsapp">
+						<FaWhatsapp style={{ fontSize: "25px", color: "green" }} />
+					</abbr>
+				</a>
+
+				<a
+					href="https://medium.com/@majid.teresol"
+					target="_blank"
+					rel="noreferrer">
+					<abbr title="Medium">
+						<FaMedium style={{ fontSize: "25px", color: "black" }} />
+					</abbr>
+				</a>
+			</div>
+			{/* <div className="links">
 				<a
 					href="https://www.linkedin.com/in/majid-ali-074b97245/"
 					target="_blank"
@@ -59,7 +118,7 @@ function Contact() {
 					<FaMedium style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
 					<span className="path">https://medium.com/@majid.teresol</span>
 				</a>
-			</div>
+			</div> */}
 		</section>
 	);
 }

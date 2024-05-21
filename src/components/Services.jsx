@@ -38,6 +38,7 @@ function Services() {
 					);
 				})}
 			</div>
+
 		</section>
 	);
 }

@@ -17,6 +17,7 @@ function Projects() {
 							className="service-item"
 							key={index}>
 							<h3 className="service-title">{project}</h3>
+							<img width={100} height={100} src="/majid3.png"/>
 							{/* <p className="service-description">{ser.description}</p> */}
 						</div>
 					);
