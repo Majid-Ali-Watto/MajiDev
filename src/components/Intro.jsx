@@ -1,18 +1,25 @@
+/** @format */
 import PropTypes from "prop-types";
+import "../style.css";
+
 MyIntro.propTypes = {
-	devName: PropTypes.string,
-	Contact: PropTypes.elementType
+	devName: PropTypes.string.isRequired,
+	Contact: PropTypes.elementType.isRequired
 };
+
 export default function MyIntro({ Contact, devName }) {
 	return (
-		<div className="main-content">
-			<img src="/majid2.png" />
-
+		<section className="main-content">
+			<img
+				src="/majid2.png"
+				alt={`${devName}'s profile`}
+				className="profile-img"
+			/>
 			<div className="intro">
-				<span className="dev-name">{devName}</span>
-				<span className="dev-proff">{import.meta.env.VITE_APP_DEV_POST}</span>
+				<h1 className="dev-name">{devName}</h1>
+				<p className="dev-proff">{import.meta.env.VITE_APP_DEV_POST}</p>
 				<Contact />
 			</div>
-		</div>
+		</section>
 	);
 }
