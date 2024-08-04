@@ -1,8 +1,8 @@
 /** @format */
-import { useState, useEffect } from "react";
-import { Link as ScrollLink } from "react-scroll";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { Link as ScrollLink } from "react-scroll";
 import "../style.css";
 
 function Header() {

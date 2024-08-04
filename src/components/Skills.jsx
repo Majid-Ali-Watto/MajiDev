@@ -1,5 +1,5 @@
-import { FaReact, FaNodeJs, FaVuejs, FaCss3, FaHtml5, FaDatabase } from "react-icons/fa";
-import { SiMongodb, SiExpress, SiTailwindcss, SiPostgresql, SiMysql, SiRedux, SiGit, SiJavascript, SiTypescript, SiFirebase, SiElement } from "react-icons/si";
+import { FaCss3, FaDatabase, FaHtml5, FaNodeJs, FaReact, FaVuejs } from "react-icons/fa";
+import { SiElement, SiExpress, SiFirebase, SiGit, SiJavascript, SiMongodb, SiMysql, SiPostgresql, SiRedux, SiTailwindcss, SiTypescript } from "react-icons/si";
 export default function Skills() {
 	return (
 		<div className="links">

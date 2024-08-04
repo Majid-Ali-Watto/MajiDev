@@ -1,27 +1,15 @@
 /** @format */
 
-import Header from "./components/Header";
+import "../src/style.css";
 import About from "./components/About";
-import Services from "./components/Services";
-import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import "../src/style.css";
+import Header from "./components/Header";
 import HireMe from "./components/Hire-Me";
-
-function MainContent() {
-	return (
-		<div className="main-content">
-			<img src="/majid2.png" />
-
-			<div className="intro">
-				<span className="dev-name">Majid Ali</span>
-				<span className="dev-proff">Full Stack Web Developer</span>
-				<Contact />
-			</div>
-		</div>
-	);
-}
+import MyIntro from "./components/Intro";
+import Projects from "./components/Projects";
+import Services from "./components/Services";
+const devName = import.meta.env.VITE_APP_DEV_NAME;
 
 function App() {
 	return (
@@ -29,7 +17,10 @@ function App() {
 			<div className="header-area">
 				<Header />
 			</div>
-			<MainContent />
+			<MyIntro
+				devName={devName}
+				Contact={Contact}
+			/>
 			<div className="mainBody">
 				<About />
 				<Services />
@@ -41,10 +32,9 @@ function App() {
 				<br />
 				<Contact />
 				<br />
-
 			</div>
 
-			<Footer owner="Majid's Portfolio" />
+			<Footer owner={devName?.split(" ").at(0) + "'s Portfolio"} />
 		</div>
 	);
 }
