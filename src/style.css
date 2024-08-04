@@ -98,6 +98,11 @@ p {
 	width: 100%;
 }
 
+/* .top-links a{
+	border: 1px solid black;
+	border-radius: 50%;
+	padding: 4px;
+} */
 #hire-me a,
 #download-cv a {
 	text-decoration: none;
@@ -296,20 +301,23 @@ li a:hover,
 
 .service-item {
 	padding: 10px;
+	border: 1px dotted #333;
+	border-radius: 5px;
 }
 
 .service-item:hover {
-	border: 1px solid skyblue;
-	transform: scale(1.1);
-	padding: 10px;
-	background-color: rgb(31, 28, 28);
-	color: white;
+	border: 1px dotted skyblue;
+
 }
 
 /* Additional styling for title and description if necessary */
 .service-title {
 	font-size: 18px;
 	margin-bottom: 10px;
+	background-color: #333;
+	color: #fff;
+	text-align: left;
+	padding: 10px;
 }
 
 .service-description {
@@ -328,7 +336,9 @@ li a:hover,
 	color: #757575;
 }
 
-
+#project-link{
+	color: black;
+}
 
 .links {
 	width: 100%;
@@ -357,7 +367,7 @@ li a:hover,
 	margin-top: 15px;
 }
 
-.links a {
+.links a,a {
 	text-decoration: none;
 }
 

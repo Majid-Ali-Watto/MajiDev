@@ -1,5 +1,5 @@
 import { FaReact, FaNodeJs, FaVuejs, FaCss3, FaHtml5, FaDatabase } from "react-icons/fa";
-import { SiMongodb, SiExpress, SiTailwindcss, SiPostgresql, SiMysql, SiRedux, SiGit, SiJavascript, SiFirebase, SiElement } from "react-icons/si";
+import { SiMongodb, SiExpress, SiTailwindcss, SiPostgresql, SiMysql, SiRedux, SiGit, SiJavascript, SiTypescript, SiFirebase, SiElement } from "react-icons/si";
 export default function Skills() {
 	return (
 		<div className="links">
@@ -8,28 +8,16 @@ export default function Skills() {
 				<span>React.js</span>
 			</a>
 			<a>
-				<FaNodeJs style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>Node.js</span>
-			</a>
-			<a>
 				<FaVuejs style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
 				<span>Vue.js</span>
 			</a>
 			<a>
-				<SiExpress style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>Express.js</span>
+				<SiJavascript style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Javascript</span>
 			</a>
 			<a>
-				<SiPostgresql style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>PostgreSQL</span>
-			</a>
-			<a>
-				<SiMysql style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>MySQL</span>
-			</a>
-			<a>
-				<SiMongodb style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>MongoDB</span>
+				<SiTypescript style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Typescript</span>
 			</a>
 			<a>
 				<FaCss3 style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
@@ -48,18 +36,6 @@ export default function Skills() {
 				<span>Redux</span>
 			</a>
 			<a>
-				<SiGit style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>Git</span>
-			</a>
-			<a>
-				<SiJavascript style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>Javascript</span>
-			</a>
-			<a>
-				<SiFirebase style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
-				<span>Firebase</span>
-			</a>
-			<a>
 				<FaDatabase style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
 				<span>Vuex</span>
 			</a>
@@ -67,6 +43,37 @@ export default function Skills() {
 			<a>
 				<SiElement style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
 				<span>Element Plus</span>
+			</a>
+			<a>
+				<FaNodeJs style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Node.js</span>
+			</a>
+
+			<a>
+				<SiExpress style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Express.js</span>
+			</a>
+			<a>
+				<SiPostgresql style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>PostgreSQL</span>
+			</a>
+			<a>
+				<SiMysql style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>MySQL</span>
+			</a>
+			<a>
+				<SiMongodb style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>MongoDB</span>
+			</a>
+
+			<a>
+				<SiFirebase style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Firebase</span>
+			</a>
+
+			<a>
+				<SiGit style={{ fontSize: "25px", color: "black", marginRight: "10px" }} />
+				<span>Git</span>
 			</a>
 		</div>
 	);
