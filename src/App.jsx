@@ -20,11 +20,11 @@ function App() {
 				<title>{devName ? `${devName} - Portfolio` : "Portfolio"}</title>
 				<meta
 					name="description"
-					content={`Welcome to ${devName}'s portfolio. Explore projects, services, and more.`}
+					content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
 				/>
 				<meta
 					name="keywords"
-					content="Portfolio, Web Developer, Software Engineer, Projects, Services"
+					content="Majid Ali's portfolio,Majid Ali,Vue JS Developer, React JS Developer, Front End Developer, Portfolio, Web Developer, Software Engineer, Projects, Services"
 				/>
 				<meta
 					name="author"
@@ -34,11 +34,11 @@ function App() {
 				{/* Open Graph Meta Tags */}
 				<meta
 					property="og:title"
-					content={devName ? `${devName} - Portfolio` : "Portfolio"}
+					content={"Majid Ali - Portfolio"}
 				/>
 				<meta
 					property="og:description"
-					content={`Welcome to ${devName}'s portfolio. Explore projects, services, and more.`}
+					content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
 				/>
 				<meta
 					property="og:image"
@@ -60,11 +60,11 @@ function App() {
 				/>
 				<meta
 					name="twitter:title"
-					content={devName ? `${devName} - Portfolio` : "Portfolio"}
+					content="Majid Ali - Portfolio"
 				/>
 				<meta
 					name="twitter:description"
-					content={`Welcome to ${devName}'s portfolio. Explore projects, services, and more.`}
+					content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
 				/>
 				<meta
 					name="twitter:image"
