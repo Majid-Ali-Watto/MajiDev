@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- URL of the homepage -->
+    <url>
+        <loc>https://majidev.netlify.app/</loc>
+        <lastmod>2024-08-05</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- URL of the About section -->
+    <url>
+        <loc>https://majidev.netlify.app/#about</loc>
+        <lastmod>2024-08-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- URL of the Services section -->
+    <url>
+        <loc>https://majidev.netlify.app/#services</loc>
+        <lastmod>2024-08-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- URL of the Projects section -->
+    <url>
+        <loc>https://majidev.netlify.app/#projects</loc>
+        <lastmod>2024-08-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- URL of the Contact section -->
+    <url>
+        <loc>https://majidev.netlify.app/#contact</loc>
+        <lastmod>2024-08-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>
