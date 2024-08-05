@@ -18,7 +18,7 @@ export default function HireMe() {
 			<div>
 				<li id="download-cv">
 					<a
-						href="/MajiDev/Majid-Ali-Resume-Updated.pdf"
+						href="/Majid-Ali-Resume-Updated.pdf"
 						download={true}>
 						Download Resume
 					</a>
