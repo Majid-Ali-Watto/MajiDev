@@ -1,6 +1,6 @@
 /** @format */
 import { FaCss3, FaDatabase, FaHtml5, FaNodeJs, FaReact, FaVuejs } from "react-icons/fa";
-import { SiElement, SiExpress, SiFirebase, SiGit, SiGithub, SiGitlab, SiJavascript, SiMongodb, SiMysql, SiPostgresql, SiPyup, SiRedux, SiTailwindcss, SiTypescript } from "react-icons/si";
+import { SiElement, SiExpress, SiFirebase, SiGit, SiGithub, SiGitlab, SiJavascript, SiMongodb, SiMysql, SiPostgresql, SiRedux, SiTailwindcss, SiTypescript } from "react-icons/si";
 
 export const skills = [
 	{ label: "React.js", iconName: FaReact },
