@@ -12,6 +12,7 @@ body,
 	padding: 0%;
 	box-sizing: border-box;
 	font-family: "Poppins", sans-serif;
+	/* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 section {
@@ -111,6 +112,7 @@ p {
 	border: 1px solid var(--accentColor);
 	padding: 5px 18px;
 	width: 100%;
+	border-radius: 5px;
 }
 
 #hire-me a {
@@ -336,7 +338,7 @@ li a:hover,
 	color: #757575;
 }
 
-#project-link{
+#project-link {
 	color: black;
 }
 
@@ -348,8 +350,6 @@ li a:hover,
 	align-items: center;
 	gap: 30px 45px;
 	flex-wrap: wrap;
-
-
 }
 
 .path {
@@ -367,8 +367,12 @@ li a:hover,
 	margin-top: 15px;
 }
 
-.links a,a {
+.links a,
+a {
 	text-decoration: none;
+}
+#skillsLink{
+	margin-left: 20px;
 }
 
 .links a legend {
@@ -575,14 +579,15 @@ li a:hover,
 
 	50% {
 		opacity: 1;
-		color: #555;
+		color: #333;
+		text-transform: uppercase;
 	}
 
 	75% {
-		transform: translateY(-10px);
+		transform: translate(-1px,2px);
 		color: #ff6600;
-		text-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 8px rgba(255, 0, 0, 0.8), 0 0 11px rgba(255, 0, 0, 0.8);
-		color: #ff6600;
+		text-shadow: 0 0 5px rgba(255, 0, 0, 0.5), 0 0 8px rgba(255, 0, 0, 0.5), 0 0 11px rgba(255, 0, 0, 0.5);
+		color: blue;
 		/* Neon pink color */
 	}
 
@@ -632,7 +637,7 @@ li a:hover,
 
 @keyframes logoAnimation {
 	0% {
-		transform: translate(320px, 200px);
+		transform: translate(300px, 250px);
 		opacity: 0;
 	}
 
@@ -651,23 +656,27 @@ li a:hover,
 
 @keyframes logoAnimation2 {
 	0% {
-		border-bottom: 2px solid var(--primaryColor);
-		box-shadow: -1px 0px 1px 1px #757575;
+		border-bottom: 1px solid var(--primaryColor);
+		box-shadow: -1px 0px 1px 1px var(--primaryColor);
+		z-index: -3;
 	}
 
 	50% {
-		border-right: 2px solid var(--primaryColor);
-		box-shadow: 0px 1px 1px 1px #757575;
+		border-right: 1px solid var(--primaryColor);
+		box-shadow: 0px 1px 1px 1px var(--primaryColor) inset;
+		z-index: -3;
 	}
 
 	75% {
-		border-top: 2px solid var(--primaryColor);
-		box-shadow: 1px 0px 1px 1px #757575;
+		border-top: 1px solid var(--primaryColor);
+		box-shadow: 1px 0px 1px 1px var(--primaryColor);
+		z-index: -3;
 	}
 
 	100% {
-		border-left: 2px solid var(--primaryColor);
-		box-shadow: 0px -1px 1px 1px #757575;
+		border-left: 1px solid var(--primaryColor);
+		box-shadow: 0px -1px 1px 1px var(--primaryColor) inset;
+		z-index: -3;
 	}
 }
 

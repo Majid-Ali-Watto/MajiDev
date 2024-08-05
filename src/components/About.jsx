@@ -65,7 +65,7 @@ function About() {
 			</Helmet>
 			<h2>About Me</h2>
 			<p className="intro-text">
-				Hi, I&apos;m Pakistan based <u>Full Stack Web Developer</u> skilled in both front-end and back-end technologies. Freelancer & <strong>Vue.js Developer @Teresol</strong> since Oct 2022. Let&apos;s create something amazing together!
+				Hi, I&apos;m Pakistan based <strong>Full Stack Web Developer</strong> skilled in both front-end and back-end technologies. Freelancer & <strong>Vue.js Developer @Teresol</strong> since Oct 2022. Let&apos;s create something amazing together!
 			</p>
 			<br />
 			<br />

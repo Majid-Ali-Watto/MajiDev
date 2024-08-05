@@ -25,9 +25,10 @@ function Services() {
 							{ser.title}
 						</h3>
 						<p
+							dangerouslySetInnerHTML={{ __html: ser.description }}
 							id={`service-description-${index}`}
 							className="service-description">
-							{ser.description}
+							{/* {ser.description} */}
 						</p>
 					</article>
 				))}

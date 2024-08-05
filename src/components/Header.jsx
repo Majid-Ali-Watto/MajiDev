@@ -79,8 +79,7 @@ function Header() {
 						}}
 						spy={true}
 						offset={-50}
-						className={activeLink === "services" ? "active" : ""}
-					>
+						className={activeLink === "services" ? "active" : ""}>
 						Services
 					</ScrollLink>
 				</li>
@@ -106,13 +105,12 @@ function Header() {
 		const scrollToTopElement = document.querySelector(".scroll-to-top");
 		scrollToTopElement.classList.add("scroll-fade-in");
 	}
-
 	return (
 		<header className="header">
 			<div className="logo">
-				<h1>
-					MAJI
-					<span style={{ fontWeight: "normal", color: "#ff6600" }}>D</span>
+				<h1 style={{ fontFamily: "serif" }}>
+					Maji
+					<strong style={{ fontWeight: "normal", color: "tomato" }}>D</strong>
 					ev
 				</h1>
 			</div>

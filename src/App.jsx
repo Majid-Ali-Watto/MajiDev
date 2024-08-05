@@ -79,6 +79,7 @@ function App() {
 				devName={devName}
 				Contact={Contact}
 			/>
+
 			<div className="mainBody">
 				<About />
 				<Services />
