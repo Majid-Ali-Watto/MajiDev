@@ -1,12 +1,5 @@
-import { skills } from "../assets/skills";
+import { skills, skillsObj } from "../assets/skills";
 export default function Skills() {
-	const skillsObj = [
-		{ label: "Front End", type: "fe" },
-		{ label: "Back End", type: "be" },
-		{ label: "Data Base", type: "db" },
-		{ label: "Version Control", type: "vc" }
-	];
-
 	return (
 		<section>
 			{skillsObj.map((skillsObj) => {

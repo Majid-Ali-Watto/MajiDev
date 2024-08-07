@@ -31,3 +31,9 @@ export const skills = {
 		{ label: "GitLab", iconName: SiGitlab }
 	]
 };
+export const skillsObj = [
+	{ label: "Front End", type: "fe" },
+	{ label: "Back End", type: "be" },
+	{ label: "Data Base", type: "db" },
+	{ label: "Version Control", type: "vc" }
+];
