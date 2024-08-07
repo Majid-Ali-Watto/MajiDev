@@ -63,6 +63,7 @@ function Header() {
 							handleSetActive("about");
 							setPath("about");
 						}}
+						duration={1000}
 						spy={true}
 						offset={-50}
 						className={activeLink === "about" ? "active" : ""}>

@@ -3,19 +3,17 @@
 import "../src/style.css";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
-import HireMe from "./components/Hire-Me";
 import MyIntro from "./components/Intro";
 import Projects from "./components/Projects";
 import Services from "./components/Services";
 import { Helmet } from "react-helmet";
-
+import { Divider, Stack } from "@chakra-ui/react";
 const devName = import.meta.env.VITE_APP_DEV_NAME;
 
 function App() {
 	return (
-		<div>
+		<div className="hero-image hero-text">
 			<Helmet>
 				<title>{devName ? `${devName} - Portfolio` : "Portfolio"}</title>
 				<meta
@@ -79,21 +77,14 @@ function App() {
 				devName={devName}
 				Contact={Contact}
 			/>
-
-			<div className="mainBody">
+			<Divider orientation="horizontal" />
+			<Stack className="mainBody">
 				<About />
+				<Divider orientation="horizontal" />
 				<Services />
+				<Divider orientation="horizontal" />
 				<Projects />
-			</div>
-			<br />
-			<div className="extra-section">
-				<HireMe />
-				<br />
-				<Contact />
-				<br />
-			</div>
-
-			<Footer owner={devName?.split(" ").at(0) + "'s Portfolio"} />
+			</Stack>
 		</div>
 	);
 }

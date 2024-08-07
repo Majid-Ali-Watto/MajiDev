@@ -1,39 +1,49 @@
 import { services } from "../assets/services";
+import { Card, Text, Heading, CardBody, Stack, Image } from "@chakra-ui/react";
 import "../style.css";
-
+import { Element } from "react-scroll";
 function Services() {
 	return (
-		<section
+		<Element
 			id="services"
-			className="services"
-			aria-labelledby="services-heading">
-			<h2
-				id="services-heading"
-				className="section-title">
-				Services
-			</h2>
+			className="services">
+			<Heading>Services</Heading>
+
 			<div className="services-container">
-				{services.map((ser, index) => (
-					<article
-						className="service-item"
-						key={index}
-						aria-labelledby={`service-title-${index}`}
-						aria-describedby={`service-description-${index}`}>
-						<h3
-							id={`service-title-${index}`}
-							className="service-title">
-							{ser.title}
-						</h3>
-						<p
-							dangerouslySetInnerHTML={{ __html: ser.description }}
-							id={`service-description-${index}`}
-							className="service-description">
-							{/* {ser.description} */}
-						</p>
-					</article>
-				))}
+				{services.map((service, index) => {
+					return (
+						<div key={index}>
+							<Card
+								id="card"
+								maxW="sm"
+								height="22rem"
+								size="sm"
+								variant="outline">
+								<CardBody>
+									<Image
+										src={service.imgURL}
+										alt={service.title}
+										borderRadius="md"
+										height="10rem"
+										width="100%"
+									/>
+									<Stack
+										mt="6"
+										spacing="3">
+										<Heading
+											as="h4"
+											size="md">
+											{service.title}
+										</Heading>
+										<Text>{service.description}</Text>
+									</Stack>
+								</CardBody>
+							</Card>
+						</div>
+					);
+				})}
 			</div>
-		</section>
+		</Element>
 	);
 }
 

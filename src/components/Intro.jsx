@@ -1,7 +1,9 @@
 /** @format */
 import PropTypes from "prop-types";
 import "../style.css";
-
+import { Element } from "react-scroll";
+import { Heading, Stack, Text } from "@chakra-ui/react";
+import HireMe from "./Hire-Me";
 MyIntro.propTypes = {
 	devName: PropTypes.string.isRequired,
 	Contact: PropTypes.elementType.isRequired
@@ -9,17 +11,27 @@ MyIntro.propTypes = {
 
 export default function MyIntro({ Contact, devName }) {
 	return (
-		<section className="main-content">
+		<Element
+			id="home"
+			className="main-content">
 			<img
 				src="/majid2.png"
 				alt={`${devName}'s profile`}
 				className="profile-img"
 			/>
-			<div className="intro">
-				<h1 className="dev-name">{devName}</h1>
-				<p className="dev-proff">{import.meta.env.VITE_APP_DEV_POST}</p>
+			<Stack
+				spacing="3"
+				className="intro">
+				<Heading
+					as="h1"
+					size="3xl"
+					className="dev-name">
+					{devName}
+				</Heading>
+				<Text className="dev-proff">{import.meta.env.VITE_APP_DEV_POST}</Text>
 				<Contact />
-			</div>
-		</section>
+				<HireMe />
+			</Stack>
+		</Element>
 	);
 }
