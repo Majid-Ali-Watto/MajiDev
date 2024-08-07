@@ -63,7 +63,7 @@ p {
 	/* Apply a blur effect to the background */
 	z-index: 1;
 	/* Ensure the header is above other elements */
-	border-bottom: 2px solid black;
+	border-bottom: 1px solid silver;
 }
 
 
