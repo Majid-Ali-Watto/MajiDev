@@ -23,6 +23,7 @@ export const projects = [
 	{
 		title: "Blogs",
 		link: "https://basic-blog-app.netlify.app/",
+		gLink:'https://github.com/Majid-Ali-Watto/Basic-Blogs.git',
 		imgURL: "/blogs.png",
 		description: "This web app is developed for showing diffrent articles of different Indonesian topics."
 	},
