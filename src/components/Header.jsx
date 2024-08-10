@@ -17,11 +17,13 @@ function Header() {
 	useEffect(() => {
 		if (burger) setBurger((prev) => !prev);
 	}, [path]);
+
 	const handleScroll = () => {
 		if (window.scrollY < 200) {
 			setActiveLink("home");
 		}
 	};
+
 	function debounce(func, wait) {
 		let timeout;
 		return function (...args) {
@@ -106,25 +108,24 @@ function Header() {
 		const scrollToTopElement = document.querySelector(".scroll-to-top");
 		scrollToTopElement.classList.add("scroll-fade-in");
 	}
+
 	return (
 		<header className="header">
 			<div className="logo">
 				<h1 style={{ fontFamily: "serif" }}>
-					Maji
-					<strong style={{ fontWeight: "normal", color: "tomato" }}>D</strong>
-					ev
+					<strong style={{ fontWeight: "normal" }}>M.A</strong>
 				</h1>
 			</div>
 			<nav className="nav-links">{Links()}</nav>
 			<div className="nav-links-burger">
 				{!burger ? (
 					<GiHamburgerMenu
-						style={{ fontSize: "30px" }}
+						className="burger-icon"
 						onClick={() => setBurger(true)}
 					/>
 				) : (
 					<AiOutlineClose
-						style={{ fontSize: "30px" }}
+						className="close-icon"
 						onClick={() => setBurger(false)}
 					/>
 				)}

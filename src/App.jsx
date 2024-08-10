@@ -10,7 +10,6 @@ import Services from "./components/Services";
 import { Helmet } from "react-helmet";
 import { Divider, Stack } from "@chakra-ui/react";
 const devName = import.meta.env.VITE_APP_DEV_NAME;
-
 function App() {
 	return (
 		<div className="hero-image hero-text">
@@ -69,7 +68,6 @@ function App() {
 					content="/public/soft-dev.png"
 				/>
 			</Helmet>
-
 			<div className="header-area">
 				<Header />
 			</div>

@@ -4,6 +4,7 @@ import "../style.css";
 import { Element } from "react-scroll";
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import HireMe from "./Hire-Me";
+import AnimatedText from "./Animate";
 MyIntro.propTypes = {
 	devName: PropTypes.string.isRequired,
 	Contact: PropTypes.elementType.isRequired
@@ -28,7 +29,7 @@ export default function MyIntro({ Contact, devName }) {
 					className="dev-name">
 					{devName}
 				</Heading>
-				<Text className="dev-proff">{import.meta.env.VITE_APP_DEV_POST}</Text>
+				<AnimatedText />
 				<Contact />
 				<HireMe />
 			</Stack>

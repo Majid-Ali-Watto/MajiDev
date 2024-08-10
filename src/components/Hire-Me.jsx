@@ -1,13 +1,13 @@
 import { Link, Grid, GridItem, Center, Box, Divider } from "@chakra-ui/react";
 import "../style.css";
-
 export default function HireMe() {
+
 	return (
 		<Box
 			px={5}
 			py={2}
 			// bg="gray.100"
-			borderWidth='1px'
+			borderWidth="1px"
 			borderRadius="md">
 			<Grid
 				templateColumns="repeat(6, 1fr)"
@@ -37,6 +37,7 @@ export default function HireMe() {
 					</Link>
 				</GridItem>
 			</Grid>
+
 		</Box>
 	);
 }
