@@ -9,7 +9,7 @@ export const projects = [
 	{
 		title: "Mobile - Bandencentrale",
 		link: "https://plattebandauto.be/",
-		gLink: "",
+		gLink: "https://github.com/Majid-Ali-Watto/Mobile-Bandencentrale.git",
 		imgURL: "/mobile-banden.png",
 		description: "This web app uses Google Maps, Email and WhatsApp Services to order tyres and vehicle related services in Belgium."
 	},
@@ -23,7 +23,7 @@ export const projects = [
 	{
 		title: "Blogs",
 		link: "https://basic-blog-app.netlify.app/",
-		gLink:'https://github.com/Majid-Ali-Watto/Basic-Blogs.git',
+		gLink: "https://github.com/Majid-Ali-Watto/Basic-Blogs.git",
 		imgURL: "/blogs.png",
 		description: "This web app is developed for showing diffrent articles of different Indonesian topics."
 	},
@@ -46,6 +46,13 @@ export const projects = [
 		gLink: "https://github.com/Majid-Ali-Watto/Loader-PicsAPI.git",
 		imgURL: "/picsforu.png",
 		description: "Pictures are fetched from picsum, being displayed as Gallery, user can download them."
+	},
+	{
+		title: "World Countries",
+		link: "https://worldcountrieslist.netlify.app/",
+		gLink: "https://github.com/Majid-Ali-Watto/world-countries.git",
+		imgURL: "/countries.png",
+		description: "List of countries with major data."
 	}
 ];
 // [("Hostel Activity Monitor React Native App", "Hostel Activity Monitor Web App", "Private Chat App")];
