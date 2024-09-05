@@ -4,6 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link as ScrollLink } from "react-scroll";
 import "../style.css";
+import { navLinks } from "../assets/nav-links";
 
 function Header() {
 	const [activeLink, setActiveLink] = useState("home");
@@ -40,101 +41,30 @@ function Header() {
 		};
 	}, []);
 
-	async function scrollToTop() {
-		await animateClick().then(() => {
-			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-		});
-	}
-
 	function Links() {
 		return (
 			<ul className="nav-links">
-				<li
-					className={`scroll-to-top ${activeLink === "home" ? "active" : ""}`}
-					onClick={() => {
-						scrollToTop();
-						setPath("home");
-					}}>
-					<a>Home</a>
-				</li>
-				<li>
-					<ScrollLink
-						to="about"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("about");
-							setPath("about");
-						}}
-						duration={1000}
-						spy={true}
-						offset={-50}
-						className={activeLink === "about" ? "active" : ""}>
-						About
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="services"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("services");
-							setPath("services");
-						}}
-						spy={true}
-						offset={-50}
-						className={activeLink === "services" ? "active" : ""}>
-						Services
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="projects"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("projects");
-							setPath("projects");
-						}}
-						spy={true}
-						offset={-50}
-						className={activeLink === "projects" ? "active" : ""}>
-						Projects
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="packages"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("packages");
-							setPath("packages");
-						}}
-						spy={true}
-						offset={-50}
-						className={activeLink === "packages" ? "active" : ""}>
-						Packages
-					</ScrollLink>
-				</li>
-				<li>
-					<ScrollLink
-						to="blogs"
-						smooth={true}
-						onSetActive={() => {
-							handleSetActive("blogs");
-							setPath("blogs");
-						}}
-						spy={true}
-						offset={-50}
-						className={activeLink === "blogs" ? "active" : ""}>
-						Blogs
-					</ScrollLink>
-				</li>
+				{navLinks.map((item, index) => {
+					return (
+						<li key={index}>
+							<ScrollLink
+								to={item.path}
+								smooth={true}
+								onSetActive={() => {
+									handleSetActive(item.path);
+									setPath(item.path);
+								}}
+								duration={1000}
+								spy={true}
+								offset={-50}
+								className={activeLink === item.path ? "active" : ""}>
+								{item.pathTitle}
+							</ScrollLink>
+						</li>
+					);
+				})}
 			</ul>
 		);
-	}
-
-	async function animateClick() {
-		const scrollToTopElement = document.querySelector(".scroll-to-top");
-		scrollToTopElement.classList.add("scroll-fade-in");
 	}
 
 	return (

@@ -1,5 +1,6 @@
 import { Heading } from "@chakra-ui/react";
 import { Element } from "react-scroll";
+import PropTypes from "prop-types";
 import "../style.css";
 import { Link, Card, Text, Divider, Button, CardBody, Stack, Image, CardFooter } from "@chakra-ui/react";
 
@@ -87,5 +88,10 @@ function CardsList({ id, heading, list, buttons }) {
 		</Element>
 	);
 }
-
+CardsList.propTypes = {
+	id: PropTypes.string.isRequired,
+	heading: PropTypes.string.isRequired,
+	list: PropTypes.arrayOf(Object).isRequired,
+	buttons: PropTypes.arrayOf(Object)
+};
 export default CardsList;

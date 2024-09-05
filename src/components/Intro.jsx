@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import "../style.css";
 import { Element } from "react-scroll";
-import { Heading, Stack, Text } from "@chakra-ui/react";
+import { Heading, Stack } from "@chakra-ui/react";
 import HireMe from "./Hire-Me";
 import AnimatedText from "./Animate";
 MyIntro.propTypes = {
