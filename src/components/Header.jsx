@@ -100,6 +100,34 @@ function Header() {
 						Projects
 					</ScrollLink>
 				</li>
+				<li>
+					<ScrollLink
+						to="packages"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("packages");
+							setPath("packages");
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "packages" ? "active" : ""}>
+						Packages
+					</ScrollLink>
+				</li>
+				<li>
+					<ScrollLink
+						to="blogs"
+						smooth={true}
+						onSetActive={() => {
+							handleSetActive("blogs");
+							setPath("blogs");
+						}}
+						spy={true}
+						offset={-50}
+						className={activeLink === "blogs" ? "active" : ""}>
+						Blogs
+					</ScrollLink>
+				</li>
 			</ul>
 		);
 	}

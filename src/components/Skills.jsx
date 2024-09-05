@@ -1,5 +1,5 @@
 import { skills, skillsObj } from "../assets/skills";
-import { Grid, GridItem, Stack, HStack, Tag, TagLeftIcon, Heading, Box, Divider, Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Stack, Tag, TagLeftIcon, Heading, Box, Divider, Flex } from "@chakra-ui/react";
 
 export default function Skills() {
 	return (

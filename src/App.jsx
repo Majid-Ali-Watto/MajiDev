@@ -7,8 +7,11 @@ import Header from "./components/Header";
 import MyIntro from "./components/Intro";
 import Projects from "./components/Projects";
 import Services from "./components/Services";
+
 import { Helmet } from "react-helmet";
 import { Divider, Stack } from "@chakra-ui/react";
+import Packages from "./components/Packages";
+import Blogs from "./components/Blogs";
 const devName = import.meta.env.VITE_APP_DEV_NAME;
 function App() {
 	return (
@@ -82,6 +85,10 @@ function App() {
 				<Services />
 				<Divider orientation="horizontal" />
 				<Projects />
+				<Divider orientation="horizontal" />
+				<Blogs />
+				<Divider orientation="horizontal" />
+				<Packages />
 			</Stack>
 		</div>
 	);
