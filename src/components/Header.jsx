@@ -56,7 +56,7 @@ function Header() {
 								}}
 								duration={1000}
 								spy={true}
-								offset={-50}
+								offset={-180}
 								className={activeLink === item.path ? "active" : ""}>
 								{item.pathTitle}
 							</ScrollLink>

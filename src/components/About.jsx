@@ -10,7 +10,9 @@ function About() {
 		<Element
 			id="about"
 			className="about">
-			<Box textAlign="center" mb="8">
+			<Box
+				textAlign="center"
+				mb="8">
 				<Heading
 					as="h2"
 					size="2xl"
@@ -19,19 +21,26 @@ function About() {
 					About Me
 				</Heading>
 			</Box>
-			<Stack spacing="6" mx="auto" px="4">
-				<Text fontSize="lg" color="gray.700">
+			<Stack
+				spacing="6"
+				mx="auto"
+				px="4">
+				<Text
+					fontSize="lg"
+					color="gray.700">
 					<Highlight
 						query={["Full Stack Web Developer", "Vue.js Developer @Teresol"]}
-						styles={{ px: "2", color:'blue.500' }}>
+						styles={{ px: "2", color: "blue.500" }}>
 						Hi, I&apos;m a Pakistan-based Full Stack Web Developer skilled in both front-end and back-end technologies. Freelancer & Vue.js Developer @Teresol since Oct 2022. Let&apos;s create something amazing together!
 					</Highlight>
 				</Text>
-				<Box textAlign="center" mb="6">
+				<Box
+					textAlign="center"
+					mb="6">
 					<Heading
 						as="h3"
 						size="lg"
-						color="var(--accentColor)">
+						color="#757575">
 						My Skill-Set
 					</Heading>
 				</Box>

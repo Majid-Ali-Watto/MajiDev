@@ -1,28 +1,51 @@
+import { Box, Divider, Flex, Heading, Stack, Tag, TagLeftIcon } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-3d-carousel";
 import { skills, skillsObj } from "../assets/skills";
-import { Grid, GridItem, Stack, Tag, TagLeftIcon, Heading, Box, Divider, Flex } from "@chakra-ui/react";
 
 export default function Skills() {
+	const [cardWidth, setCardWidth] = useState();
+
+	useEffect(() => {
+		let width = window.innerWidth;
+		if (width > 768) {
+			width = width / 3;
+		} else if (width > 500) {
+			width = 400;
+		} else if (width < 500) {
+			width = width - 30;
+		}
+		setCardWidth(width);
+	}, []);
+
 	return (
-		<Grid
-			templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(5, 1fr)" }}
-			gap={6}>
-			{skillsObj.map((skillsObj, index) => (
-				<GridItem
-					key={index}
-					w="100%"
-					colSpan={{
-						base: 1,
-						sm: 2,
-						md: skillsObj.label === "Front End" ? 2 : 1,
-						lg: skillsObj.label === "Front End" ? 2 : 1
-					}}>
+		<div>
+			<Carousel
+				width={cardWidth + "px"}
+				showArrows={skillsObj?.length > 1}
+				transitionTime={1000}
+				arrowsDefaultColor="#757575"
+				indicatorsActiveColor="#757575"
+				indicatorsInactiveColor="#333"
+				isIndicatorsShadow={false}
+				showIndicators={false}
+				statusColor="#757575"
+				arrowsHeight="50px"
+				arrowsWidth="30px"
+				isStatusShadow={false}
+				depth={2}
+				isShadow={false}
+				height="400px"
+				spread="wide">
+				{skillsObj.map((skillsObj, index) => (
 					<Box
+						key={index}
 						padding={5}
 						borderRadius="md"
-						boxShadow="lg"
+						boxShadow="sm"
 						backgroundColor="white"
-						height="100%" // Ensures the card takes the full height of the GridItem
 						display="flex"
+						borderWidth="1px"
 						flexDirection="column"
 						justifyContent="space-between" // Distributes the content vertically
 						_hover={{ boxShadow: "xl", transform: "scale(1.05)" }}
@@ -30,6 +53,7 @@ export default function Skills() {
 						<Flex
 							flexDirection="column"
 							flex="1"
+							overflowY="auto"
 							justifyContent="space-between">
 							<Stack
 								spacing={3}
@@ -70,8 +94,8 @@ export default function Skills() {
 							</Stack>
 						</Flex>
 					</Box>
-				</GridItem>
-			))}
-		</Grid>
+				))}
+			</Carousel>
+		</div>
 	);
 }

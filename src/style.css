@@ -6,12 +6,31 @@
 	--accentColor: #ff6600;
 }
 
+::-webkit-scrollbar {
+	display: none !important;
+}
+
 body,
 * {
 	margin: 0%;
 	padding: 0%;
 	box-sizing: border-box;
 	font-family: "Poppins", sans-serif;
+}
+
+/* html {
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+} */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 1px;
+	background-color: greenyellow;
+	transform-origin: 0%;
+	width: 100%;
+	z-index: 1000;
 }
 
 section {
@@ -21,6 +40,7 @@ section {
 .mainBody {
 	box-sizing: border-box;
 	padding: 1vh 1vw;
+	background-color: #FAF9F6;
 }
 
 .extra-section>.hireAndDownload {
@@ -66,6 +86,9 @@ img:hover {
 	border: 1px solid skyblue;
 }
 
+/* .react-responsive-3d-carousel__carousel__item{
+	border: 1px solid skyblue;
+} */
 .logo {
 	display: flex;
 	align-items: center;
@@ -130,12 +153,13 @@ img:hover {
 
 .nav-links li.scroll-to-top.active,
 .nav-links li a.active {
-	border-bottom: 1px solid var(--accentColor);
+	border-bottom: 1px dotted var(--accentColor);
+
 }
 
 .nav-links li.scroll-to-top.active:hover,
 .nav-links li a.active:hover {
-	border-bottom: 2px dashed var(--primaryColor);
+	border-bottom: 3px outset var(--accentColor);
 }
 
 
@@ -149,6 +173,7 @@ img:hover {
 	align-items: center;
 	z-index: -5;
 	box-sizing: border-box;
+	background-color: #FAF9F6;
 }
 
 .main-content img {
@@ -166,7 +191,7 @@ img:hover {
 .main-content img:hover {
 	border-radius: 10%;
 	scale: 1.1;
-
+	transition: 0.5s ease-in-out;
 }
 
 .intro {
@@ -218,7 +243,7 @@ img:hover {
 .about,
 .services,
 .projects {
-	padding: 20px 40px;
+	/* padding: 20px 40px; */
 	color: black;
 	box-sizing: border-box;
 	margin-top: 2vh;
@@ -399,6 +424,10 @@ a {
 	ul {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.react-responsive-3d-carousel__indicators {
+		flex-direction: row;
 	}
 
 	.nav-links {
@@ -677,10 +706,11 @@ a {
 	z-index: 1;
 	border-bottom: 1px solid var(--accentColor);
 	transition: background-color 0.3s ease-in-out;
+	animation: fadeOut 2s ease-in-out;
 }
 
 .header:hover {
-	background-color: var(--accentColor);
+	background-color: #0f0c0c;
 	color: white;
 }
 
@@ -715,4 +745,49 @@ a {
 	/* border-radius: 5px; */
 	padding: 1rem;
 	transition: opacity 0.5s ease;
+}
+
+
+/* Profile Image Styling */
+.profile-img {
+
+	display: block;
+	animation: fadeIn 2s ease-in-out;
+}
+
+/* Intro Section Styling */
+.intro {
+	text-align: center;
+	/* margin-top: 20px; */
+	animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		transform: translateY(200px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+		height: 400px;
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+/* Developer Name Styling */
+.dev-name {
+	font-weight: bold;
+	animation: fadeIn 2s ease-in-out;
 }

@@ -7,4 +7,9 @@ import react from "@vitejs/plugin-react";
 // base: "/MajiDev/",
 export default defineConfig({
 	plugins: [react()],
+	server: {
+		watch: {
+			usePolling: true
+		}
+	}
 });
