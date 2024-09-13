@@ -5,27 +5,28 @@ import { Carousel } from "react-responsive-3d-carousel";
 import { Element } from "react-scroll";
 import { motion } from "framer-motion"; // Import framer-motion
 import "../style.css";
+import getScreenWidth from "../utils/screen-width";
 
 function CardsList({ id, heading, list, buttons }) {
 	const [cardWidth, setCardWidth] = useState();
+	const [show, setShow] = useState(Array(list.length).fill(false));
+	const [isPaused, setIsPaused] = useState(false); // Track if carousel should pause
+	const showFooter = buttons?.length > 0;
 
 	useEffect(() => {
-		let width = window.innerWidth;
-		if (width > 768) {
-			width = width / 3;
-		} else if (width > 500) {
-			width = 400;
-		} else if (width < 500) {
-			width = width - 20;
-		}
-		setCardWidth(width);
+		setCardWidth(getScreenWidth());
 	}, []);
 
-	const showFooter = buttons?.length > 0;
-	const [show, setShow] = useState(false);
-
-	const handleToggle = () => setShow(!show);
-
+	const handleToggle = (e, index) => {
+		e.stopPropagation();
+		const updatedShowMore = [...show];
+		updatedShowMore[index] = !updatedShowMore[index];
+		setShow(updatedShowMore);
+	};
+	// Handle click on carousel item to pause it
+	const handleItemClick = () => {
+		setIsPaused((prev) => !prev); // Set pause state to true
+	};
 	const fadeInUp = {
 		hidden: { opacity: 0, y: 20 },
 		visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -52,13 +53,18 @@ function CardsList({ id, heading, list, buttons }) {
 				isIndicatorsShadow={false}
 				showIndicators={false}
 				statusColor="#757575"
-				arrowsHeight="50px"
-				arrowsWidth="30px"
+				arrowsHeight={cardWidth > 500 ? "50px" : "35px"}
+				arrowsWidth={cardWidth > 500 ? "30px" : "20px"}
 				isStatusShadow={false}
 				depth={2}
 				spread="wide"
-				height="360px"
-				isShadow={false}
+				height="350px"
+				isShadow={true}
+				autoPlay={!isPaused} // Disable autoPlay if paused
+				onClick={handleItemClick} // Pause carousel on item click
+				pauseOnHover={true} // Works for desktop
+				pauseOnInteraction={true} // Ensure pause on interaction
+				pauseOnTouch={true} // Pause on touch for mobile
 				width={cardWidth + "px"}>
 				{list.map((record, index) => {
 					return (
@@ -76,8 +82,9 @@ function CardsList({ id, heading, list, buttons }) {
 								borderRadius="lg"
 								overflow="auto"
 								transition="transform 0.3s ease, box-shadow 0.3s ease"
+								onClick={handleItemClick} // Handle click on item
 								_hover={{
-									transform: "scale(1.05)",
+									transform: "scale(1.01)",
 									boxShadow: "lg"
 								}}>
 								<CardBody>
@@ -102,16 +109,16 @@ function CardsList({ id, heading, list, buttons }) {
 											transition={{ enter: { duration: 0.5 } }}
 											key={index}
 											startingHeight={20}
-											in={show}>
+											in={show[index]}>
 											{record.description}
 										</Collapse>
 										<Text
 											color="blue"
 											size="sm"
-											onClick={handleToggle}
+											onClick={(event) => handleToggle(event, index)}
 											mt="0.1rem"
 											cursor="pointer">
-											Show {show ? "Less" : "More"}
+											Show {show[index] ? "Less" : "More"}
 										</Text>
 									</Stack>
 								</CardBody>

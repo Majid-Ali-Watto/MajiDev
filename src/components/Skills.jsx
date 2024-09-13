@@ -2,21 +2,20 @@ import { Box, Divider, Flex, Heading, Stack, Tag, TagLeftIcon } from "@chakra-ui
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-3d-carousel";
 import { skills, skillsObj } from "../assets/skills";
+import getScreenWidth from "../utils/screen-width";
 
 export default function Skills() {
 	const [cardWidth, setCardWidth] = useState();
+	const [isPaused, setIsPaused] = useState(false); // Track if carousel should pause
 
 	useEffect(() => {
-		let width = window.innerWidth;
-		if (width > 768) {
-			width = width / 3;
-		} else if (width > 500) {
-			width = 400;
-		} else if (width < 500) {
-			width = width - 30;
-		}
-		setCardWidth(width);
+		setCardWidth(getScreenWidth());
 	}, []);
+
+	// Handle click on carousel item to pause it
+	const handleItemClick = () => {
+		setIsPaused((prev) => !prev); // Set pause state to true
+	};
 
 	return (
 		<div>
@@ -28,15 +27,21 @@ export default function Skills() {
 				indicatorsActiveColor="#757575"
 				indicatorsInactiveColor="#333"
 				isIndicatorsShadow={false}
-				showIndicators={false}
+				showIndicators={true}
 				statusColor="#757575"
-				arrowsHeight="50px"
-				arrowsWidth="30px"
+				arrowsHeight={cardWidth > 500 ? "50px" : "35px"}
+				arrowsWidth={cardWidth > 500 ? "30px" : "20px"}
 				isStatusShadow={false}
 				depth={2}
-				isShadow={false}
-				height="400px"
-				spread="wide">
+				pauseOnHover={true} // Works for desktop
+				pauseOnInteraction={true} // Ensure pause on interaction
+				pauseOnTouch={true} // Pause on touch for mobile
+				isShadow={true}
+				height="300px"
+				spread="wide"
+				autoPlay={!isPaused} // Disable autoPlay if paused
+				onClick={handleItemClick} // Pause carousel on item click
+			>
 				{skillsObj.map((skillsObj, index) => (
 					<Box
 						key={index}
@@ -47,16 +52,18 @@ export default function Skills() {
 						display="flex"
 						borderWidth="1px"
 						flexDirection="column"
-						justifyContent="space-between" // Distributes the content vertically
+						justifyContent="space-between"
 						_hover={{ boxShadow: "xl", transform: "scale(1.05)" }}
-						transition="all 0.3s ease-in-out">
+						transition="all 0.3s ease-in-out"
+						onClick={handleItemClick} // Handle click on item
+					>
 						<Flex
 							flexDirection="column"
 							flex="1"
 							overflowY="auto"
 							justifyContent="space-between">
 							<Stack
-								spacing={3}
+								spacing={2}
 								flex="1">
 								<Heading
 									as="h6"
@@ -72,16 +79,18 @@ export default function Skills() {
 									className="links"
 									aria-labelledby={skillsObj.label}
 									wrap="wrap"
+									overflowY="auto"
+									maxHeight="380px"
 									justifyContent="center">
 									{skills[skillsObj.type].map((skill, index) => (
 										<Tag
-											width={{ base: "100%", sm: "150px" }}
+											width={{ base: "40%", sm: "9rem" }}
 											key={index}
-											size="lg"
+											size="md"
 											variant="solid"
 											colorScheme="blue"
-											mb={2}
-											borderRadius="full">
+											mb={1}
+											borderRadius="md">
 											<TagLeftIcon
 												boxSize="15px"
 												style={{ fontSize: "20px", color: "white", marginRight: "10px" }}

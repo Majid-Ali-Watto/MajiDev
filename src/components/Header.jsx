@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Link as ScrollLink } from "react-scroll";
 import "../style.css";
 import { navLinks } from "../assets/nav-links";
-
+import { Image } from "@chakra-ui/react";
 function Header() {
 	const [activeLink, setActiveLink] = useState("home");
 	const [burger, setBurger] = useState(false);
@@ -18,7 +18,10 @@ function Header() {
 	useEffect(() => {
 		if (burger) setBurger((prev) => !prev);
 	}, [path]);
-
+	function openLink() {
+		const url = "https://majidev.netlify.app/";
+		window.location.href = url;
+	}
 	const handleScroll = () => {
 		if (window.scrollY < 200) {
 			setActiveLink("home");
@@ -70,9 +73,19 @@ function Header() {
 	return (
 		<header className="header">
 			<div className="logo">
-				<h1 style={{ fontFamily: "serif" }}>
+				{/* <h1
+					style={{ fontFamily: "serif", cursor: "pointer" }}
+					onClick={openLink}>
 					<strong style={{ fontWeight: "normal" }}>M.A</strong>
-				</h1>
+				</h1> */}
+				<Image
+					style={{ cursor: "pointer" }}
+					src="/soft-dev.png"
+					alt="M.A"
+					borderRadius="md"
+					height="3rem"
+					onClick={openLink}
+				/>
 			</div>
 			<nav className="nav-links">{Links()}</nav>
 			<div className="nav-links-burger">

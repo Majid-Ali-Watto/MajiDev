@@ -1,14 +1,16 @@
 /** @format */
 
 import "../src/style.css";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Header from "./components/Header";
-import MyIntro from "./components/Intro";
-import Projects from "./components/Projects";
-import Services from "./components/Services";
-import Packages from "./components/Packages";
-import Blogs from "./components/Blogs";
+import { lazy } from "react";
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
+const Header = lazy(() => import("./components/Header"));
+const MyIntro = lazy(() => import("./components/Intro"));
+const Projects = lazy(() => import("./components/Projects"));
+const Services = lazy(() => import("./components/Services"));
+const Packages = lazy(() => import("./components/Packages"));
+const Blogs = lazy(() => import("./components/Blogs"));
+
 import { Helmet } from "react-helmet";
 import { Divider, Stack } from "@chakra-ui/react";
 import { motion, useScroll, useSpring } from "framer-motion";

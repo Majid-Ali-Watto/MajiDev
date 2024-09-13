@@ -321,7 +321,7 @@ img:hover {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	gap: 30px 45px;
+	gap: 10px 35px;
 	flex-wrap: wrap;
 }
 
