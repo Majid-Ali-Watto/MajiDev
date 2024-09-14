@@ -1,5 +1,4 @@
 
-import "../style.css";
 import { blogs } from "../assets/blogs";
 import CardsList from "../generic-components/Cards-List";
 

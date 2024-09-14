@@ -2,7 +2,7 @@
 
 import { projects } from "../assets/project-links";
 import CardsList from "../generic-components/Cards-List";
-import "../style.css";
+
 
 function Projects() {
 	return (

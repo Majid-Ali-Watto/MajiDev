@@ -2,7 +2,7 @@
 
 import { services } from "../assets/services";
 import CardsList from "../generic-components/Cards-List";
-import "../style.css";
+
 
 function Services() {
 	return (

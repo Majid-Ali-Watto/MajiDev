@@ -8,6 +8,10 @@ export const navLinks = [
 		path: "about"
 	},
 	{
+		pathTitle: "Skills",
+		path: "skills"
+	},
+	{
 		pathTitle: "Services",
 		path: "services"
 	},
@@ -22,5 +26,10 @@ export const navLinks = [
 	{
 		pathTitle: "Packages",
 		path: "packages"
+	},
+	{
+		pathTitle: "Education",
+		path: "education"
 	}
-];
+]
+//.map((obj) => ({ ...obj, pathTitle: obj.pathTitle?.toUpperCase() }));

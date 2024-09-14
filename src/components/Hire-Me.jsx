@@ -1,10 +1,9 @@
 import { Link, Grid, GridItem, Center, Box, Divider } from "@chakra-ui/react";
-import "../style.css";
-export default function HireMe() {
 
+export default function HireMe() {
 	return (
 		<Box
-			px={5}
+			px={4}
 			py={2}
 			// bg="gray.100"
 			borderWidth="1px"
@@ -15,7 +14,7 @@ export default function HireMe() {
 				alignItems="center">
 				<GridItem colSpan={2}>
 					<Link
-						href="https://www.upwork.com/freelancers/~018c214d3139f0f30e"
+						href={import.meta.env.VITE_HIRE_ME_URL}
 						target="_blank"
 						rel="noreferrer"
 						// color="blue.500"
@@ -37,7 +36,6 @@ export default function HireMe() {
 					</Link>
 				</GridItem>
 			</Grid>
-
 		</Box>
 	);
 }

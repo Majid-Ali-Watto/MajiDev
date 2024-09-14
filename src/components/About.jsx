@@ -1,10 +1,9 @@
 /** @format */
 
-import { Heading, Stack, Text, Highlight, Box, Grid, GridItem, Divider } from "@chakra-ui/react";
-import "../style.css";
-import Skills from "./Skills";
-import { Element } from "react-scroll";
+import { Box, Grid, GridItem, Highlight, Text } from "@chakra-ui/react";
 import { lazy } from "react";
+import { Element } from "react-scroll";
+import SectionHeader from "../generic-components/Section-Header";
 const Experience = lazy(() => import("./Experience"));
 
 function About() {
@@ -23,13 +22,10 @@ function About() {
 					<Box
 						textAlign="left"
 						mb="8">
-						<Heading
-							as="h2"
-							size="2xl"
-							color="var(--primaryColor)"
-							mb="4">
-							About Me
-						</Heading>
+						<SectionHeader
+							heading="About Me"
+							textAlign="left"
+						/>
 					</Box>
 					<Text
 						fontSize="lg"
@@ -47,21 +43,6 @@ function About() {
 					<Experience />
 				</GridItem>
 			</Grid>
-
-			<Divider />
-			{/* Skills Section */}
-			<Box
-				textAlign="center"
-				mb="6">
-				<Heading
-					as="h3"
-					size="lg"
-					color="#757575">
-					My Skill-Set
-				</Heading>
-			</Box>
-
-			<Skills />
 		</Element>
 	);
 }

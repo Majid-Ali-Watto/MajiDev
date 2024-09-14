@@ -1,6 +1,6 @@
 import { packages } from "../assets/packages";
 import CardsList from "../generic-components/Cards-List";
-import "../style.css";
+
 
 function Packages() {
 	return (

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import "../style.css";
 export default function AnimatedText() {
 	const [text, setText] = useState(import.meta.env.VITE_APP_DEV_POST);
 	const currentIndex = useRef(0); // useRef to store the index

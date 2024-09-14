@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import Welcome from "./components/Welcome.jsx";
-
+import "./style.css";
 // Use React.lazy to lazy load the App component
 const App = lazy(() => import("./App.jsx"));
 

@@ -1,6 +1,3 @@
-/** @format */
-
-import "../src/style.css";
 import { lazy } from "react";
 const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
@@ -10,12 +7,14 @@ const Projects = lazy(() => import("./components/Projects"));
 const Services = lazy(() => import("./components/Services"));
 const Packages = lazy(() => import("./components/Packages"));
 const Blogs = lazy(() => import("./components/Blogs"));
-
-import { Helmet } from "react-helmet";
+const Education = lazy(() => import("./components/Education"));
+const Footer = lazy(() => import("./components/Footer"));
+const Skills = lazy(() => import("./components/Skills"));
 import { Divider, Stack } from "@chakra-ui/react";
 import { motion, useScroll, useSpring } from "framer-motion";
+import Helemt_SEO from "./generic-components/Helemt";
 
-const devName = import.meta.env.VITE_APP_DEV_NAME;
+const devName = import.meta.env.VITE_APP_DEV_NAME || "Majid Ali";
 
 function App() {
 	// Scroll progress hook from Framer Motion
@@ -34,72 +33,19 @@ function App() {
 				className="progress-bar"></motion.div>
 
 			{/* Main Content */}
-			<div className="hero-image hero-text">
-				<Helmet>
-					<title>{devName ? `${devName} - Portfolio` : "Portfolio"}</title>
-					<meta
-						name="description"
-						content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
-					/>
-					<meta
-						name="keywords"
-						content="Majid Ali's portfolio,Majid Ali,Vue JS Developer, React JS Developer, Front End Developer, Portfolio, Web Developer, Software Engineer, Projects, Services"
-					/>
-					<meta
-						name="author"
-						content={devName}
-					/>
+			<div>
+				<Helemt_SEO />
+				<Header />
 
-					{/* Open Graph Meta Tags */}
-					<meta
-						property="og:title"
-						content={"Majid Ali - Portfolio"}
-					/>
-					<meta
-						property="og:description"
-						content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
-					/>
-					<meta
-						property="og:image"
-						content="/public/soft-dev.png"
-					/>
-					<meta
-						property="og:url"
-						content={window.location.href}
-					/>
-					<meta
-						property="og:type"
-						content="website"
-					/>
-
-					{/* Twitter Card Meta Tags */}
-					<meta
-						name="twitter:card"
-						content="summary_large_image"
-					/>
-					<meta
-						name="twitter:title"
-						content="Majid Ali - Portfolio"
-					/>
-					<meta
-						name="twitter:description"
-						content={`Welcome to Majid Ali's portfolio. Explore projects, services, and more.`}
-					/>
-					<meta
-						name="twitter:image"
-						content="/public/soft-dev.png"
-					/>
-				</Helmet>
-				<div className="header-area">
-					<Header />
-				</div>
-				<MyIntro
-					devName={devName}
-					Contact={Contact}
-				/>
-				<Divider orientation="horizontal" />
 				<Stack className="mainBody">
+					<MyIntro
+						devName={devName}
+						Contact={Contact}
+					/>
+					<Divider orientation="horizontal" />
 					<About />
+					<Divider orientation="horizontal" />
+					<Skills />
 					<Divider orientation="horizontal" />
 					<Services />
 					<Divider orientation="horizontal" />
@@ -108,6 +54,10 @@ function App() {
 					<Blogs />
 					<Divider orientation="horizontal" />
 					<Packages />
+					<Divider orientation="horizontal" />
+					<Education />
+					<Divider orientation="horizontal" />
+					<Footer owner={devName} />
 				</Stack>
 			</div>
 		</>

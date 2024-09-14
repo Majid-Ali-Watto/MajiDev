@@ -1,5 +1,4 @@
 import { contactLinks } from "../assets/contact-links";
-import "../style.css";
 import { Link, Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 

@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-3d-carousel";
 import { skills, skillsObj } from "../assets/skills";
 import getScreenWidth from "../utils/screen-width";
-
+import { Element } from "react-scroll";
+import SectionHeader from "../generic-components/Section-Header";
 export default function Skills() {
 	const [cardWidth, setCardWidth] = useState();
 	const [isPaused, setIsPaused] = useState(false); // Track if carousel should pause
@@ -18,7 +19,14 @@ export default function Skills() {
 	};
 
 	return (
-		<div>
+		<Element
+			id="skills"
+			className="skills">
+			<Box
+				textAlign="center"
+				mb="6">
+				<SectionHeader heading="Skills"/>
+			</Box>
 			<Carousel
 				width={cardWidth + "px"}
 				showArrows={skillsObj?.length > 1}
@@ -105,6 +113,6 @@ export default function Skills() {
 					</Box>
 				))}
 			</Carousel>
-		</div>
+		</Element>
 	);
 }

@@ -10,7 +10,7 @@ export const projects = [
 		title: "Mobile - Bandencentrale",
 		link: "https://plattebandauto.be/",
 		gLink: "https://github.com/Majid-Ali-Watto/Mobile-Bandencentrale.git",
-		imgURL: "/mobile-banden.png",
+		imgURL: "/mobile-banden.webp",
 		description: "This web app uses Google Maps, Email and WhatsApp Services to order tyres and vehicle related services in Belgium."
 	},
 	{
@@ -24,7 +24,7 @@ export const projects = [
 		title: "Blogs",
 		link: "https://basic-blog-app.netlify.app/",
 		gLink: "https://github.com/Majid-Ali-Watto/Basic-Blogs.git",
-		imgURL: "/blogs.png",
+		imgURL: "/blogs.webp",
 		description: "This web app is developed for showing diffrent articles of different Indonesian topics."
 	},
 	{
@@ -44,7 +44,7 @@ export const projects = [
 		title: "Images Gallery",
 		link: "https://picsforu.netlify.app/",
 		gLink: "https://github.com/Majid-Ali-Watto/Loader-PicsAPI.git",
-		imgURL: "/picsforu.png",
+		imgURL: "/picsforu.webp",
 		description: "Pictures are fetched from picsum, being displayed as Gallery, user can download them."
 	},
 	{

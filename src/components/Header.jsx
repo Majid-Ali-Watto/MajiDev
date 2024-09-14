@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link as ScrollLink } from "react-scroll";
-import "../style.css";
 import { navLinks } from "../assets/nav-links";
 import { Image } from "@chakra-ui/react";
 function Header() {
@@ -19,8 +18,7 @@ function Header() {
 		if (burger) setBurger((prev) => !prev);
 	}, [path]);
 	function openLink() {
-		const url = "https://majidev.netlify.app/";
-		window.location.href = url;
+		window.location.href = import.meta.env.VITE_SITE_URL;
 	}
 	const handleScroll = () => {
 		if (window.scrollY < 200) {
@@ -73,11 +71,6 @@ function Header() {
 	return (
 		<header className="header">
 			<div className="logo">
-				{/* <h1
-					style={{ fontFamily: "serif", cursor: "pointer" }}
-					onClick={openLink}>
-					<strong style={{ fontWeight: "normal" }}>M.A</strong>
-				</h1> */}
 				<Image
 					style={{ cursor: "pointer" }}
 					src="/soft-dev.png"

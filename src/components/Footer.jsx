@@ -1,7 +1,7 @@
 /** @format */
 
 import PropTypes from "prop-types";
-import "../style.css";
+
 
 Footer.propTypes = {
 	owner: PropTypes.string,

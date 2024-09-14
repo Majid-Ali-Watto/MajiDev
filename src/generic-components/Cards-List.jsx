@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-3d-carousel";
 import { Element } from "react-scroll";
 import { motion } from "framer-motion"; // Import framer-motion
-import "../style.css";
+
 import getScreenWidth from "../utils/screen-width";
+import SectionHeader from "./Section-Header";
+import Helemt_SEO from "./Helemt";
 
 function CardsList({ id, heading, list, buttons }) {
 	const [cardWidth, setCardWidth] = useState();
@@ -36,15 +38,8 @@ function CardsList({ id, heading, list, buttons }) {
 		<Element
 			id={id}
 			className="projects">
-			<Heading
-				as="h2"
-				size="xl"
-				mb="6"
-				textAlign="center"
-				color="var(--accentColor)">
-				{heading}
-			</Heading>
-
+			<Helemt_SEO />
+			<SectionHeader heading={heading} />
 			<Carousel
 				showArrows={list?.length > 1}
 				arrowsDefaultColor="#757575"

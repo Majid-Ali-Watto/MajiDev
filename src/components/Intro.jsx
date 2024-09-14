@@ -1,6 +1,5 @@
 /** @format */
 import PropTypes from "prop-types";
-import "../style.css";
 import { Element } from "react-scroll";
 import { Heading, Stack } from "@chakra-ui/react";
 import HireMe from "./Hire-Me";
@@ -16,7 +15,7 @@ export default function MyIntro({ Contact, devName }) {
 			id="home"
 			className="main-content">
 			<img
-				src="/majid2.png"
+				src="/majid2.webp"
 				alt={`${devName}'s profile`}
 				className="profile-img"
 			/>
@@ -25,7 +24,7 @@ export default function MyIntro({ Contact, devName }) {
 				className="intro">
 				<Heading
 					as="h1"
-					size="3xl"
+					size="2xl"
 					className="dev-name">
 					{devName}
 				</Heading>
