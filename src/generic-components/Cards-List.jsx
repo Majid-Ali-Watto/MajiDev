@@ -1,4 +1,4 @@
-import { Button, Collapse, Card, CardBody, CardFooter, Divider, Heading, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { HStack,Tag, Button, Collapse, Card, CardBody, CardFooter, Divider, Heading, Image, Link, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-3d-carousel";
@@ -141,6 +141,24 @@ function CardsList({ id, heading, list, buttons }) {
 											})}
 										</Stack>
 									</CardFooter>
+								)}
+								{record?.stack?.length > 0 && (
+									<HStack
+										justify="flex-start"
+										align="center"
+										wrap='wrap'
+										px={3}
+										pb={2}
+										spacing="5px">
+										{record?.stack.map((item) => (
+											<Tag
+												key={item}
+												colorScheme="blue"
+												size="md">
+												{item}
+											</Tag>
+										))}
+									</HStack>
 								)}
 							</Card>
 						</motion.div>
