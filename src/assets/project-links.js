@@ -16,14 +16,7 @@ export const projects = [
 		description: "This web app uses Google Maps, Email and WhatsApp Services to order tyres and vehicle related services in Belgium.",
 		stack: [...commonStack, "TailwindCss", "Yup", "Formik", "Google Maps", "EmailJS"]
 	},
-	{
-		title: "Sketcher",
-		link: "https://drawyouwant.netlify.app/",
-		gcLink: "https://github.com/Majid-Ali-Watto/Sketcher.git",
-		imgURL: "/sketcher.png",
-		description: "This web app can be used for drawings.",
-		stack: [...commonStack]
-	},
+
 	{
 		title: "Blogs",
 		link: "https://basic-blog-app.netlify.app/",
