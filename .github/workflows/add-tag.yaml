@@ -74,11 +74,9 @@ jobs:
           # Use jq to update the version field in package.json with the new version.
           # The new version is stored in the variable $new_version.
           # The output is redirected to a temporary file (package.json.tmp) to avoid directly editing package.json.
-          jq ".version = \"$new_version\"" package.json > package.json.tmp
-
           # If the jq command is successful, move (rename) package.json.tmp to package.json,
           # replacing the original package.json with the updated version.
-          && mv package.json.tmp package.json
+          jq ".version = \"$new_version\"" package.json > package.json.tmp && mv package.json.tmp package.json
 
 
       # Step 6: Commit the updated 'package.json' file to the 'latest-ui' branch.
