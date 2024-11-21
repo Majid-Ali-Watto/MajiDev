@@ -13,11 +13,10 @@ const Skills = lazy(() => import("./components/Skills"));
 import { Divider, Stack } from "@chakra-ui/react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import Helemt_SEO from "./generic-components/Helemt";
-
+import LazyRender from "./LazyRender";
 const devName = import.meta.env.VITE_APP_DEV_NAME || "Majid Ali";
 
 function App() {
-	// Scroll progress hook from Framer Motion
 	const { scrollYProgress } = useScroll();
 	const scaleX = useSpring(scrollYProgress, {
 		stiffness: 100,
@@ -28,9 +27,7 @@ function App() {
 	return (
 		<>
 			{/* Progress Bar */}
-			<motion.div
-				style={{ scaleX }}
-				className="progress-bar"></motion.div>
+			<motion.div style={{ scaleX }} className="progress-bar"></motion.div>
 
 			{/* Main Content */}
 			<div>
@@ -38,26 +35,49 @@ function App() {
 				<Header />
 
 				<Stack className="mainBody">
-					<MyIntro
-						devName={devName}
-						Contact={Contact}
-					/>
+					<LazyRender>
+						<MyIntro devName={devName} Contact={Contact} />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<About />
+
+					<LazyRender>
+						<About />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Skills />
+
+					<LazyRender>
+						<Skills />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Services />
+
+					<LazyRender>
+						<Services />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Projects />
+
+					<LazyRender>
+						<Projects />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Blogs />
+
+					<LazyRender>
+						<Blogs />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Packages />
+
+					<LazyRender>
+						<Packages />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Education />
+
+					<LazyRender>
+						<Education />
+					</LazyRender>
 					<Divider orientation="horizontal" />
-					<Footer owner={devName} />
+
+					<LazyRender>
+						<Footer owner={devName} />
+					</LazyRender>
 				</Stack>
 			</div>
 		</>

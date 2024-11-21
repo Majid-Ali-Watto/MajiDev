@@ -28,11 +28,11 @@ function About() {
 						/>
 					</Box>
 					<Text
-						fontSize="lg"
+						fontSize="md"
 						color="gray.700">
 						<Highlight
 							query={["Full Stack Web Developer", "Vue.js Developer @Teresol"]}
-							styles={{ px: "2", color: "blue.500" }}>
+							styles={{ color: "blue.500" ,textAlign:'left'}}>
 							Hi, I&apos;m a Pakistan-based Full Stack Web Developer skilled in both front-end and back-end technologies. Freelancer & Vue.js Developer @Teresol since Oct 2022. Let&apos;s create something amazing together!
 						</Highlight>
 					</Text>
