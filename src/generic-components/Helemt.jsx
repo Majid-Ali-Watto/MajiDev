@@ -16,7 +16,7 @@ function Helemt_SEO() {
 				<meta property="og:description" content={`Welcome to ${devName}'s portfolio. Explore projects, services, and more.`} />
 				<meta
 					property="og:image"
-					content="/soft-dev.png" // Ensure the image is located in the public directory
+					content="/soft-dev.webp" // Ensure the image is located in the public directory
 				/>
 				<meta property="og:url" content={window.location.origin} />
 				<meta property="og:type" content="website" />
@@ -27,7 +27,7 @@ function Helemt_SEO() {
 				<meta name="twitter:description" content={`Welcome to ${devName}'s portfolio. Explore projects, services, and more.`} />
 				<meta
 					name="twitter:image"
-					content="/soft-dev.png" // Ensure the image is located in the public directory
+					content="/soft-dev.webp" // Ensure the image is located in the public directory
 				/>
 			</Helmet>
 		</HelmetProvider>
