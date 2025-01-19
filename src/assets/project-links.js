@@ -25,21 +25,7 @@ export const projects = [
 		description: "This web app is developed for showing diffrent articles of different Indonesian topics.",
 		stack: [...commonStack.slice(0, 3), "TypeScript"]
 	},
-	{
-		title: "Private Chat App",
-		link: "https://private-ca.netlify.app/",
-		imgURL: "/pca.png",
-		description: "This web app is developed for chatting between two persons only.",
-		stack: [...commonStack, "FireBase"]
-	},
-	{
-		title: "Code Generator",
-		link: "https://uc-struct-builder.netlify.app/",
-		gLink: "https://github.com/Majid-Ali-Watto/code-generator-fe-hoc.git",
-		imgURL: "/uc.png",
-		description: "This web app is developed for generating code of specific part of app in my company.",
-		stack: ["Vue.js", ...commonStack.slice(1)]
-	},
+
 	{
 		title: "Images Gallery",
 		link: "https://picsforu.netlify.app/",
@@ -52,7 +38,7 @@ export const projects = [
 		title: "World Countries",
 		link: "https://worldcountrieslist.netlify.app/",
 		gLink: "https://github.com/Majid-Ali-Watto/world-countries.git",
-		imgURL: "/countries.png",
+		imgURL: "/countries.webp",
 		description: "List of countries with major data.",
 		stack: [...commonStack]
 	},
@@ -64,6 +50,13 @@ export const projects = [
 		description: "This is a User Management API that allows you to manage users with CRUD operations. You can create, read, update, and delete users through the various endpoints provided.",
 		stack: ["Node.js", "Express.js", "Javascript"]
 	},
-
+	{
+		title: "HTTP Status Codes Explorer",
+		link: "https://httpstatuscodesexplorer.vercel.app/",
+		gLink: "https://github.com/Majid-Ali-Watto/http-status-codes-explorer",
+		imgURL: "/http.webp",
+		description: "An interactive web application for exploring HTTP status codes, their meanings, descriptions, and examples.",
+		stack: ["Next.js", "TailwindCss.js", "TypeScript"]
+	}
 ];
 // [("Hostel Activity Monitor React Native App", "Hostel Activity Monitor Web App", "Private Chat App")];

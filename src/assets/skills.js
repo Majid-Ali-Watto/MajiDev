@@ -1,6 +1,6 @@
 /** @format */
 import { FaCss3, FaDatabase, FaHtml5, FaNodeJs, FaReact, FaVuejs } from "react-icons/fa";
-import { SiElement, SiExpress, SiFirebase, SiGit, SiGithub, SiGitlab, SiJavascript, SiMongodb, SiMysql, SiPostgresql, SiRedux, SiTailwindcss, SiTypescript } from "react-icons/si";
+import { SiExpress, SiFirebase, SiGit, SiGithub, SiGitlab, SiJavascript, SiJsonwebtokens, SiMicrostrategy, SiMongodb, SiMysql, SiNextdotjs, SiNuxtdotjs, SiPostgresql, SiRedux, SiTailwindcss, SiTypescript, SiVite, SiWebpack } from "react-icons/si";
 
 export const skills = {
 	fe: [
@@ -13,11 +13,17 @@ export const skills = {
 		{ label: "Tailwind CSS", iconName: SiTailwindcss },
 		{ label: "Redux", iconName: SiRedux },
 		{ label: "Vuex", iconName: FaDatabase },
-		{ label: "Element Plus", iconName: SiElement }
+		{ label: "Micro Frontend", iconName: SiMicrostrategy },
+		{ label: "Next.js", iconName: SiNextdotjs },
+		{ label: "Nuxt", iconName: SiNuxtdotjs },
+		{ label: "Vite", iconName: SiVite },
+		{ label: "Webpack", iconName: SiWebpack }
 	],
 	be: [
 		{ label: "Node.js", iconName: FaNodeJs },
-		{ label: "Express.js", iconName: SiExpress }
+		{ label: "Express.js", iconName: SiExpress },
+		{ label: "Micro Services", iconName: SiMicrostrategy },
+		{ label: "JWT Auth", iconName: SiJsonwebtokens }
 	],
 	db: [
 		{ label: "PostgreSQL", iconName: SiPostgresql },

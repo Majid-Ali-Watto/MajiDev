@@ -2,14 +2,14 @@ const link = "https://www.upwork.com/freelancers/~018c214d3139f0f30e";
 export const services = [
 	{
 		title: "Web Development",
-		imgURL: "/web-dev.jpeg",
+		imgURL: "/web-dev.webp",
 		link,
 		description: "Responsive and dynamic websites, web applications, and backend systems using modern frameworks like React.JS, Vue.JS and Node.JS"
 	},
 
 	{
 		title: "Database Integration",
-		imgURL: "/database.jpg",
+		imgURL: "/database.webp",
 		link,
 		description: "Designing, implementing, and managing databases to ensure efficient data storage and retrieval for clients' applications in PostgreSQL, MySQL, and MongoDB"
 	},
@@ -20,7 +20,7 @@ export const services = [
 
 	{
 		title: "API Development",
-		imgURL: "/api.png",
+		imgURL: "/api.webp",
 		link,
 		description: "Build robust APIs using Node.js and Express, facilitating data exchange between front-end applications and databases, as well as third-party integrations."
 	}

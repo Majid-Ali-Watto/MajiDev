@@ -1,18 +1,18 @@
 export const experienceData = [
 	{
-		description: "Working as a Vue.js developer on a core banking project for Bank Al-Habib Limited.",
+		description: "Migrated a legacy front end of Bank Al-Habib Limited from Java to Vue.js, enhancing maintainability and modernizing the UI.",
 		highlightQuery: ["Bank Al-Habib Limited"]
 	},
 	{
-		description: "Remapping the old front end (Java Code) to Vue.js.",
+		description: "Implemented a modular architecture using Micro Front-ends, improving speed by 80% and simplifying maintenance.",
+		highlightQuery: ["Micro Front-ends"]
+	},
+	{
+		description: "Collaborated with senior developers to optimize code performance by 30% through the development of a reusable front-end package.",
 		highlightQuery: []
 	},
 	{
-		description: "Optimized front end architecture, resulting in a decrease in server requests and improvement in page rendering speed.",
-		highlightQuery: []
-	},
-	{
-		description: "Developed features for Banking Modules like Teller, CRM, Remittance, Term Deposit.",
-		highlightQuery: ["Teller", "CRM", "Remittance", "Term Deposit"]
+		description: "Designed and integrated RESTful APIs in Node.js and Express.js, enabling seamless data exchange between the front end and core banking systems.",
+		highlightQuery: ["RESTful APIs", "Express.js","Node.js"]
 	}
 ];

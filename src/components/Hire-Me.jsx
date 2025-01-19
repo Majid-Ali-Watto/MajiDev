@@ -7,18 +7,21 @@ export default function HireMe() {
 			py={2}
 			// bg="gray.100"
 			borderWidth="1px"
-			borderRadius="md">
+			borderRadius="md"
+		>
 			<Grid
 				templateColumns="repeat(6, 1fr)"
 				// gap={1}
-				alignItems="center">
+				alignItems="center"
+			>
 				<GridItem colSpan={2}>
 					<Link
 						href={import.meta.env.VITE_HIRE_ME_URL}
 						target="_blank"
 						rel="noreferrer"
 						// color="blue.500"
-						fontWeight="bold">
+						fontWeight="bold"
+					>
 						Hire Me
 					</Link>
 				</GridItem>
@@ -27,12 +30,8 @@ export default function HireMe() {
 				</Center>
 
 				<GridItem colSpan={3}>
-					<Link
-						href="/Majid-Ali-Resume-Updated.pdf"
-						download={true}
-						// color="blue.500"
-						fontWeight="bold">
-						Download Resume
+					<Link href="https://drive.google.com/file/d/1j3Vm4WiZoihRIf31BUXfMqxcKShU1Jot/view?usp=drivesdk" download={true} target="_blank" fontWeight="bold">
+						Resume
 					</Link>
 				</GridItem>
 			</Grid>

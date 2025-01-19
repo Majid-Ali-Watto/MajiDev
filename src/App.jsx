@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
 const Header = lazy(() => import("./components/Header"));
@@ -32,52 +32,73 @@ function App() {
 			{/* Main Content */}
 			<div>
 				<Helemt_SEO />
-				<Header />
+				<Suspense fallback={<div>Loading Header...</div>}>
+					<Header />
+				</Suspense>
 
 				<Stack className="mainBody">
-					<LazyRender>
-						<MyIntro devName={devName} Contact={Contact} />
-					</LazyRender>
+					<Suspense fallback={<div>Loading My Intro...</div>}>
+						<LazyRender>
+							<MyIntro devName={devName} Contact={Contact} />
+						</LazyRender>
+					</Suspense>
+					<Divider  orientation="horizontal" />
+
+					<Suspense fallback={<div>Loading About...</div>}>
+						<LazyRender>
+							<About />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<About />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Skills...</div>}>
+						<LazyRender>
+							<Skills />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Skills />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Services...</div>}>
+						<LazyRender>
+							<Services />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Services />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Projects...</div>}>
+						<LazyRender>
+							<Projects />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Projects />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Blogs...</div>}>
+						<LazyRender>
+							<Blogs />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Blogs />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Packages...</div>}>
+						<LazyRender>
+							<Packages />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Packages />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Education...</div>}>
+						<LazyRender>
+							<Education />
+						</LazyRender>
+					</Suspense>
 					<Divider orientation="horizontal" />
 
-					<LazyRender>
-						<Education />
-					</LazyRender>
-					<Divider orientation="horizontal" />
-
-					<LazyRender>
-						<Footer owner={devName} />
-					</LazyRender>
+					<Suspense fallback={<div>Loading Contact and Developer Name...</div>}>
+						<LazyRender>
+							<Contact />
+							<Footer owner={devName} />
+						</LazyRender>
+					</Suspense>
 				</Stack>
 			</div>
 		</>

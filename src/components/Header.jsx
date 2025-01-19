@@ -73,7 +73,7 @@ function Header() {
 			<div className="logo">
 				<Image
 					style={{ cursor: "pointer" }}
-					src="/soft-dev.png"
+					src="/soft-dev.webp"
 					alt="M.A"
 					borderRadius="md"
 					height="3rem"

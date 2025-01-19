@@ -1,4 +1,5 @@
-import { FaSquareFacebook, FaInstagram, FaLinkedin, FaMedium, FaGithub, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
+import { FaLinkedin, FaMedium, FaGithub, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
+import { TbFileCv, TbBrandUpwork } from "react-icons/tb";
 
 export const contactLinks = [
 	{
@@ -13,18 +14,7 @@ export const contactLinks = [
 		color: "black",
 		icon: FaGithub
 	},
-	{
-		href: "https://www.facebook.com/groups/246606200063950/?ref=share_group_link",
-		title: "Facebook",
-		color: "blue",
-		icon: FaSquareFacebook
-	},
-	{
-		href: "https://instagram.com/majid_ali_wattu?utm_source=qr&igshid=ZDc4ODBmNjlmNQ%3D%3D",
-		title: "Instagram",
-		color: "black",
-		icon: FaInstagram
-	},
+
 	{
 		href: "mailto:majidaliqau@gmail.com",
 		title: "Email",
@@ -42,5 +32,17 @@ export const contactLinks = [
 		title: "Medium",
 		color: "black",
 		icon: FaMedium
+	},
+	{
+		href: "https://www.upwork.com/freelancers/~018c214d3139f0f30e",
+		title: "Upwork",
+		color: "black",
+		icon: TbBrandUpwork
+	},
+	{
+		href: "https://drive.google.com/file/d/1j3Vm4WiZoihRIf31BUXfMqxcKShU1Jot/view?usp=drivesdk",
+		title: "Resume",
+		color: "black",
+		icon: TbFileCv
 	}
 ];

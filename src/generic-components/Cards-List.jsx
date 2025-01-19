@@ -63,12 +63,7 @@ function CardsList({ id, heading, list, buttons }) {
 				width={cardWidth + "px"}>
 				{list.map((record, index) => {
 					return (
-						<motion.div
-							key={index}
-							initial="hidden"
-							whileInView="visible"
-							variants={fadeInUp}
-							viewport={{ once: true }}>
+						<motion.div key={index} initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
 							<Card
 								height="350px"
 								size="sm"
@@ -81,38 +76,18 @@ function CardsList({ id, heading, list, buttons }) {
 								_hover={{
 									transform: "scale(1.01)",
 									boxShadow: "lg"
-								}}>
+								}}
+							>
 								<CardBody>
-									<Image
-										src={record.imgURL}
-										alt={record.title}
-										borderRadius="md"
-										height="10rem"
-										width="100%"
-									/>
-									<Stack
-										mt="4"
-										spacing="3">
-										<Heading
-											as="h4"
-											size="md"
-											color="var(--primaryColor)">
+									<Image src={record.imgURL} alt={record.title} borderRadius="md" height="10rem" width="100%" />
+									<Stack mt="4" spacing="3">
+										<Heading as="h4" size="md" color="var(--primaryColor)">
 											{record.title}
 										</Heading>
-										<Collapse
-											animateOpacity
-											transition={{ enter: { duration: 0.5 } }}
-											key={index}
-											startingHeight={20}
-											in={show[index]}>
+										<Collapse animateOpacity transition={{ enter: { duration: 0.5 } }} key={index} startingHeight={20} in={show[index]}>
 											{record.description}
 										</Collapse>
-										<Text
-											color="blue"
-											size="sm"
-											onClick={(event) => handleToggle(event, index)}
-											mt="0.1rem"
-											cursor="pointer">
+										<Text color="blue" fontSize="md" onClick={(event) => handleToggle(event, index)} mt="0.1rem" cursor="pointer">
 											Show {show[index] ? "Less" : "More"}
 										</Text>
 									</Stack>
@@ -120,20 +95,11 @@ function CardsList({ id, heading, list, buttons }) {
 								<Divider />
 								{showFooter && (
 									<CardFooter>
-										<Stack
-											align="center"
-											direction="row"
-											spacing="3">
+										<Stack align="center" direction="row" spacing="3">
 											{buttons.map((button, idx) => {
 												return (
-													<Button
-														key={idx}
-														colorScheme="teal"
-														variant="outline">
-														<Link
-															href={idx === 0 ? record.link : record.gLink}
-															target="_blank"
-															rel="noreferrer">
+													<Button key={idx} colorScheme="teal" variant="outline">
+														<Link href={idx === 0 ? record.link : record.gLink} target="_blank" rel="noreferrer">
 															{button}
 														</Link>
 													</Button>
@@ -143,18 +109,9 @@ function CardsList({ id, heading, list, buttons }) {
 									</CardFooter>
 								)}
 								{record?.stack?.length > 0 && (
-									<HStack
-										justify="flex-start"
-										align="center"
-										wrap='wrap'
-										px={3}
-										pb={2}
-										spacing="5px">
+									<HStack justify="flex-start" align="center" wrap="wrap" px={3} pb={2} spacing="5px">
 										{record?.stack.map((item) => (
-											<Tag
-												key={item}
-												colorScheme="blue"
-												size="md">
+											<Tag key={item} colorScheme="blue" size="md">
 												{item}
 											</Tag>
 										))}

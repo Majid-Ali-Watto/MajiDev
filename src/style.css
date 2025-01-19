@@ -10,13 +10,46 @@
 	display: none !important;
 }
 
+html {
+	scrollbar-width: none;
+	/* For Firefox */
+}
+
+/* ::-webkit-scrollbar {
+	width: 5px;
+	height: 8px;
+}
+::-webkit-scrollbar-button {
+	display: none;
+}
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #888 #f1f1f1;
+} */
+
 body,
 * {
 	margin: 0%;
 	padding: 0%;
 	box-sizing: border-box;
-	font-family: "Poppins", sans-serif;
+	font-family: 'Fira Code', monospace !important;
+	/* font-family: "Poppins", sans-serif; */
 }
+
 
 /* html {
 	scroll-snap-type: y mandatory;
@@ -56,9 +89,7 @@ li {
 	list-style: none;
 }
 
-body::-webkit-scrollbar {
-	display: none;
-}
+
 
 p {
 	text-align: justify;
