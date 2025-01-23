@@ -9,12 +9,13 @@ import { getExperienceYear } from "../utils/getExpYears";
 
 import PropTypes from "prop-types";
 import toLocalDate from "../utils/toLocaleDateString";
+import Helemt_SEO from "../generic-components/Helemt";
 
 // Subcomponent to display each experience item
 const ExperienceItem = ({ description, highlightQuery }) => (
 	<ListItem>
 		<ListIcon as={CheckCircleIcon} color="green.500" />
-		<Highlight query={highlightQuery} styles={{ color: "blue.500" }}>
+		<Highlight query={highlightQuery} styles={{ color: "green.500", textAlign: "left" }}>
 			{description}
 		</Highlight>
 	</ListItem>
@@ -40,19 +41,20 @@ export default function Experience() {
 	return (
 		<Element id="experience">
 			<Box textAlign="left" mb="8">
-				<SectionHeader heading="Experience" textAlign="left" />
+				<Helemt_SEO />
+				<SectionHeader heading="Experience" />
 			</Box>
 			<motion.div initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
-				<Stat color="gray.700" mb={6}>
-					<StatNumber>{import.meta.env.VITE_APP_CURRENT_PROJECT}</StatNumber>
+				<Stat mb={6}>
+					<StatNumber fontSize="large">{import.meta.env.VITE_APP_CURRENT_PROJECT}</StatNumber>
 					<StatLabel>
 						{import.meta.env.VITE_APP_CURRENT_ORG_POST} at {import.meta.env.VITE_APP_CURRENT_ORG}
 					</StatLabel>
-					<StatHelpText>
+					<StatHelpText fontSize="medium">
 						{toLocalDate(import.meta.env.VITE_JOINING_DATE)} - {toLocalDate(import.meta.env.VITE_END_DATE)} ({getExperienceYear()})
 					</StatHelpText>
 				</Stat>
-				<List spacing={3} color="gray.700">
+				<List spacing={3} stylePosition="outside">
 					{experienceData.map((item, index) => (
 						<motion.div key={index} initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
 							<ExperienceItem description={item.description} highlightQuery={getHighLight(item)} />

@@ -11,7 +11,7 @@ export const contactLinks = [
 	{
 		href: "https://github.com/Majid-Ali-Watto",
 		title: "Github",
-		color: "black",
+		// color: "black",
 		icon: FaGithub
 	},
 
@@ -30,19 +30,19 @@ export const contactLinks = [
 	{
 		href: "https://medium.com/@majid.teresol",
 		title: "Medium",
-		color: "black",
+		// color: "black",
 		icon: FaMedium
 	},
 	{
 		href: "https://www.upwork.com/freelancers/~018c214d3139f0f30e",
 		title: "Upwork",
-		color: "black",
+		// color: "black",
 		icon: TbBrandUpwork
 	},
 	{
 		href: "https://drive.google.com/file/d/1j3Vm4WiZoihRIf31BUXfMqxcKShU1Jot/view?usp=drivesdk",
 		title: "Resume",
-		color: "black",
+		// color: "black",
 		icon: TbFileCv
 	}
 ];

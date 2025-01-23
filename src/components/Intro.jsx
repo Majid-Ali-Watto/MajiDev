@@ -5,13 +5,14 @@ import { Heading, Stack } from "@chakra-ui/react";
 import AnimatedText from "./Animate";
 MyIntro.propTypes = {
 	devName: PropTypes.string.isRequired,
-	Contact: PropTypes.elementType.isRequired
+	Contact: PropTypes.elementType.isRequired,
+	image: PropTypes.string,
 };
 
-export default function MyIntro({ Contact, devName }) {
+export default function MyIntro({ Contact, devName, image }) {
 	return (
 		<Element id="home" className="main-content">
-			<img src="/majid2.webp" alt={`${devName}'s profile`} className="profile-img" />
+			<img src={image || "/majid2.webp"} alt={`${devName}'s profile`} className="profile-img" />
 			<Stack spacing="3" className="intro">
 				<Heading as="h1" size="2xl" className="dev-name">
 					{devName}

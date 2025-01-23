@@ -7,7 +7,7 @@ export default function Welcome() {
 			isCentered={true}>
 			<ModalOverlay />
 			<ModalContent
-				bg="yellow"
+				// bg="yellow"
 				boxShadow="none"
 				display="flex"
 				alignItems="center"

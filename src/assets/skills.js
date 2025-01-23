@@ -38,8 +38,8 @@ export const skills = {
 	]
 };
 export const skillsObj = [
-	{ label: "Front End", type: "fe" },
-	{ label: "Back End", type: "be" },
-	{ label: "Data Base", type: "db" },
+	{ label: "Front-End", type: "fe" },
+	{ label: "Back-End", type: "be" },
+	{ label: "DataBase", type: "db" },
 	{ label: "Version Control", type: "vc" }
 ];

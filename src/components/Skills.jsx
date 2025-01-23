@@ -1,118 +1,70 @@
-import { Box, Divider, Flex, Heading, Stack, Tag, TagLeftIcon } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Carousel } from "react-responsive-3d-carousel";
-import { skills, skillsObj } from "../assets/skills";
-import getScreenWidth from "../utils/screen-width";
-import { Element } from "react-scroll";
+import { Box, Grid, Text, Heading, Card } from "@chakra-ui/react";
+import { skills, skillsObj } from "../assets/skills"; // Adjust the import path as needed
+import { motion } from "framer-motion";
 import SectionHeader from "../generic-components/Section-Header";
-export default function Skills() {
-	const [cardWidth, setCardWidth] = useState();
-	const [isPaused, setIsPaused] = useState(false); // Track if carousel should pause
 
-	useEffect(() => {
-		setCardWidth(getScreenWidth());
-	}, []);
+const SkillCard = ({ label, icon: Icon }) => {
+	return (
+		// boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+		// <Box display="flex" flexDirection="column" alignItems="center" outline justifyContent="center" p="1rem" borderRadius="8px" transition="box-shadow 0.3s ease" _hover={{ boxShadow: "1px 1px 1px rgba(0, 0, 0, 0.15),-1px -1px 1px rgba(0, 0, 0, 0.15)" }}>
+		<Card
+			display="flex"
+			flexDirection="column"
+			alignItems="center"
+			outline
+			justifyContent="center"
+			p="1rem"
+			height="100%"
+			variant="outline"
+			borderWidth="1px"
+			borderRadius="lg"
+			overflow="hidden"
+			transition="transform 0.3s ease, box-shadow 0.3s ease"
+			_hover={{
+				transform: "scale(1.02)",
+				boxShadow: "2xl"
+			}}
+		>
+			<Box fontSize="2rem" color="blue.500" mb="0.5rem">
+				<Icon />
+			</Box>
+			<Text fontSize="1rem" fontWeight="500">
+				{label}
+			</Text>
+		</Card>
+		// </Box>
+	);
+};
 
-	// Handle click on carousel item to pause it
-	const handleItemClick = () => {
-		setIsPaused((prev) => !prev); // Set pause state to true
+const SkillsSection = () => {
+	const fadeInUp = {
+		hidden: { opacity: 0, y: 50 },
+		visible: { opacity: 1, y: 0, transition: { duration: 1.2 } }
 	};
 
 	return (
-		<Element
-			id="skills"
-			className="skills">
-			<Box
-				textAlign="center"
-				mb="6">
-				<SectionHeader heading="Skills"/>
-			</Box>
-			<Carousel
-				width={cardWidth + "px"}
-				showArrows={skillsObj?.length > 1}
-				transitionTime={1000}
-				arrowsDefaultColor="#757575"
-				indicatorsActiveColor="#757575"
-				indicatorsInactiveColor="#333"
-				isIndicatorsShadow={false}
-				showIndicators={true}
-				statusColor="#757575"
-				arrowsHeight={cardWidth > 500 ? "50px" : "35px"}
-				arrowsWidth={cardWidth > 500 ? "30px" : "20px"}
-				isStatusShadow={false}
-				depth={2}
-				pauseOnHover={true} // Works for desktop
-				pauseOnInteraction={true} // Ensure pause on interaction
-				pauseOnTouch={true} // Pause on touch for mobile
-				isShadow={true}
-				height="300px"
-				spread="wide"
-				autoPlay={!isPaused} // Disable autoPlay if paused
-				onClick={handleItemClick} // Pause carousel on item click
-			>
-				{skillsObj.map((skillsObj, index) => (
-					<Box
-						key={index}
-						padding={5}
-						borderRadius="md"
-						boxShadow="sm"
-						backgroundColor="white"
-						display="flex"
-						borderWidth="1px"
-						flexDirection="column"
-						justifyContent="space-between"
-						_hover={{ boxShadow: "xl", transform: "scale(1.05)" }}
-						transition="all 0.3s ease-in-out"
-						onClick={handleItemClick} // Handle click on item
-					>
-						<Flex
-							flexDirection="column"
-							flex="1"
-							overflowY="auto"
-							justifyContent="space-between">
-							<Stack
-								spacing={2}
-								flex="1">
-								<Heading
-									as="h6"
-									size="md"
-									color="teal.600"
-									display="flex"
-									justifyContent="center"
-									alignItems="center">
-									{skillsObj.label}
-								</Heading>
-								<Divider />
-								<Flex
-									className="links"
-									aria-labelledby={skillsObj.label}
-									wrap="wrap"
-									overflowY="auto"
-									maxHeight="380px"
-									justifyContent="center">
-									{skills[skillsObj.type].map((skill, index) => (
-										<Tag
-											width={{ base: "40%", sm: "9rem" }}
-											key={index}
-											size="md"
-											variant="solid"
-											colorScheme="blue"
-											mb={1}
-											borderRadius="md">
-											<TagLeftIcon
-												boxSize="15px"
-												style={{ fontSize: "20px", color: "white", marginRight: "10px" }}
-												as={skill.iconName}
-											/>
-											<span style={{ color: "white" }}>{skill.label}</span>
-										</Tag>
+		<Box as="section" id="skills">
+			<Box mx="auto">
+				<SectionHeader heading="Skills" />
+				<Box display="grid" gap="2rem">
+					{skillsObj.map(({ label, type }) => (
+						<Box key={type} mb="1.5rem">
+							<Heading as="h6" textAlign="center" fontSize="large" mb="1rem">
+								{label}
+							</Heading>
+							<motion.div initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
+								<Grid templateColumns="repeat(auto-fit, minmax(120px, 1fr))" gap="0.5rem">
+									{skills[type].map((skill) => (
+										<SkillCard key={skill.label} label={skill.label} icon={skill.iconName} />
 									))}
-								</Flex>
-							</Stack>
-						</Flex>
-					</Box>
-				))}
-			</Carousel>
-		</Element>
+								</Grid>
+							</motion.div>
+						</Box>
+					))}
+				</Box>
+			</Box>
+		</Box>
 	);
-}
+};
+
+export default SkillsSection;
