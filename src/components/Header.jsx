@@ -58,8 +58,9 @@ function Header() {
 								duration={1000}
 								spy={true}
 								offset={-180}
-								className={activeLink === item.path ? "active" : ""}>
-								{item.pathTitle}
+								className={activeLink === item.path ? "active" : ""}
+							>
+								{item.pathTitle?.toUpperCase()}
 							</ScrollLink>
 						</li>
 					);
@@ -71,32 +72,19 @@ function Header() {
 	return (
 		<header className="header">
 			<div className="logo">
-				<Image
-					style={{ cursor: "pointer" }}
-					src="/soft-dev.webp"
-					alt="M.A"
-					borderRadius="md"
-					height="3rem"
-					onClick={openLink}
-				/>
+				<h1 style={{ cursor: "pointer" }} onClick={openLink}>
+					Majidev.
+				</h1>
 			</div>
-			<nav className="nav-links">{Links()}</nav>
-			<div className="nav-links-burger">
-				{!burger ? (
-					<GiHamburgerMenu
-						className="burger-icon"
-						onClick={() => setBurger(true)}
-					/>
-				) : (
-					<AiOutlineClose
-						className="close-icon"
-						onClick={() => setBurger(false)}
-					/>
-				)}
-			</div>
+			<nav className="nav-links">
+				<Links />
+			</nav>
+			<div className="nav-links-burger">{!burger ? <GiHamburgerMenu className="burger-icon" onClick={() => setBurger(true)} /> : <AiOutlineClose className="close-icon" onClick={() => setBurger(false)} />}</div>
 			{burger && (
 				<div className="burger-links-menu">
-					<nav className="nav-links-burger-opened">{Links()}</nav>
+					<nav className="nav-links-burger-opened">
+						<Links />
+					</nav>
 				</div>
 			)}
 		</header>
