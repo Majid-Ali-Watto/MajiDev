@@ -1,4 +1,4 @@
-const link = "https://www.upwork.com/freelancers/~018c214d3139f0f30e";
+const link = import.meta.env.VITE_HIRE_ME_URL;
 export const services = [
 	{
 		title: "Web Development",

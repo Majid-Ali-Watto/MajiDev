@@ -2,11 +2,10 @@ import { Box, Grid, Text, Heading, Card } from "@chakra-ui/react";
 import { skills, skillsObj } from "../assets/skills"; // Adjust the import path as needed
 import { motion } from "framer-motion";
 import SectionHeader from "../generic-components/Section-Header";
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 
 const SkillCard = ({ label, icon: Icon }) => {
 	return (
-		// boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
-		// <Box display="flex" flexDirection="column" alignItems="center" outline justifyContent="center" p="1rem" borderRadius="8px" transition="box-shadow 0.3s ease" _hover={{ boxShadow: "1px 1px 1px rgba(0, 0, 0, 0.15),-1px -1px 1px rgba(0, 0, 0, 0.15)" }}>
 		<Card
 			display="flex"
 			flexDirection="column"
@@ -37,11 +36,6 @@ const SkillCard = ({ label, icon: Icon }) => {
 };
 
 const SkillsSection = () => {
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 50 },
-		visible: { opacity: 1, y: 0, transition: { duration: 1.2 } }
-	};
-
 	return (
 		<Box as="section" id="skills">
 			<Box mx="auto">

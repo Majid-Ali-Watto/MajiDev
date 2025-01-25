@@ -2,35 +2,14 @@ import { Modal, ModalOverlay, ModalContent, ModalBody, Progress, Text } from "@c
 
 export default function Welcome() {
 	return (
-		<Modal
-			isOpen={true}
-			isCentered={true}>
+		<Modal isOpen isCentered aria-labelledby="loading-text">
 			<ModalOverlay />
-			<ModalContent
-				// bg="yellow"
-				boxShadow="none"
-				display="flex"
-				alignItems="center"
-				width="90%"
-				justifyContent="center">
-				<ModalBody
-					display="flex"
-					flexDirection="column"
-					alignItems="center"
-					justifyContent="center"
-					width="100%">
-					<Text
-						mb={4}
-						fontSize="lg"
-						color="green">
+			<ModalContent boxShadow="none" display="flex" alignItems="center" justifyContent="center" width={{ base: "90%", md: "50%" }}>
+				<ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center" width="100%">
+					<Text id="loading-text" mb={4} fontSize="lg" color="teal">
 						Loading Portfolio
 					</Text>
-					<Progress
-						size="md"
-						isIndeterminate
-						colorScheme="blue"
-						width="100%"
-					/>
+					<Progress size="lg" isIndeterminate colorScheme="teal" width="100%" />
 				</ModalBody>
 			</ModalContent>
 		</Modal>

@@ -1,11 +1,11 @@
 import { Heading } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import Helemt_SEO from "./Helemt";
+import Helmet_SEO from "./Helmet";
 
 function SectionHeader({ heading, textAlign = "center" }) {
 	return (
 		<>
-			<Helemt_SEO />
+			<Helmet_SEO />
 			<Heading as="h2" size="xl" mb="6" textAlign={textAlign}>
 				{heading?.toUpperCase()}
 			</Heading>

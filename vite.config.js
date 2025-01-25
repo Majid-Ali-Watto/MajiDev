@@ -15,9 +15,9 @@ export default defineConfig({
 			},
 			manifest: {
 				name: "Majid Ali, Full Stack Web Developer",
-				short_name: "M.A",
-				description: "Hi 👋, I'm Pakistan based **Full Stack Web Developer** skilled in both front-end and back-end technologies. Freelancer & **Vue.js Developer @[Teresol](https://www.linkedin.com/company/teresolpvtltd/mycompany/) Pvt Ltd, Islamabad** since Oct 2022.",
-				theme_color: "#ffffff",
+				short_name: "Majidev.",
+				description: "Hi 👋, I'm Pakistan based **Full Stack Web Developer** skilled in both front-end and back-end technologies. Freelancer & **Full Stack Developer @[Teresol](https://www.linkedin.com/company/teresolpvtltd/mycompany/) Pvt Ltd, Islamabad** since Oct 2022.",
+				theme_color: "#0D9488",
 				background_color: "#ffffff",
 				display: "standalone",
 				start_url: "/",
