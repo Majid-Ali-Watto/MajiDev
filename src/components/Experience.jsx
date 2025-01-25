@@ -9,7 +9,8 @@ import { getExperienceYear } from "../utils/getExpYears";
 
 import PropTypes from "prop-types";
 import toLocalDate from "../utils/toLocaleDateString";
-import Helemt_SEO from "../generic-components/Helemt";
+import Helmet_SEO from "../generic-components/Helmet";
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 
 // Subcomponent to display each experience item
 const ExperienceItem = ({ description, highlightQuery }) => (
@@ -27,10 +28,6 @@ ExperienceItem.propTypes = {
 };
 
 export default function Experience() {
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 20 },
-		visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-	};
 
 	function getHighLight(item) {
 		return item.highlightQuery.length <= 1
@@ -41,7 +38,7 @@ export default function Experience() {
 	return (
 		<Element id="experience">
 			<Box textAlign="left" mb="8">
-				<Helemt_SEO />
+				<Helmet_SEO />
 				<SectionHeader heading="Experience" />
 			</Box>
 			<motion.div initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>

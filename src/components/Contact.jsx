@@ -1,16 +1,14 @@
 import { contactLinks } from "../assets/contact-links";
 import { Link, Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 
 function Contact() {
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 50 },
-		visible: { opacity: 1, y: 0, transition: { duration: 1.2 } }
-	};
+
 	return (
 		<section id="contact" className="contact-form">
 			<motion.div initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
-				<Box w="fit-content" p={4} borderRadius="lg" overflow="hidden" className="top-links">
+				<Box w="fit-content" borderRadius="lg" overflow="scroll" className="top-links">
 					{contactLinks.map((contactLink) => {
 						// Use React.createElement for the icon component
 						const IconComponent = contactLink.icon;

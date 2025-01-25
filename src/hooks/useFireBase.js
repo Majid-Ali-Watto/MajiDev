@@ -15,7 +15,6 @@ const useFirebase = () => {
 				setIsLoading(false);
 			},
 			(error) => {
-				console.error("Error fetching data:", error);
 				setIsLoading(false);
 			}
 		);

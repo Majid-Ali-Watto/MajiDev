@@ -5,12 +5,13 @@ import { Element } from "react-scroll";
 import { motion } from "framer-motion";
 
 import SectionHeader from "./Section-Header";
-import Helemt_SEO from "./Helemt";
+import Helmet_SEO from "./Helmet";
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 
 function CardsList({ id, heading, list, buttons }) {
 	const [show, setShow] = useState(Array(list.length).fill(false));
 	const [visibleCount, setVisibleCount] = useState(3); // Initially show 6 items
-	const maxPerLoad =3
+	const maxPerLoad = 3;
 	const showFooter = buttons?.length > 0;
 
 	const handleToggle = (e, index) => {
@@ -28,14 +29,9 @@ function CardsList({ id, heading, list, buttons }) {
 		setVisibleCount((prev) => (prev > maxPerLoad ? prev - maxPerLoad : prev));
 	};
 
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 50 },
-		visible: { opacity: 1, y: 0, transition: { duration: 1.2 } }
-	};
-
 	return (
 		<Element id={id} className="projects">
-			<Helemt_SEO />
+			<Helmet_SEO heading={heading} />
 			<SectionHeader heading={heading} />
 			<Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6} mt={6}>
 				{list.slice(0, visibleCount).map((record, index) => (
@@ -96,16 +92,8 @@ function CardsList({ id, heading, list, buttons }) {
 
 			{/* Load More / Load Less Button */}
 			<HStack spacing={4} mt={6} justify="center">
-				{visibleCount < list.length && (
-					<Button onClick={handleLoadMore}>
-						Load More
-					</Button>
-				)}
-				{visibleCount > maxPerLoad && (
-					<Button onClick={handleLoadLess}>
-						Load Less
-					</Button>
-				)}
+				{visibleCount < list.length && <Button onClick={handleLoadMore}>Load More</Button>}
+				{visibleCount > maxPerLoad && <Button onClick={handleLoadLess}>Load Less</Button>}
 			</HStack>
 		</Element>
 	);

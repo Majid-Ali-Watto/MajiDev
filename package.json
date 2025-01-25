@@ -20,7 +20,6 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^4.10.1",
-    "react-responsive-3d-carousel": "^1.5.0",
     "react-scroll": "^1.8.9"
   },
   "devDependencies": {

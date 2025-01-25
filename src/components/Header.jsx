@@ -1,10 +1,10 @@
-/** @format */
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link as ScrollLink } from "react-scroll";
 import { navLinks } from "../assets/nav-links";
-import { Image } from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
+
 function Header() {
 	const [activeLink, setActiveLink] = useState("home");
 	const [burger, setBurger] = useState(false);
@@ -15,11 +15,13 @@ function Header() {
 	};
 
 	useEffect(() => {
-		if (burger) setBurger((prev) => !prev);
+		if (burger) setBurger(false);
 	}, [path]);
+
 	function openLink() {
 		window.location.href = import.meta.env.VITE_SITE_URL;
 	}
+
 	const handleScroll = () => {
 		if (window.scrollY < 200) {
 			setActiveLink("home");
@@ -47,7 +49,7 @@ function Header() {
 			<ul className="nav-links">
 				{navLinks.map((item, index) => {
 					return (
-						<li key={index}>
+						<motion.li key={index} whileHover={{ scale: 1.1 }} transition={{ duration: 0.2}}>
 							<ScrollLink
 								to={item.path}
 								smooth={true}
@@ -55,14 +57,14 @@ function Header() {
 									handleSetActive(item.path);
 									setPath(item.path);
 								}}
-								duration={1000}
+								duration={800}
 								spy={true}
 								offset={-180}
 								className={activeLink === item.path ? "active" : ""}
 							>
 								{item.pathTitle?.toUpperCase()}
 							</ScrollLink>
-						</li>
+						</motion.li>
 					);
 				})}
 			</ul>
@@ -80,13 +82,15 @@ function Header() {
 				<Links />
 			</nav>
 			<div className="nav-links-burger">{!burger ? <GiHamburgerMenu className="burger-icon" onClick={() => setBurger(true)} /> : <AiOutlineClose className="close-icon" onClick={() => setBurger(false)} />}</div>
-			{burger && (
-				<div className="burger-links-menu">
-					<nav className="nav-links-burger-opened">
-						<Links />
-					</nav>
-				</div>
-			)}
+			<AnimatePresence>
+				{burger && (
+					<motion.div className="burger-links-menu" initial={{ opacity: 0, x: "110%", }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "-100%" }} transition={{ duration: 0.7 }}>
+						<nav className="nav-links-burger-opened">
+							<Links />
+						</nav>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</header>
 	);
 }

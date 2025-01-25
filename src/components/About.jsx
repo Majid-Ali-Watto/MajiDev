@@ -5,15 +5,12 @@ import PropTypes from "prop-types";
 import { Element } from "react-scroll";
 import SectionHeader from "../generic-components/Section-Header";
 import { motion } from "framer-motion"; // Import framer-motion
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 About.propTypes = {
 	about: PropTypes.string
 };
 
 function About({ about }) {
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 20 },
-		visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-	};
 	return (
 		<Element id="about" className="about">
 			<Box textAlign="left" mb="8">

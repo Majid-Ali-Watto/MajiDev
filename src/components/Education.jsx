@@ -1,15 +1,11 @@
-import { Box, Grid, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { Element } from "react-scroll";
 import { educationData } from "../assets/educationData";
 import SectionHeader from "../generic-components/Section-Header";
 import { motion } from "framer-motion";
+import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
 
 const Education = () => {
-	const fadeInUp = {
-		hidden: { opacity: 0, y: 50 },
-		visible: { opacity: 1, y: 0, transition: { duration: 1.2 } }
-	};
-
 
 	return (
 		<Element id="education">
