@@ -1,45 +1,72 @@
 /** @format */
-import { FaCss3, FaDatabase, FaHtml5, FaNodeJs, FaReact, FaVuejs } from "react-icons/fa";
-import { SiExpress, SiFirebase, SiGit, SiGithub, SiGitlab, SiJavascript, SiJsonwebtokens, SiMicrostrategy, SiMongodb, SiMysql, SiNextdotjs, SiNuxtdotjs, SiPostgresql, SiRedux, SiTailwindcss, SiTypescript, SiVite, SiWebpack } from "react-icons/si";
-
+import {
+  FaCss3,
+  FaDatabase,
+  FaHtml5,
+  FaNodeJs,
+  FaReact,
+  FaVuejs,
+} from "react-icons/fa";
+import {
+  SiExpress,
+  SiFirebase,
+  SiGit,
+  SiGithub,
+  SiGitlab,
+  SiJavascript,
+  SiJsonwebtokens,
+  SiMicrostrategy,
+  SiMongodb,
+  SiMysql,
+  SiNextdotjs,
+  SiNuxtdotjs,
+  SiPostgresql,
+  SiRedux,
+  SiTailwindcss,
+  SiTypescript,
+  SiVite,
+  SiWebpack,
+} from "react-icons/si";
 export const skills = {
-	fe: [
-		{ label: "React.js", iconName: FaReact },
-		{ label: "Vue.js", iconName: FaVuejs },
-		{ label: "JavaScript", iconName: SiJavascript },
-		{ label: "TypeScript", iconName: SiTypescript },
-		{ label: "CSS3", iconName: FaCss3 },
-		{ label: "HTML5", iconName: FaHtml5 },
-		{ label: "Tailwind CSS", iconName: SiTailwindcss },
-		{ label: "Redux", iconName: SiRedux },
-		{ label: "Vuex", iconName: FaDatabase },
-		{ label: "Micro Frontend", iconName: SiMicrostrategy },
-		{ label: "Next.js", iconName: SiNextdotjs },
-		{ label: "Nuxt", iconName: SiNuxtdotjs },
-		{ label: "Vite", iconName: SiVite },
-		{ label: "Webpack", iconName: SiWebpack }
-	],
-	be: [
-		{ label: "Node.js", iconName: FaNodeJs },
-		{ label: "Express.js", iconName: SiExpress },
-		{ label: "Micro Services", iconName: SiMicrostrategy },
-		{ label: "JWT Auth", iconName: SiJsonwebtokens }
-	],
-	db: [
-		{ label: "PostgreSQL", iconName: SiPostgresql },
-		{ label: "MySQL", iconName: SiMysql },
-		{ label: "MongoDB", iconName: SiMongodb },
-		{ label: "Firebase", iconName: SiFirebase }
-	],
-	vc: [
-		{ label: "Git", iconName: SiGit },
-		{ label: "GitHub", iconName: SiGithub },
-		{ label: "GitLab", iconName: SiGitlab }
-	]
+  fe: [
+    { label: "React.js", iconName: FaReact },
+    { label: "Vue.js", iconName: FaVuejs },
+    { label: "JavaScript", iconName: SiJavascript },
+    { label: "TypeScript", iconName: SiTypescript },
+    { label: "CSS3", iconName: FaCss3 },
+    { label: "HTML5", iconName: FaHtml5 },
+    { label: "Tailwind CSS", iconName: SiTailwindcss },
+    { label: "Redux Toolkit", iconName: SiRedux },
+    { label: "Zustand", iconName: FaDatabase },
+    { label: "Pinia", iconName: FaDatabase },
+    { label: "Vuex", iconName: FaDatabase },
+    { label: "Micro Frontend", iconName: SiMicrostrategy },
+    { label: "Next.js", iconName: SiNextdotjs },
+    { label: "Nuxt", iconName: SiNuxtdotjs },
+    { label: "Vite", iconName: SiVite },
+    { label: "Webpack", iconName: SiWebpack },
+  ],
+  be: [
+    { label: "Node.js", iconName: FaNodeJs },
+    { label: "Express.js", iconName: SiExpress },
+    { label: "Micro Services", iconName: SiMicrostrategy },
+    { label: "JWT Auth", iconName: SiJsonwebtokens },
+  ],
+  db: [
+    { label: "PostgreSQL", iconName: SiPostgresql },
+    { label: "MySQL", iconName: SiMysql },
+    { label: "MongoDB", iconName: SiMongodb },
+    { label: "Firebase", iconName: SiFirebase },
+  ],
+  vc: [
+    { label: "Git", iconName: SiGit },
+    { label: "GitHub", iconName: SiGithub },
+    { label: "GitLab", iconName: SiGitlab },
+  ],
 };
 export const skillsObj = [
-	{ label: "Front-End", type: "fe" },
-	{ label: "Back-End", type: "be" },
-	{ label: "DataBase", type: "db" },
-	{ label: "Version Control", type: "vc" }
+  { label: "Front-End", type: "fe" },
+  { label: "Back-End", type: "be" },
+  { label: "DataBase", type: "db" },
+  { label: "Version Control", type: "vc" },
 ];
