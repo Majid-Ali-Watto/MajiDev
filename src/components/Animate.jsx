@@ -7,7 +7,7 @@ export default function AnimatedText() {
   const currentIndex = useRef(0); // useRef to store the index
 
   useEffect(() => {
-    const texts = [devPost, "Freelancer"];
+    const texts = [devPost];
     const intervalId = setInterval(() => {
       currentIndex.current = (currentIndex.current + 1) % texts.length;
       setText(texts[currentIndex.current]);

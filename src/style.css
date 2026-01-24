@@ -60,13 +60,16 @@ section {
 
 li {
   list-style: none;
+  text-align: left;
 }
 
 p {
-  /* text-align: justify; */
   font-size: clamp(1rem, 1.5vw, 1.8rem);
+  text-align: justify;
 }
-
+span {
+  text-align: left;
+}
 .hireAndDownload {
   display: flex;
   flex-direction: row;

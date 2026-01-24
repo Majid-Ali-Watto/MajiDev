@@ -31,6 +31,7 @@ function About({ about }) {
               "React",
               "Node.js",
               "Express",
+              "micro front-end",
             ]}
             styles={{ color: "green.500", textAlign: "left" }}
           >

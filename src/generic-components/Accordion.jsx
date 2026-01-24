@@ -4,12 +4,11 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Box,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-export default function MyAccordion({ title, children }) {
+export default function MyAccordion({ title, about, children }) {
   const fontSize = useBreakpointValue({
     base: "sm",
     md: "md",
@@ -28,23 +27,26 @@ export default function MyAccordion({ title, children }) {
             <AccordionIcon
               fontSize={useBreakpointValue({ base: "lg", md: "xl" })}
             />
-
-            <Box
-              as="span"
-              flex="1"
-              textAlign="left"
-              fontSize={fontSize}
-              fontWeight="semibold"
-              ml={2}
-              wordBreak="break-word"
-              whiteSpace="normal"
+            <div
+              style={{
+                fontSize: fontSize,
+                textAlign: "left",
+                marginLeft: "0.5rem",
+              }}
             >
-              {title || "Details"}
-            </Box>
+              <span style={{ fontWeight: "600" }}>{title}</span>
+              {about ? <span>: {about}</span> : null}
+            </div>
           </AccordionButton>
         </span>
 
-        <AccordionPanel pb={4} fontSize={fontSize} px={0} lineHeight="1.65">
+        <AccordionPanel
+          ml={5}
+          pb={4}
+          fontSize={fontSize - 10}
+          px={0}
+          lineHeight="1.65"
+        >
           {children}
         </AccordionPanel>
       </AccordionItem>
@@ -55,4 +57,5 @@ export default function MyAccordion({ title, children }) {
 MyAccordion.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
+  about: PropTypes.string,
 };

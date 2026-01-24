@@ -150,6 +150,7 @@ export default function Experience() {
                   <MyAccordion
                     key={pIndex}
                     title={project.name || "Project Details"}
+                    about={project.about || ""}
                   >
                     <List spacing={accordionSpacing}>
                       {project.description.map((desc, i) => (
