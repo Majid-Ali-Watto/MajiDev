@@ -1,5 +1,5 @@
-import { packages } from "../assets/packages";
-import CardsList from "../generic-components/Cards-List";
+import { packages } from "../data/packages";
+import CardsList from "../ui/CardsList";
 
 
 function Packages() {

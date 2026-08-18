@@ -19,14 +19,14 @@ import {
 
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
-import { experienceData } from "../assets/experienceData";
-import SectionHeader from "../generic-components/Section-Header";
+import { experienceData } from "../data/experienceData";
+import SectionHeader from "../ui/SectionHeader";
 import { getExperienceYear } from "../utils/getExpYears";
 import PropTypes from "prop-types";
 import toLocalDate from "../utils/toLocaleDateString";
-import Helmet_SEO from "../generic-components/Helmet";
-import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
-import MyAccordion from "../generic-components/Accordion";
+import Helmet_SEO from "../ui/Helmet";
+import { fadeInUp } from "../data/fadeInUpTransitionConfig";
+import MyAccordion from "../ui/Accordion";
 
 // ---------------------
 // EXPERIENCE ITEM
@@ -98,7 +98,7 @@ export default function Experience() {
 
   return (
     <Element id="experience">
-      <Box textAlign="left" mb="8">
+      <Box textAlign="left" mb={[4, 8]}>
         <Helmet_SEO />
         <SectionHeader heading="Experience" />
       </Box>
@@ -110,7 +110,7 @@ export default function Experience() {
         index={activeStep}
         orientation={stepperOrientation}
         gap={stepperGap}
-        width="95%"
+        width={["100%", "95%"]}
       >
         {experienceData.map((item, index) => (
           <motion.div
@@ -130,9 +130,19 @@ export default function Experience() {
               </StepIndicator>
 
               {/* Step Content */}
-              <Box flexShrink={0} mt={0} width="100%">
+              <Box
+                flex={1}
+                minW={0}
+                mt={0}
+                ml={[0, 2]}
+                borderWidth="1px"
+                borderRadius="lg"
+                p={[2, 4]}
+                transition="transform 0.3s ease, box-shadow 0.3s ease"
+                _hover={{ transform: "translateY(-3px)", boxShadow: "xl" }}
+              >
                 <StepTitle fontSize={titleFontSize} fontWeight="bold">
-                  {item.role} at {item.company}
+                  {item.role} at {item.company}{item.location ? `, ${item.location}` : ""}
                 </StepTitle>
 
                 <StepDescription

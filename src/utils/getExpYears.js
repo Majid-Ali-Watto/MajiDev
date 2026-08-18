@@ -1,4 +1,4 @@
-import { experienceData } from "../assets/experienceData";
+import { experienceData } from "../data/experienceData";
 
 // Helper function to calculate experience years, months, and days
 export function getExperienceYear(
@@ -28,7 +28,7 @@ export function getExperienceYear(
   if (objResult) {
     return { years, months, days };
   }
-  return `${years}Y ${months}M ${days}D`;
+  return `${years}Y ${months}M`;
 }
 export function getTotalExperince() {
   let totalYears = 0;
@@ -58,5 +58,5 @@ export function getTotalExperince() {
     totalMonths = totalMonths % 12;
   }
 
-  return `${totalYears}Y ${totalMonths}M ${totalDays}D`;
+  return `${totalYears}Y ${totalMonths}M`;
 }

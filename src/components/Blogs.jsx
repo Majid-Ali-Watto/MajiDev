@@ -1,6 +1,6 @@
 
-import { blogs } from "../assets/blogs";
-import CardsList from "../generic-components/Cards-List";
+import { blogs } from "../data/blogs";
+import CardsList from "../ui/CardsList";
 
 function Blogs() {
 	return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link as ScrollLink } from "react-scroll";
-import { navLinks } from "../assets/nav-links";
+import { navLinks } from "../data/nav-links";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Header() {

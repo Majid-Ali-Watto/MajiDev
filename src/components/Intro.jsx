@@ -1,79 +1,128 @@
 /** @format */
+import { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { Element } from "react-scroll";
-import { Button, Heading, Stack } from "@chakra-ui/react";
+import StatsSkeleton from "../skeletons/StatsSkeleton";
+
+const Stats = lazy(() => import("./Stats"));
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Icon,
+  Highlight
+} from "@chakra-ui/react";
 import AnimatedText from "./Animate";
-import { devFullName } from "../assets/generic-data";
-import { skills, skillsObj } from "../assets/skills";
-import { educationData } from "../assets/educationData";
+import { devFullName, devLocation } from "../data/generic-data";
+import PrintResume from "./PrintResume";
+import { motion } from "framer-motion";
+import { fadeInUp } from "../data/fadeInUpTransitionConfig";
+import { getTotalExperince } from "../utils/getExpYears";
+import { FaMapMarkerAlt, FaBriefcase } from "react-icons/fa";
 
 MyIntro.propTypes = {
   devName: PropTypes.string.isRequired,
   Contact: PropTypes.elementType.isRequired,
   image: PropTypes.string,
+  about: PropTypes.string,
 };
 
 export default function MyIntro({
   Contact,
   devName = devFullName,
-  image = "/majid2.webp",
+  image,
+  about,
 }) {
-  const printResume = () => {
-    const about = document.getElementById("about");
-    const contacts = document.getElementsByClassName("contact-link");
-    const skillSet = {};
-    for (const type of skillsObj) {
-      skillSet[type.label] = skills[type.type].map((skill) => skill.label);
-    }
-    const resumeData = {};
-    const contactLinks = {};
-    for (const contact of contacts) {
-      if (contact.attributes.href === undefined) continue;
-      else if (contact.attributes.href.value.includes("mailto:"))
-        contactLinks["Email"] = contact.attributes.href.value?.replace(
-          "mailto:",
-          "",
-        );
-      else if (contact.attributes.href.value.includes("wa.me"))
-        contactLinks["Phone"] = contact.attributes.href.value?.replace(
-          "https://wa.me/",
-          "",
-        );
-      else if (contact.attributes.href.value.includes("linkedin.com"))
-        contactLinks["LinkedIn"] = contact.attributes.href.value;
-      else if (contact.attributes.href.value.includes("github.com"))
-        contactLinks["GitHub"] = contact.attributes.href.value;
-    }
-    const name = document.getElementsByClassName("dev-name");
-    const devPost = document.getElementsByClassName("typing-text");
+  const imgSrc = image || "/majid2.webp";
+  const aboutText =
+    about?.replace("Y-M-D", `(${getTotalExperince()})`) ||
+    `Full Stack Web Developer with (${getTotalExperince()}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability.`;
 
-    resumeData["Professional Summary"] = about.textContent?.split("Me")[1];
-    resumeData["Name"] = name[0].textContent;
-    resumeData["Post"] = devPost[0].textContent;
-    resumeData["Contacts"] = contactLinks;
-    resumeData["Skills"] = skillSet;
-    resumeData["Education"] = educationData;
-
-    console.dir(resumeData);
-  };
   return (
-    <Element id="home" className="main-content">
-      <img
-        src={image}
-        alt={devName ? `${devName}'s profile` : "Developer's profile image"}
-        className="profile-img"
-        onError={(e) => (e.target.src = "/majid2.webp")}
-      />
-      <Stack spacing={3} className="intro">
-        <Heading as="h1" size="2xl" className="dev-name">
-          {devName}
-        </Heading>
-        <AnimatedText />
-        <Contact />
-        {/* <Button variant="outline" onClick={printResume}>
-          Download as Resume
-        </Button> */}
-      </Stack>
-    </Element>
+    <>
+      <Element id="home">
+        <Box
+          display="flex"
+          flexDirection={{ base: "column", md: "row" }}
+          minH={{ base: "auto", md: "calc(100dvh - 4rem)" }}
+          alignItems="center"
+          justifyContent={{ base: "center", md: "space-around" }}
+          px={{ base: 2, md: 8 }}
+          pt={{ base: "5rem", md: 0 }}
+          pb={{ base: 6, md: 0 }}
+          gap={{ base: 8, md: 0 }}
+        >
+          <img
+            src={imgSrc}
+            alt={devName ? `${devName}'s profile` : "Developer's profile image"}
+            className="profile-img"
+            onError={(e) => (e.target.src = "/majid2.webp")}
+          />
+
+          <VStack spacing={4} align="center" className="intro">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={fadeInUp}
+              viewport={{ once: true }}
+            >
+              <VStack spacing={3} align="center">
+                <Heading as="h1" className="dev-name" textAlign="center">
+                  {devName}
+                </Heading>
+
+                <AnimatedText />
+
+                <HStack spacing={4} flexWrap="wrap" justifyContent="center">
+                  <HStack spacing={1}>
+                    <Icon as={FaMapMarkerAlt} color="green.500" boxSize={3.5} />
+                    <Text fontSize="sm" opacity={0.7}>
+                      {devLocation}
+                    </Text>
+                  </HStack>
+                  <HStack spacing={1}>
+                    <Icon as={FaBriefcase} color="green.500" boxSize={3.5} />
+                    <Text fontSize="sm" opacity={0.7}>
+                      {getTotalExperince()} Experience
+                    </Text>
+                  </HStack>
+                </HStack>
+
+                <Box maxW="600px" textAlign="center" px={2} pb={4}>
+                  <Text fontSize={["sm", "md"]} lineHeight="1.7">
+                    <Highlight
+                      query={[
+                        "Full Stack Web Developer",
+                        "Vue.js",
+                        "Nuxt.js",
+                        "React",
+                        "TypeScript",
+                        "Python",
+                        "FastAPI",
+                        "gRPC",
+                        "Kafka",
+                      ]}
+                      styles={{ color: "green.500" }}
+                    >
+                      {aboutText}
+                    </Highlight>
+                  </Text>
+                </Box>
+
+                <Contact />
+              </VStack>
+            </motion.div>
+          </VStack>
+        </Box>
+      </Element>
+
+      <Suspense fallback={StatsSkeleton}>
+        <Stats />
+      </Suspense>
+
+      <PrintResume about={about} />
+    </>
   );
 }

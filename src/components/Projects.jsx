@@ -1,7 +1,7 @@
 /** @format */
 
-import { projects } from "../assets/project-links";
-import CardsList from "../generic-components/Cards-List";
+import { projects } from "../data/project-links";
+import CardsList from "../ui/CardsList";
 
 
 function Projects() {
