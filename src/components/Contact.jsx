@@ -1,7 +1,7 @@
-import { contactLinks } from "../assets/contact-links";
-import { Link, Box } from "@chakra-ui/react";
+import { contactLinks } from "../data/contact-links";
+import { Link, Box, Tooltip } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
+import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 
 function Contact() {
   return (
@@ -15,34 +15,47 @@ function Contact() {
         <Box
           w="fit-content"
           borderRadius="lg"
-          overflow="scroll"
-          className="top-links"
+          overflow="hidden"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          gap={[3, 5, 8]}
         >
           {contactLinks.map((contactLink) => {
             // Use React.createElement for the icon component
             const IconComponent = contactLink.icon;
 
+            const linkProps = contactLink.onClick
+              ? { as: "button", onClick: contactLink.onClick }
+              : { href: contactLink.href, target: "_blank", rel: "noreferrer" };
+
             return (
-              <Link
-                key={contactLink.title}
-                className="contact-link"
-                href={contactLink.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <abbr title={contactLink.title}>
-                  <motion.div
-                    whileHover={{ scale: 1.2 }} // Scale effect on hover
-                    whileTap={{ scale: 0.9 }} // Tap effect
-                    transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                    style={{ display: "inline-block" }}
+              <Tooltip key={contactLink.title} label={contactLink.title} hasArrow>
+                <Link
+                  className="contact-link"
+                  {...linkProps}
+                >
+                  <Box
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    p={3}
+                    transition="transform 0.3s ease, box-shadow 0.3s ease"
+                    _hover={{ boxShadow: "xl", borderColor: "teal.400" }}
                   >
-                    <IconComponent
-                      style={{ fontSize: "25px", color: contactLink.color }}
-                    />
-                  </motion.div>
-                </abbr>
-              </Link>
+                    <motion.div
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                      style={{ display: "inline-block" }}
+                    >
+                      <IconComponent
+                        style={{ fontSize: "25px", color: contactLink.color }}
+                      />
+                    </motion.div>
+                  </Box>
+                </Link>
+              </Tooltip>
             );
           })}
         </Box>

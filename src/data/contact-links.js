@@ -12,9 +12,9 @@ import {
   devGithub,
   devPhone,
   devPortfolio,
-  devResume,
   hireMeLink,
 } from "./generic-data";
+import printResume from "../utils/printResume";
 
 export const contactLinks = [
   {
@@ -55,9 +55,9 @@ export const contactLinks = [
     icon: TbBrandUpwork,
   },
   {
-    href: devResume,
     title: "Resume",
     // color: "black",
     icon: TbFileCv,
+    onClick: printResume,
   },
 ];

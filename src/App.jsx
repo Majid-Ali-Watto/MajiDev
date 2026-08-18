@@ -1,14 +1,23 @@
-import { lazy, Suspense } from "react";
-import { Progress, Divider, Stack } from "@chakra-ui/react";
-import Helmet_SEO from "./generic-components/Helmet";
-import LazyRender from "./LazyRender";
-import useFirebase from "./hooks/useFireBase";
-import { contactLinks } from "./assets/contact-links";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Stack, IconButton } from "@chakra-ui/react";
+import { FaArrowUp } from "react-icons/fa";
+import Helmet_SEO from "./ui/Helmet";
+import LazyRender from "./components/LazyRender";
+import useFirebase from "./hooks/useFirebase";
+import { contactLinks } from "./data/contact-links";
 import PropTypes from "prop-types";
-import { devFullName } from "./assets/generic-data";
+import { devFullName } from "./data/generic-data";
+import {
+  HeaderSkeleton,
+  IntroSkeleton,
+  TimelineSkeleton,
+  SkillsSkeleton,
+  CardGridSkeleton,
+  FooterSkeleton,
+} from "./skeletons";
 
 // Lazy-loaded components
-const About = lazy(() => import("./components/About"));
+// const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
 const Header = lazy(() => import("./components/Header"));
 const MyIntro = lazy(() => import("./components/Intro"));
@@ -20,90 +29,116 @@ const Education = lazy(() => import("./components/Education"));
 const Footer = lazy(() => import("./components/Footer"));
 const Skills = lazy(() => import("./components/Skills"));
 const Experience = lazy(() => import("./components/Experience"));
-
 const devName = devFullName || "Majid Ali";
 
-const ProgressFallback = (
-  <Progress size="lg" colorScheme="teal" isIndeterminate />
-);
-
-function HOC({ children }) {
+function HOC({ children, style, alt, fallback = CardGridSkeleton }) {
   return (
     <>
-      <Suspense fallback={ProgressFallback}>
-        <Helmet_SEO heading="Portfolio" />
+      <Suspense fallback={fallback}>
+        <div style={style} className={alt ? "section-alt" : ""}>
         <LazyRender>{children}</LazyRender>
+        </div>
       </Suspense>
-      {/* <Divider orientation="horizontal" /> */}
     </>
   );
 }
 HOC.propTypes = {
   children: PropTypes.node.isRequired,
+  style: PropTypes.object,
+  alt: PropTypes.bool,
+  fallback: PropTypes.node,
 };
 
 function App() {
-  const { isLoading, uploads } = useFirebase();
-  console.log("Uploads:", uploads);
-  // Fallback for resume link
-  contactLinks[6].href =
-    uploads?.[0]?.resumeLink || import.meta.env.VITE_APP_RESUME_LINK;
+  const { uploads } = useFirebase();
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Update resume link when uploads change
+  useEffect(() => {
+    const resumeLink = uploads?.[0]?.resumeLink || import.meta.env.VITE_APP_RESUME_LINK;
+    if (contactLinks[6]) contactLinks[6].href = resumeLink;
+  }, [uploads]);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const data = uploads?.[0];
 
   return (
     <>
       <Helmet_SEO heading="Portfolio" />
-      <Suspense fallback={ProgressFallback}>
+      <Suspense fallback={HeaderSkeleton}>
         <Header />
       </Suspense>
 
       <Stack className="mainBody">
-        <HOC>
+        <HOC fallback={IntroSkeleton}>
           <MyIntro
-            image={uploads?.[0]?.imageBase64}
+            image={data?.imageBase64}
             devName={devName}
             Contact={Contact}
+            about={data?.paragraph}
           />
         </HOC>
 
-        <HOC>
-          <About about={uploads?.[0]?.paragraph} />
-        </HOC>
+        {/* <HOC>
+          <About about={data?.paragraph} />
+        </HOC> */}
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={TimelineSkeleton}>
           <Experience />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={SkillsSkeleton}>
           <Skills />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
           <Services />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
           <Projects />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
           <Blogs />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
           <Packages />
         </HOC>
 
-        <HOC>
+        <HOC style={{marginTop: "2rem"}} alt fallback={TimelineSkeleton}>
           <Education />
         </HOC>
-        <Divider mt="3" />
+        {/* <Divider mt="5" mb="5" /> */}
 
-        <HOC>
-          <Contact />
-          <br />
+        <HOC fallback={FooterSkeleton}>
+          {/* <Contact />
+          <br /> */}
           <Footer owner={devName} />
         </HOC>
       </Stack>
+
+      {showScrollTop && (
+        <IconButton
+          icon={<FaArrowUp />}
+          aria-label="Back to top"
+          position="fixed"
+          bottom="16"
+          right="4"
+          zIndex="10"
+          isRound
+          size="sm"
+          colorScheme="teal"
+          shadow="lg"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        />
+      )}
     </>
   );
 }

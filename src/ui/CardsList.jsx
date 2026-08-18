@@ -1,12 +1,13 @@
-import { HStack, Tag, Button, Collapse, Card, CardBody, CardFooter, Divider, Heading, Image, Link, Stack, Text, Grid } from "@chakra-ui/react";
+import { HStack, Tag, Button, Collapse, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Grid, Box, IconButton } from "@chakra-ui/react";
+import { FaExpand } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Element } from "react-scroll";
 import { motion } from "framer-motion";
 
-import SectionHeader from "./Section-Header";
+import SectionHeader from "./SectionHeader";
 import Helmet_SEO from "./Helmet";
-import { fadeInUp } from "../assets/fadeInUpTransitionConfig";
+import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 
 function CardsList({ id, heading, list, buttons }) {
 	const [show, setShow] = useState(Array(list.length).fill(false));
@@ -33,7 +34,7 @@ function CardsList({ id, heading, list, buttons }) {
 		<Element id={id} className="projects">
 			<Helmet_SEO heading={heading} />
 			<SectionHeader heading={heading} />
-			<Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6} mt={6}>
+			<Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={[3, 4, 6]} mt={[3, 6]}>
 				{list.slice(0, visibleCount).map((record, index) => (
 					<motion.div key={index} initial="hidden" whileInView="visible" variants={fadeInUp} viewport={{ once: true }}>
 						<Card
@@ -49,35 +50,57 @@ function CardsList({ id, heading, list, buttons }) {
 							}}
 						>
 							<CardBody>
-								<Image src={record.imgURL} alt={record.title} borderRadius="md" height="10rem" width="100%" objectFit="cover" />
-								<Stack mt="4" spacing="3">
+								{record.imgURL && (
+								<Box position="relative" role="group">
+									<Image src={record.imgURL} alt={record.title} borderRadius="md" height="14rem" width="100%" objectFit="cover" />
+									<IconButton
+										aria-label="View full image"
+										icon={<FaExpand />}
+										position="absolute"
+										bottom="8px"
+										right="8px"
+										opacity={0}
+										_groupHover={{ opacity: 1 }}
+										transition="opacity 0.3s"
+										bg="rgba(0, 0, 0, 0.7)"
+										color="white"
+										_hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
+										borderRadius="full"
+										size="sm"
+										onClick={() => window.open(record.imgURL, '_blank')}
+									/>
+								</Box>
+								)}
+								<Stack mt={[2, 4]} spacing={[1, 3]}>
 									<Heading as="h4" size="md">
 										{record.title}
 									</Heading>
 									<Collapse animateOpacity transition={{ enter: { duration: 0.5 } }} key={index} startingHeight={20} in={show[index]}>
 										{record.description}
 									</Collapse>
-									<Text color="blue.500" fontSize="md" onClick={(event) => handleToggle(event, index)} mt="0.1rem" cursor="pointer">
+									<Button variant="link" colorScheme="blue" fontSize="md" onClick={(event) => handleToggle(event, index)} mt="0.1rem">
 										Show {show[index] ? "Less" : "More"}
-									</Text>
+									</Button>
 								</Stack>
 							</CardBody>
 							<Divider />
 							{showFooter && (
 								<CardFooter>
 									<HStack spacing="3">
-										{buttons.map((button, idx) => (
-											<Button key={idx} variant="outline">
-												<Link href={idx === 0 ? record.link : record.gLink} target="_blank" rel="noopener noreferrer">
+										{buttons.map((button, idx) => {
+											const href = idx === 0 ? record.link : record.gLink;
+											if (!href) return null;
+											return (
+												<Button key={idx} as="a" href={href} target="_blank" rel="noopener noreferrer" variant="outline">
 													{button}
-												</Link>
-											</Button>
-										))}
+												</Button>
+											);
+										})}
 									</HStack>
 								</CardFooter>
 							)}
 							{record?.stack?.length > 0 && (
-								<HStack justify="flex-start" align="center" wrap="wrap" px={3} pb={2} spacing="5px">
+								<HStack justify="flex-start" align="center" wrap="wrap" px={[1, 3]} pb={[1, 2]} spacing="5px">
 									{record.stack.map((item) => (
 										<Tag key={item} colorScheme="blue" size="md">
 											{item}
@@ -91,7 +114,7 @@ function CardsList({ id, heading, list, buttons }) {
 			</Grid>
 
 			{/* Load More / Load Less Button */}
-			<HStack spacing={4} mt={6} justify="center">
+			<HStack spacing={4} mt={[3, 6]} justify="center">
 				{visibleCount < list.length && <Button onClick={handleLoadMore}>Load More</Button>}
 				{visibleCount > maxPerLoad && <Button onClick={handleLoadLess}>Load Less</Button>}
 			</HStack>

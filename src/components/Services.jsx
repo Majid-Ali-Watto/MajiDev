@@ -1,7 +1,7 @@
 /** @format */
 
-import { services } from "../assets/services";
-import CardsList from "../generic-components/Cards-List";
+import { services } from "../data/services";
+import CardsList from "../ui/CardsList";
 
 
 function Services() {

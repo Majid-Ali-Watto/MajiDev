@@ -1,19 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import { devPost } from "../assets/generic-data";
+import { devPost } from "../data/generic-data";
+
+const roles = [
+  devPost,
+  "Vue.js / Nuxt.js / React Specialist",
+  "Python & FastAPI Engineer",
+  "Microservices & DevOps",
+];
 
 export default function AnimatedText() {
-  const [text, setText] = useState(devPost);
-  const currentIndex = useRef(0); // useRef to store the index
+  const [text, setText] = useState(roles[0]);
+  const currentIndex = useRef(0);
 
   useEffect(() => {
-    const texts = [devPost];
     const intervalId = setInterval(() => {
-      currentIndex.current = (currentIndex.current + 1) % texts.length;
-      setText(texts[currentIndex.current]);
-    }, 4000); // Change text every 4 seconds
+      currentIndex.current = (currentIndex.current + 1) % roles.length;
+      setText(roles[currentIndex.current]);
+    }, 3000);
 
-    return () => clearInterval(intervalId); // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -21,10 +27,12 @@ export default function AnimatedText() {
       className="typing-container"
       display="inline-block"
       overflow="hidden"
-      whiteSpace="nowrap"
+      whiteSpace={["normal", "nowrap"]}
       position="relative"
-      fontSize="2xl"
+      fontSize={["md", "lg", "2xl"]}
       fontWeight="bold"
+      textAlign="center"
+      maxW="100%"
     >
       <Text
         as="span"
