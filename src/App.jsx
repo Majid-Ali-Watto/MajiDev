@@ -14,6 +14,7 @@ import {
   SkillsSkeleton,
   CardGridSkeleton,
   FooterSkeleton,
+  CompanySkeleton,
 } from "./skeletons";
 
 // Lazy-loaded components
@@ -23,6 +24,7 @@ const Header = lazy(() => import("./components/Header"));
 const MyIntro = lazy(() => import("./components/Intro"));
 const Projects = lazy(() => import("./components/Projects"));
 const Services = lazy(() => import("./components/Services"));
+const Company = lazy(() => import("./components/Company"));
 const Packages = lazy(() => import("./components/Packages"));
 const Blogs = lazy(() => import("./components/Blogs"));
 const Education = lazy(() => import("./components/Education"));
@@ -98,6 +100,10 @@ function App() {
 
         <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
           <Services />
+        </HOC>
+
+        <HOC style={{marginTop: "2rem"}} fallback={CompanySkeleton}>
+          <Company />
         </HOC>
 
         <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
