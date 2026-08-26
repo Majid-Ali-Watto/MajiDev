@@ -5,3 +5,4 @@ export { default as TimelineSkeleton } from "./TimelineSkeleton";
 export { default as SkillsSkeleton } from "./SkillsSkeleton";
 export { default as CardGridSkeleton } from "./CardGridSkeleton";
 export { default as FooterSkeleton } from "./FooterSkeleton";
+export { default as CompanySkeleton } from "./CompanySkeleton";

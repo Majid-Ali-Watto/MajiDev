@@ -38,7 +38,7 @@ export default function MyIntro({
   const imgSrc = image || "/majid2.webp";
   const aboutText =
     about?.replace("Y-M-D", `(${getTotalExperince()})`) ||
-    `Full Stack Web Developer with (${getTotalExperince()}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability.`;
+    `Full Stack Web Developer with (${getTotalExperince()}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`;
 
   return (
     <>
@@ -103,6 +103,7 @@ export default function MyIntro({
                         "FastAPI",
                         "gRPC",
                         "Kafka",
+                        "LocalhostOnly.tech",
                       ]}
                       styles={{ color: "green.500" }}
                     >

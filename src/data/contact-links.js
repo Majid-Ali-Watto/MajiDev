@@ -4,6 +4,7 @@ import {
   FaGithub,
   FaEnvelope,
   FaWhatsapp,
+  FaBuilding,
 } from "react-icons/fa6";
 import { TbFileCv, TbBrandUpwork } from "react-icons/tb";
 import {
@@ -14,6 +15,7 @@ import {
   devPortfolio,
   hireMeLink,
 } from "./generic-data";
+import { companyData } from "./company-data";
 import printResume from "../utils/printResume";
 
 export const contactLinks = [
@@ -59,5 +61,10 @@ export const contactLinks = [
     // color: "black",
     icon: TbFileCv,
     onClick: printResume,
+  },
+  {
+    href: companyData.link,
+    title: companyData.name,
+    icon: FaBuilding,
   },
 ];

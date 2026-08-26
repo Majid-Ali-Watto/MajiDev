@@ -16,6 +16,10 @@ export const navLinks = [
 		path: "services"
 	},
 	{
+		pathTitle: "Venture",
+		path: "company"
+	},
+	{
 		pathTitle: "Projects",
 		path: "projects"
 	},
