@@ -54,7 +54,7 @@ export const projects = [
   },
   {
     title: "Kharchafy — Group Expense, Loans, and Personal Budget Hub",
-    link: "https://g-exp-trk.netlify.app/",
+    link: "https://kharchafy-khata-application.vercel.app/",
     gLink: "https://github.com/Majid-Ali-Watto/group-expense-tracker",
     imgURL: "/kharchafy.webp",
     description:
@@ -139,7 +139,7 @@ export const projects = [
 
   {
     title: "User Management API",
-    link: "https://fake-user-api.up.railway.app/api/v1/users",
+    link: "https://fake-user-api-crud.vercel.app",
     gLink: "https://github.com/Majid-Ali-Watto/fake-user-api",
     imgURL: "/user-api.webp",
     description:
