@@ -17,7 +17,21 @@ export const projects = [
     imgURL: "/tarekat.webp",
     description:
       "Multi-tenant service marketplace built end-to-end — Vue.js/Nuxt.js/TypeScript frontend with SSR and Elasticsearch search, backed by Python/FastAPI microservices communicating over gRPC and Kafka, MSSQL + SQLAlchemy, Redis caching, Kong API Gateway, and full observability via Prometheus, Grafana, and ELK Stack.",
-    stack: ["Vue.js", "Nuxt.js", "TypeScript", "Pinia", "Python", "FastAPI", "gRPC", "Kafka", "MSSQL", "Redis", "Kong", "Docker", "ELK Stack"],
+    stack: [
+      "Vue.js",
+      "Nuxt.js",
+      "TypeScript",
+      "Pinia",
+      "Python",
+      "FastAPI",
+      "gRPC",
+      "Kafka",
+      "MSSQL",
+      "Redis",
+      "Kong",
+      "Docker",
+      "ELK Stack",
+    ],
     includeInResume: true,
   },
   {
@@ -49,7 +63,6 @@ export const projects = [
       "A Chrome Manifest V3 extension for mocking API responses directly in the browser. It is built for frontend development, testing, and debugging when the real backend is unavailable, unstable, or not ready yet.",
     stack: [...commonStack.slice(1), "Vue.js", "IndexedDB"],
     includeInResume: true,
-
   },
   {
     title: "Docker Control Panel",
@@ -60,7 +73,6 @@ export const projects = [
       "A graphical Docker manager for Linux — control containers, images, volumes, networks, Compose projects, and live stats without typing docker commands.",
     stack: ["Python", "PyQt5", "Docker", "Shell"],
     includeInResume: true,
-
   },
   {
     title: "Kharchafy — Group Expense, Loans, and Personal Budget Hub",
@@ -83,13 +95,13 @@ export const projects = [
   {
     title: "Linux GUI Command Helper App",
     link: null,
-    gLink: "https://github.com/Majid-Ali-Watto/office-helper-react-vite-electron",
+    gLink:
+      "https://github.com/Majid-Ali-Watto/office-helper-react-vite-electron",
     imgURL: "/linux-gui-helper.svg",
     description:
       "This project is a React-based GUI application designed to run on Linux systems. It serves as a convenient interface for managing system commands, folder operations, Git repositories, and NPM configurations.",
     stack: [...commonStack, "Electron.js", "Node.js"],
     includeInResume: true,
-
   },
   {
     title: "Mobile - Bandencentrale",
@@ -107,6 +119,24 @@ export const projects = [
       "EmailJS",
     ],
     includeInResume: true,
+  },
+  {
+    title: "User Management API",
+    link: "https://fake-user-api-crud.vercel.app",
+    gLink: "https://github.com/Majid-Ali-Watto/fake-user-api",
+    imgURL: "/user-api.webp",
+    description:
+      "This is a User Management API that allows you to manage users with CRUD operations. You can create, read, update, and delete users through the various endpoints provided.",
+    stack: ["Node.js", "Express.js", "Javascript"],
+  },
+  {
+    title: "HTTP Status Codes Explorer",
+    link: "https://httpstatuscodesexplorer.vercel.app/",
+    gLink: "https://github.com/Majid-Ali-Watto/http-status-codes-explorer",
+    imgURL: "/http.webp",
+    description:
+      "An interactive web application for exploring HTTP status codes, their meanings, descriptions, and examples.",
+    stack: ["Next.js", "TailwindCss.js", "TypeScript"],
   },
   {
     title: "World Countries",
@@ -145,25 +175,6 @@ export const projects = [
     description:
       "Pictures are fetched from picsum, being displayed as Gallery, user can download them.",
     stack: [...commonStack].slice(1),
-  },
-
-  {
-    title: "User Management API",
-    link: "https://fake-user-api-crud.vercel.app",
-    gLink: "https://github.com/Majid-Ali-Watto/fake-user-api",
-    imgURL: "/user-api.webp",
-    description:
-      "This is a User Management API that allows you to manage users with CRUD operations. You can create, read, update, and delete users through the various endpoints provided.",
-    stack: ["Node.js", "Express.js", "Javascript"],
-  },
-  {
-    title: "HTTP Status Codes Explorer",
-    link: "https://httpstatuscodesexplorer.vercel.app/",
-    gLink: "https://github.com/Majid-Ali-Watto/http-status-codes-explorer",
-    imgURL: "/http.webp",
-    description:
-      "An interactive web application for exploring HTTP status codes, their meanings, descriptions, and examples.",
-    stack: ["Next.js", "TailwindCss.js", "TypeScript"],
   },
 ];
 // [("Hostel Activity Monitor React Native App", "Hostel Activity Monitor Web App", "Private Chat App")];
