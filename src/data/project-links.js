@@ -1,6 +1,16 @@
 const commonStack = ["React.js", "HTML", "CSS", "JavaScript"];
 export const projects = [
   {
+    title: "Dockcrate — Docker & CI/CD Generator",
+    link: "https://dockcrate.vercel.app/",
+    gLink: "https://github.com/Majid-Ali-Watto/Dockcrate",
+    imgURL: "/dockcrate.png",
+    description:
+      "A CLI and web app that generates Dockerfiles, Docker Compose, CI/CD pipelines, and deployment configs for new projects. Choose from popular stacks and providers, preview the files, then copy or download them—or write them into a project folder with the CLI.",
+    stack: ["Node.js", "Next.js", "React", "JavaScript", "Docker", "CI/CD"],
+    includeInResume: true,
+  },
+  {
     title: "Tarekat Marketplace",
     link: "https://marketplace-qa.azm-dev.com/",
     gLink: null,
@@ -54,7 +64,7 @@ export const projects = [
   },
   {
     title: "Kharchafy — Group Expense, Loans, and Personal Budget Hub",
-    link: "https://g-exp-trk.netlify.app/",
+    link: "https://kharchafy-khata-application.vercel.app/",
     gLink: "https://github.com/Majid-Ali-Watto/group-expense-tracker",
     imgURL: "/kharchafy.webp",
     description:
@@ -139,7 +149,7 @@ export const projects = [
 
   {
     title: "User Management API",
-    link: "https://fake-user-api.up.railway.app/api/v1/users",
+    link: "https://fake-user-api-crud.vercel.app",
     gLink: "https://github.com/Majid-Ali-Watto/fake-user-api",
     imgURL: "/user-api.webp",
     description:
