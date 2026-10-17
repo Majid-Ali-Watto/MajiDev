@@ -6,28 +6,27 @@ import { getTotalExperince } from "../utils/getExpYears";
 import useContent from "../hooks/useContent";
 
 export default function Stats() {
-  const experienceData = useContent("experience");
-  const projects = useContent("projects");
-  const packages = useContent("packages");
+  // Figures only (statsFor in data/siteContent), not the experience/projects/packages sections themselves
+  const { experience, projects, packages } = useContent("stats");
   const stats = [
     {
       label: "Experience",
-      value: getTotalExperince(experienceData),
+      value: getTotalExperince(experience),
       icon: FaBriefcase,
     },
     {
       label: "Companies",
-      value: `${experienceData.length}`,
+      value: `${experience.length}`,
       icon: FaCode,
     },
     {
       label: "Projects",
-      value: `${projects.length}+`,
+      value: `${projects}+`,
       icon: FaProjectDiagram,
     },
     {
       label: "NPM Packages",
-      value: `${packages.length}+`,
+      value: `${packages}+`,
       icon: FaNpm,
     },
   ];

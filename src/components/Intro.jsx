@@ -108,7 +108,7 @@ export default function MyIntro({
   Contact,
 }) {
   const { devName } = useContent("settings");
-  const experience = useContent("experience");
+  const { experience } = useContent("stats"); // job dates only, for the total
   const { imageBase64, paragraph: about } = useContent("about");
   const imgSrc = imageBase64 || FALLBACK_IMAGE;
   const aboutText =

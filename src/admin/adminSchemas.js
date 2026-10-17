@@ -1,5 +1,6 @@
 import { FaAddressBook, FaBriefcase, FaConciergeBell, FaFileAlt, FaGithub, FaGraduationCap, FaNpm, FaPalette, FaPenNib, FaProjectDiagram, FaRocket, FaTools, FaUser } from "react-icons/fa";
 import { contactIcons } from "../data/contactIcons";
+import { isHidden } from "../data/siteContent";
 import { skillIcons } from "../data/skillIcons";
 import { README_SECTIONS } from "./githubReadme";
 
@@ -10,8 +11,8 @@ const colorOptions = ["teal", "purple", "blue", "orange", "green", "red", "pink"
 const text = (name, label, extra) => ({ type: "text", name, label, ...extra });
 const area = (name, label, extra) => ({ type: "textarea", name, label, ...extra });
 const tags = (name, label, hint) => ({ type: "tags", name, label, hint: hint ?? "Comma separated" });
-// Checkboxes over items of other sections. `options(content)` gets the saved content of every section and returns
-// [{ value, label, group? }]; the field stores the checked values.
+// Checkboxes over items of other sections. `options(content)` gets the saved content of every section (hidden items included)
+// and returns [{ value, label, group?, hidden? }]; the field stores the checked values. `hidden` marks items the site leaves out.
 const choices = (name, label, options, hint) => ({ type: "choices", name, label, options, hint });
 
 const DATE = { pattern: /^\d{4}-\d{2}-\d{2}$/, hint: "YYYY-MM-DD" };
@@ -76,17 +77,15 @@ export const sections = [
   {
     key: "contacts",
     icon: FaAddressBook,
-    description: "The buttons under your intro. Use the eye to hide one without deleting it.",
+    description: "The buttons under your intro.",
     label: "Contacts",
     kind: "list",
-    visibleKey: "visible",
     fields: [
       text("title", "Label", { required: true }),
       { type: "select", name: "action", label: "Button does", options: contactActionOptions },
       text("href", "URL", { hint: "Any link: https://…, mailto:you@example.com, tel:+123…, https://wa.me/123…. Ignored for the résumé button." }),
       { type: "select", name: "icon", label: "Icon", options: contactIconOptions },
       { type: "select", name: "color", label: "Icon color", options: contactColorOptions },
-      { type: "boolean", name: "visible", label: "Show on site", default: true },
     ],
   },
   {
@@ -205,19 +204,19 @@ export const sections = [
       choices(
         "skills",
         "Skills",
-        (content) => content.skills.flatMap((category) => category.items.map((skill) => ({ value: skill.label, label: skill.label, group: category.label }))),
+        (content) => content.skills.flatMap((category) => category.items.map((skill) => ({ value: skill.label, label: skill.label, group: category.label, hidden: isHidden(category, skill) }))),
         "None ticked: every skill."
       ),
       choices(
         "experience",
         "Work experience projects",
-        (content) => content.experience.flatMap((job) => job.projects.filter((project) => project.name).map((project) => ({ value: project.name, label: project.name, group: `${job.role} @ ${job.company}` }))),
+        (content) => content.experience.flatMap((job) => job.projects.filter((project) => project.name).map((project) => ({ value: project.name, label: project.name, group: `${job.role} @ ${job.company}`, hidden: isHidden(job, project) }))),
         "None ticked: every project. Every job is still listed; unticked projects are left out of it."
       ),
       choices(
         "projects",
         "Portfolio projects",
-        (content) => content.projects.map((project) => ({ value: project.title, label: project.title })),
+        (content) => content.projects.map((project) => ({ value: project.title, label: project.title, hidden: isHidden(project) })),
         'None ticked: the projects marked "Include in printed resume".'
       ),
     ],
@@ -234,7 +233,7 @@ export const sections = [
       choices(
         "projects",
         "README projects",
-        (content) => content.projects.map((project) => ({ value: project.title, label: project.title })),
+        (content) => content.projects.map((project) => ({ value: project.title, label: project.title, hidden: isHidden(project) })),
         'None ticked: the projects marked "Include in printed resume".'
       ),
       { type: "boolean", name: "updateProfile", label: "Update the profile details below", default: true },
