@@ -4,15 +4,19 @@ import ReactDOM from "react-dom/client";
 import { ChakraProvider, ColorModeScript, extendTheme, useColorMode, IconButton, Box } from "@chakra-ui/react";
 
 const theme = extendTheme({
-	config: { initialColorMode: "dark", useSystemColorMode: false },
+	config: { initialColorMode: getCachedDefaultTheme(), useSystemColorMode: false },
 });
 import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
 import Welcome from "./components/Welcome.jsx";
+import { colorModeManager, getCachedDefaultTheme, saveChosenColorMode } from "./config/colorMode.js";
 import ErrorBoundary from "./ui/ErrorBoundary.jsx";
 import "./style.css";
 
 const App = lazy(() => import("./App.jsx"));
+const AdminPage = lazy(() => import("./admin/AdminPage.jsx"));
+const SiteSettings = lazy(() => import("./ui/SiteSettings.jsx"));
 
 function ThemeToggleButton() {
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -23,13 +27,14 @@ function ThemeToggleButton() {
 		setIsAnimating(true);
 		// Let the cover animation play, then toggle theme midway
 		setTimeout(() => {
+			saveChosenColorMode(colorMode === "light" ? "dark" : "light");
 			toggleColorMode();
 		}, 1100);
 		// Remove overlay after full animation
 		setTimeout(() => {
 			setIsAnimating(false);
 		}, 2200);
-	}, [toggleColorMode]);
+	}, [colorMode, toggleColorMode]);
 
 	return (
 		<>
@@ -65,21 +70,30 @@ function ThemeToggleButton() {
 
 function Root() {
 	return (
+		<BrowserRouter>
 		<HelmetProvider>
-		<ChakraProvider theme={theme}>
+		<ChakraProvider theme={theme} colorModeManager={colorModeManager}>
 			{/* Ensure color mode is applied instantly */}
 			<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+			<Suspense fallback={null}>
+				<SiteSettings />
+			</Suspense>
 			{/* Theme toggle button */}
 			<ThemeToggleButton />
 			{/* Error Boundary wraps the app */}
 			<ErrorBoundary>
 				{/* Suspense for lazy loading the app */}
 				<Suspense fallback={<Welcome />}>
-					<App />
+					<Routes>
+						<Route path="/admin" element={<AdminPage />} />
+						{/* Every other path is a portfolio page; App owns those routes */}
+						<Route path="/*" element={<App />} />
+					</Routes>
 				</Suspense>
 			</ErrorBoundary>
 		</ChakraProvider>
 		</HelmetProvider>
+		</BrowserRouter>
 	);
 }
 

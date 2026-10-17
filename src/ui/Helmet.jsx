@@ -1,19 +1,21 @@
 import { Helmet } from "react-helmet-async";
 import PropTypes from "prop-types";
-import { devFullName, devGithub, devPortfolio, devEmail, devLocation } from "../data/generic-data";
+import { useLocation } from "react-router-dom";
+import useContent from "../hooks/useContent";
+import { devGithub, devPortfolio, devEmail, devLocation } from "../data/generic-data";
 
 function Helmet_SEO({ heading = "Full Stack Developer" }) {
-  const devName = devFullName || "Majid Ali";
-  const currentUrl =
-    typeof window !== "undefined"
-      ? window.location.origin
-      : "https://majidev.netlify.app";
+  const { devName, brandName } = useContent("settings");
+  const brandKeyword = brandName.replace(/[.\s]+$/, ""); // "Majidev." -> "Majidev"
+  const { pathname } = useLocation();
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://majidev.netlify.app";
+  const currentUrl = `${origin}${pathname}`;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: devName,
-    url: currentUrl,
+    url: origin,
     email: devEmail,
     jobTitle: "Full Stack Web Developer",
     address: { "@type": "PostalAddress", addressLocality: devLocation },
@@ -30,9 +32,10 @@ function Helmet_SEO({ heading = "Full Stack Developer" }) {
         />
         <meta
           name="keywords"
-          content={`${devName}, Full Stack Web Developer, Vue.js, Nuxt.js, React, TypeScript, Python, FastAPI, gRPC, Kafka, MSSQL, Redis, Docker, Elasticsearch, Microservices, DevOps, Software Engineer, Portfolio, Islamabad`}
+          content={`${brandKeyword}, ${devName}, Full Stack Web Developer, Vue.js, Nuxt.js, React, TypeScript, Python, FastAPI, gRPC, Kafka, MSSQL, Redis, Docker, Elasticsearch, Microservices, DevOps, Software Engineer, Portfolio, Islamabad`}
         />
         <meta name="author" content={devName} />
+        <link rel="canonical" href={currentUrl} />
 
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content={`${devName} — Full Stack Developer`} />
@@ -43,7 +46,7 @@ function Helmet_SEO({ heading = "Full Stack Developer" }) {
         <meta property="og:image" content="/majid2.webp" />
         <meta property="og:url" content={currentUrl} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={`${devName}'s Portfolio`} />
+        <meta property="og:site_name" content={brandName} />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card Meta Tags */}

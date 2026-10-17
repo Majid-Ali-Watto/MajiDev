@@ -1,11 +1,9 @@
 import { Box, Heading } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import Helmet_SEO from "./Helmet";
 
 function SectionHeader({ heading, textAlign = "left" }) {
   return (
     <>
-      <Helmet_SEO />
       <Box mb={[3, 6]} width="fit-content">
         <Heading
           as="h4"

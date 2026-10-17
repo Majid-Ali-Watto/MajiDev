@@ -2,3 +2,19 @@
   command = "npm run build"
   publish = "dist"
   ignore = "exit 0"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Keep the admin portal out of search results (it is not linked or listed in the sitemap either).
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"

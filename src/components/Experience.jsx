@@ -19,14 +19,14 @@ import {
 
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
-import { experienceData } from "../data/experienceData";
+import useContent from "../hooks/useContent";
 import SectionHeader from "../ui/SectionHeader";
 import { getExperienceYear } from "../utils/getExpYears";
 import PropTypes from "prop-types";
 import toLocalDate from "../utils/toLocaleDateString";
-import Helmet_SEO from "../ui/Helmet";
 import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 import MyAccordion from "../ui/Accordion";
+import TimelineCard from "../ui/TimelineCard";
 
 // ---------------------
 // EXPERIENCE ITEM
@@ -68,6 +68,7 @@ ExperienceItem.propTypes = {
 // MAIN EXPERIENCE COMPONENT
 // ---------------------
 export default function Experience() {
+  const experienceData = useContent("experience");
   function getHighLight(item) {
     return item.highlightQuery.length <= 1
       ? item.highlightQuery[0] || ""
@@ -99,7 +100,6 @@ export default function Experience() {
   return (
     <Element id="experience">
       <Box textAlign="left" mb={[4, 8]}>
-        <Helmet_SEO />
         <SectionHeader heading="Experience" />
       </Box>
 
@@ -130,35 +130,26 @@ export default function Experience() {
               </StepIndicator>
 
               {/* Step Content */}
-              <Box
-                flex={1}
-                minW={0}
-                mt={0}
-                ml={[0, 2]}
-                borderWidth="1px"
-                borderRadius="lg"
-                p={[2, 4]}
-                transition="transform 0.3s ease, box-shadow 0.3s ease"
-                _hover={{ transform: "translateY(-3px)", boxShadow: "xl" }}
-              >
+              <TimelineCard>
                 <StepTitle fontSize={titleFontSize} fontWeight="bold">
-                  {item.role} at {item.company}{item.location ? `, ${item.location}` : ""}
+                  {item.role}
                 </StepTitle>
 
-                <StepDescription
-                  fontSize={descriptionFontSize}
-                  opacity={0.8}
-                  mb={2}
-                >
+                <Text fontSize={descriptionFontSize} fontWeight="600" color="teal.500">
+                  {item.company}{item.location ? `, ${item.location}` : ""}
+                </Text>
+
+                <StepDescription fontSize="sm" opacity={0.7} mb={2}>
                   {`${toLocalDate(item.startDate)} - ${toLocalDate(
                     item.endDate
                   )} (${getExperienceYear(item.startDate, item.endDate)})`}
                 </StepDescription>
 
-                {/* Accordion */}
+                {/* Accordion: the first project of each role starts open */}
                 {item.projects.map((project, pIndex) => (
                   <MyAccordion
                     key={pIndex}
+                    defaultOpen={pIndex === 0}
                     title={project.name || "Project Details"}
                     about={project.about || ""}
                   >
@@ -181,7 +172,7 @@ export default function Experience() {
                     </List>
                   </MyAccordion>
                 ))}
-              </Box>
+              </TimelineCard>
 
               <StepSeparator />
             </Step>

@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Public site reads content; only the admin account can write.
+// 1. Firebase console → Authentication → add your admin user, copy its UID, paste it below.
+// 2. Firebase console → Firestore → Rules → paste this file → Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "STq3i9XPYQMVxU09vwua7XBugx43";
+    }
+
+    // Site content: one collection per section, each holding a single `content` document (src/hooks/useContent.js)
+    function isSection(section) {
+      return section in ["about", "settings", "contacts", "experience", "education", "skills", "projects", "services", "blogs", "packages", "company", "resumes", "github"];
+    }
+
+    match /{section}/content {
+      allow read: if isSection(section);
+      allow write: if isAdmin() && isSection(section);
+    }
+
+    // Old locations. Opening /admin moves their data into the collections above and deletes them;
+    // after that (and once the new site is live), delete these two blocks and publish again.
+    match /content/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /uploads/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

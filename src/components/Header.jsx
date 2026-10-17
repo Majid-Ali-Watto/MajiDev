@@ -1,48 +1,25 @@
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link as ScrollLink } from "react-scroll";
+import { FiArrowRight } from "react-icons/fi";
+import { NavLink, useLocation } from "react-router-dom";
 import { navLinks } from "../data/nav-links";
+import useContent from "../hooks/useContent";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Header() {
-  const [activeLink, setActiveLink] = useState("home");
+  const { brandName } = useContent("settings");
   const [burger, setBurger] = useState(false);
-  const [path, setPath] = useState(null);
+  const { pathname } = useLocation();
 
-  const handleSetActive = (to) => {
-    setActiveLink(to);
-  };
-
+  // Close the mobile menu after navigating
   useEffect(() => {
-    if (burger) setBurger(false);
-  }, [path]);
+    setBurger(false);
+  }, [pathname]);
 
   function openLink() {
     window.location.href = import.meta.env.VITE_SITE_URL;
   }
-
-  const handleScroll = () => {
-    if (window.scrollY < 200) {
-      setActiveLink("home");
-    }
-  };
-
-  function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-  }
-
-  useEffect(() => {
-    const handleScrollDebounced = debounce(handleScroll, 100);
-    window.addEventListener("scroll", handleScrollDebounced);
-    return () => {
-      window.removeEventListener("scroll", handleScrollDebounced);
-    };
-  }, []);
 
   function Links() {
     return (
@@ -54,20 +31,9 @@ function Header() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              <ScrollLink
-                to={item.path}
-                smooth={true}
-                onSetActive={() => {
-                  handleSetActive(item.path);
-                  setPath(item.path);
-                }}
-                duration={800}
-                spy={true}
-                offset={-180}
-                className={activeLink === item.path ? "active" : ""}
-              >
+              <NavLink to={item.path} end>
                 {item.pathTitle}
-              </ScrollLink>
+              </NavLink>
             </motion.li>
           );
         })}
@@ -79,25 +45,26 @@ function Header() {
     <header className="header">
       <div className="logo">
         <h1 style={{ cursor: "pointer" }} onClick={openLink}>
-          Majidev.
+          {brandName}
         </h1>
       </div>
       <nav className="nav-links">
         <Links />
       </nav>
-      <div className="nav-links-burger">
-        {!burger ? (
-          <GiHamburgerMenu
-            className="burger-icon"
-            onClick={() => setBurger(true)}
-          />
+      <button
+        type="button"
+        className="nav-links-burger"
+        aria-label={burger ? "Close menu" : "Open menu"}
+        aria-expanded={burger}
+        aria-controls="mobile-menu"
+        onClick={() => setBurger((open) => !open)}
+      >
+        {burger ? (
+          <AiOutlineClose className="close-icon" />
         ) : (
-          <AiOutlineClose
-            className="close-icon"
-            onClick={() => setBurger(false)}
-          />
+          <GiHamburgerMenu className="burger-icon" />
         )}
-      </div>
+      </button>
       <AnimatePresence>
         {burger && (
           <motion.div
@@ -107,8 +74,20 @@ function Header() {
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.7 }}
           >
-            <nav className="nav-links-burger-opened">
-              <Links />
+            <nav id="mobile-menu" aria-label="Main">
+              <ul className="mobile-menu-list">
+                {navLinks.map((item, index) => (
+                  <li key={item.path} className="mobile-menu-item">
+                    <NavLink to={item.path} end className="mobile-menu-link">
+                      <span className="mobile-menu-index">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      {item.pathTitle}
+                      <FiArrowRight className="mobile-menu-arrow" aria-hidden />
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             </nav>
           </motion.div>
         )}

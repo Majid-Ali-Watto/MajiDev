@@ -1,10 +1,11 @@
 /** @format */
 
-import { services } from "../data/services";
+import useContent from "../hooks/useContent";
 import CardsList from "../ui/CardsList";
 
 
 function Services() {
+	const services = useContent("services");
 	return (
 		<CardsList
 			id="services"

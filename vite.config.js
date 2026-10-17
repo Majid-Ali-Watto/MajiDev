@@ -23,12 +23,12 @@ export default defineConfig({
 				start_url: "/",
 				icons: [
 					{
-						src: "/majid2.webp", // You should place these icons in the public folder
-						sizes: "256x256",
-						type: "image/webp"
+						src: "/icon-192.png",
+						sizes: "192x192",
+						type: "image/png"
 					},
 					{
-						src: "/soft-dev.png",
+						src: "/icon-512.png",
 						sizes: "512x512",
 						type: "image/png"
 					}
@@ -36,6 +36,11 @@ export default defineConfig({
 			}
 		})
 	],
+	optimizeDeps: {
+		// firebase/auth is only imported by the lazy admin chunk; letting Vite discover it mid-session
+		// re-optimizes deps and leaves two copies of @firebase/app ("Component auth has not been registered").
+		include: ["firebase/app", "firebase/auth", "firebase/firestore"]
+	},
 	server: {
 		watch: {
 			usePolling: true // Keep this as per your existing configuration

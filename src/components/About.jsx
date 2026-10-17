@@ -7,11 +7,13 @@ import SectionHeader from "../ui/SectionHeader";
 import { motion } from "framer-motion"; // Import framer-motion
 import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 import { getTotalExperince } from "../utils/getExpYears";
+import useContent from "../hooks/useContent";
 About.propTypes = {
   about: PropTypes.string,
 };
 
 function About({ about }) {
+  const experience = useContent("experience");
   return (
     <Element id="about" className="about">
       <Box textAlign="left" mb="4">
@@ -48,8 +50,8 @@ function About({ about }) {
                 ]}
                 styles={{ color: "green.500", textAlign: "left" }}
               >
-                {about?.replace("Y-M-D", `(${getTotalExperince()})`) ||
-                  `Full Stack Web Developer with (${getTotalExperince()}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`}
+                {about?.replace("Y-M-D", `(${getTotalExperince(experience)})`) ||
+                  `Full Stack Web Developer with (${getTotalExperince(experience)}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`}
               </Highlight>
             </Text>
           </CardBody>

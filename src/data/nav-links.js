@@ -1,43 +1,43 @@
+// Header links; each path is a page route defined in App.jsx
 export const navLinks = [
 	{
 		pathTitle: "Home",
-		path: "home"
+		path: "/"
 	},
 	{
 		pathTitle: "Experience",
-		path: "experience"
+		path: "/experience"
 	},
 	{
 		pathTitle: "Skills",
-		path: "skills"
+		path: "/skills"
 	},
 	{
 		pathTitle: "Services",
-		path: "services"
+		path: "/services"
 	},
 	{
 		pathTitle: "Venture",
-		path: "company"
+		path: "/venture"
 	},
 	{
 		pathTitle: "Projects",
-		path: "projects"
+		path: "/projects"
 	},
 	{
 		pathTitle: "Blogs",
-		path: "blogs"
+		path: "/blogs"
 	},
 	{
 		pathTitle: "Packages",
-		path: "packages"
+		path: "/packages"
 	},
 	{
 		pathTitle: "Education",
-		path: "education"
+		path: "/education"
 	},
 	{
 		pathTitle: "Contact",
-		path: "contact"
+		path: "/contact"
 	}
 ]
-//.map((obj) => ({ ...obj, pathTitle: obj.pathTitle?.toUpperCase() }));
