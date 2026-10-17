@@ -15,12 +15,12 @@ function describe(href) {
   }
 }
 
-// Visible contacts from content, resolved to an icon and the props that make a Chakra element open them.
-// Hidden contacts, and links without a URL, are dropped.
+// Contacts from content (hidden ones are already left out), resolved to an icon and the props that make a Chakra element
+// open them. Links without a URL are dropped.
 export default function useContactLinks() {
   const openResumePicker = useResumePicker();
   return useContent("contacts")
-    .filter(({ visible, action, href }) => visible !== false && (action === "printResume" || href))
+    .filter(({ action, href }) => action === "printResume" || href)
     .map(({ title, href, action, color, icon }) => {
       const isResume = action === "printResume";
       return {

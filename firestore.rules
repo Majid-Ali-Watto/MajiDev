@@ -9,9 +9,10 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == "STq3i9XPYQMVxU09vwua7XBugx43";
     }
 
-    // Site content: one collection per section, each holding a single `content` document (src/hooks/useContent.js)
+    // Site content: one collection per section, each holding a single `content` document (src/hooks/useContent.js).
+    // `stats` is derived from experience/projects/packages; /admin writes it alongside them.
     function isSection(section) {
-      return section in ["about", "settings", "contacts", "experience", "education", "skills", "projects", "services", "blogs", "packages", "company", "resumes", "github"];
+      return section in ["about", "settings", "contacts", "experience", "education", "skills", "projects", "services", "blogs", "packages", "company", "resumes", "github", "stats"];
     }
 
     match /{section}/content {

@@ -29,6 +29,7 @@ import {
 import { FaArrowDown, FaArrowUp, FaEye, FaEyeSlash, FaImage, FaPlus, FaTrash, FaUpload } from "react-icons/fa";
 import { emptyValue, optionLabel, optionValue } from "./adminSchemas";
 import { AdminContent } from "./adminContent";
+import { VISIBLE } from "../data/siteContent";
 import { resizeImage } from "./resizeImage";
 
 const focus = { focusBorderColor: "teal.400" };
@@ -110,7 +111,8 @@ function ImageInput({ value, onChange, options, label }) {
 ImageInput.propTypes = { value: PropTypes.string.isRequired, onChange: PropTypes.func.isRequired, options: PropTypes.shape({ size: PropTypes.number, mime: PropTypes.string }).isRequired, label: PropTypes.string.isRequired };
 
 // Checkboxes over items of another section (see `choices` in adminSchemas), grouped under their `group` heading.
-// Ticked values whose item was renamed or deleted are not shown, and are dropped on the next change.
+// Hidden items are offered too (marked), so hiding one keeps its tick. Ticked values whose item was renamed or deleted
+// are not shown, and are dropped on the next change.
 function ChoicesInput({ options, value, onChange }) {
   const all = options(useContext(AdminContent));
   const known = new Set(all.map((option) => option.value));
@@ -149,6 +151,11 @@ function ChoicesInput({ options, value, onChange }) {
               {groupOptions.map((option) => (
                 <Checkbox key={option.value} value={option.value} size="sm">
                   {option.label}
+                  {option.hidden && (
+                    <Text as="span" ml={1} fontSize="xs" opacity={0.6}>
+                      (hidden)
+                    </Text>
+                  )}
                 </Checkbox>
               ))}
             </SimpleGrid>
@@ -238,12 +245,13 @@ Fields.propTypes = {
   onDefaultChange: PropTypes.func,
 };
 
-// `field` = { label, fields, prepend?, itemTitle?, titleKey?, visibleKey? }. visibleKey adds an eye toggle on a boolean item field. Used for nested lists and, by SectionEditor, for a whole section.
+// `field` = { label, fields, prepend?, itemTitle?, titleKey? }. Used for nested lists and, by SectionEditor, for a whole section.
+// Every item has an eye toggle: a hidden item stays saved but the site leaves it out (see VISIBLE in data/siteContent).
 export function ListField({ field, value, onChange, nested }) {
   const [open, setOpen] = useState([]);
   const titleOf = (item) => (field.itemTitle ? field.itemTitle(item) : item[field.titleKey ?? field.fields[0].name]) || "(untitled)";
 
-  const hidden = (item) => field.visibleKey && item[field.visibleKey] === false;
+  const hidden = (item) => item[VISIBLE] === false;
 
   const replace = (next) => {
     setOpen([]); // open panels are positional, so collapse after anything that shifts positions
@@ -257,9 +265,9 @@ export function ListField({ field, value, onChange, nested }) {
     replace(next);
   };
   const remove = (i) => {
-    if (window.confirm(`Delete "${titleOf(value[i])}"?`)) replace(value.filter((_, k) => k !== i));
+    if (window.confirm(`Delete "${titleOf(value[i])}" for good?\n\nTo keep it but take it off the site, cancel and use the eye button to hide it.`)) replace(value.filter((_, k) => k !== i));
   };
-  const toggleVisible = (i) => onChange(value.map((item, k) => (k === i ? { ...item, [field.visibleKey]: item[field.visibleKey] === false } : item)));
+  const toggleVisible = (i) => onChange(value.map((item, k) => (k === i ? { ...item, [VISIBLE]: hidden(item) } : item)));
   const add = () => {
     const item = emptyValue(field.fields);
     onChange(field.prepend ? [item, ...value] : [...value, item]);
@@ -325,16 +333,15 @@ export function ListField({ field, value, onChange, nested }) {
                     )}
                     <AccordionIcon />
                   </AccordionButton>
-                  {field.visibleKey && (
-                    <IconButton
-                      aria-label={hidden(item) ? "Show on site" : "Hide from site"}
-                      title={hidden(item) ? "Hidden — click to show" : "Visible — click to hide"}
-                      size="sm"
-                      variant="ghost"
-                      icon={hidden(item) ? <FaEyeSlash /> : <FaEye />}
-                      onClick={() => toggleVisible(i)}
-                    />
-                  )}
+                  <IconButton
+                    aria-label={hidden(item) ? "Show on site" : "Hide from site"}
+                    aria-pressed={hidden(item)}
+                    title={hidden(item) ? "Hidden — click to show" : "Visible — click to hide"}
+                    size="sm"
+                    variant="ghost"
+                    icon={hidden(item) ? <FaEyeSlash /> : <FaEye />}
+                    onClick={() => toggleVisible(i)}
+                  />
                   <IconButton aria-label="Move up" size="sm" variant="ghost" icon={<FaArrowUp />} isDisabled={i === 0} onClick={() => move(i, -1)} />
                   <IconButton aria-label="Move down" size="sm" variant="ghost" icon={<FaArrowDown />} isDisabled={i === value.length - 1} onClick={() => move(i, 1)} />
                   <IconButton aria-label="Delete" size="sm" colorScheme="red" variant="ghost" icon={<FaTrash />} onClick={() => remove(i)} />

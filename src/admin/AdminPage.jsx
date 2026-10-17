@@ -30,7 +30,7 @@ import {
 } from "@chakra-ui/react";
 import { FaExternalLinkAlt, FaSignOutAlt, FaUserShield } from "react-icons/fa";
 import { auth } from "../config/firebaseApp";
-import { forSite, siteContent, withDefaults } from "../data/siteContent";
+import { sectionContent, siteContent, withDefaults, withoutHidden } from "../data/siteContent";
 import AdminLogin from "./AdminLogin";
 import SectionEditor from "./SectionEditor";
 import { sections } from "./adminSchemas";
@@ -105,10 +105,12 @@ function Dashboard({ user }) {
     loadAdminData().then(setData, (err) => setError(err.message));
   }, []);
 
-  // Every section as the public site shows it from the saved content: offered by "choices" fields and published to GitHub
-  const siteView =
+  // Every section from the saved content: with hidden items for the "choices" fields (so hiding an item keeps its ticks),
+  // and as the public site shows it (forSite) for publishing to GitHub
+  const savedView =
     data &&
-    Object.fromEntries(Object.keys(siteContent).map((key) => [key, forSite(key, key in data.stored ? { value: data.stored[key], builtIn: data.stored.builtIn[key] } : undefined)]));
+    Object.fromEntries(Object.keys(siteContent).map((key) => [key, sectionContent(key, key in data.stored ? { value: data.stored[key], builtIn: data.stored.builtIn[key] } : undefined)]));
+  const siteView = savedView && withoutHidden(savedView);
 
   // The editor's starting value: the stored section over its built-in defaults
   const savedOf = (section) => withDefaults(data.stored)[section.key];
@@ -121,7 +123,7 @@ function Dashboard({ user }) {
   };
 
   const save = async (section, value, useBuiltIn) => {
-    await saveSection(section.key, value, useBuiltIn);
+    await saveSection(section.key, value, useBuiltIn, data.stored);
     setData((d) => {
       const builtIn = section.kind === "list" ? { ...d.stored.builtIn, [section.key]: useBuiltIn } : d.stored.builtIn;
       return { ...d, stored: { ...d.stored, [section.key]: value, builtIn } };
@@ -144,7 +146,7 @@ function Dashboard({ user }) {
           </Box>
         )}
         {data && (
-          <AdminContent.Provider value={siteView}>
+          <AdminContent.Provider value={savedView}>
           <Tabs isLazy lazyBehavior="keepMounted" variant="unstyled" orientation={vertical ? "vertical" : "horizontal"} display="flex" flexDirection={{ base: "column", lg: "row" }} gap={{ base: 4, lg: 8 }}>
             <TabList
               flexDirection={{ base: "row", lg: "column" }}

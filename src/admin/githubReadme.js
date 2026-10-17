@@ -21,7 +21,7 @@ const GITHUB_STATS = `# 📊 GitHub Stats
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=Majid-Ali-Watto&theme=dark&hide_border=false&include_all_commits=true&count_private=true&layout=compact)`;
 
 // Experience figures are wrapped in markers that carry the job dates they came from, so the backend's daily job can
-// recompute them on GitHub (experience.py in the majidev-backend repository). `experience` = a total, `duration` = one job,
+// recompute them on GitHub (backend/services/experience.py in the majidev-backend repository). `experience` = a total, `duration` = one job,
 // as the site shows them. Change the marker format there too.
 const ranges = (jobs) => jobs.map((job) => `${job.startDate}~${job.endDate}`).join(",");
 const totalExperience = (jobs, format = (text) => text) => `<!--experience:${ranges(jobs)}-->${format(getTotalExperince(jobs))}<!--/experience-->`;
@@ -87,7 +87,7 @@ const renderers = {
   blogs: ({ blogs }) => blogs.length && ["## ✍️ Writing", blogs.map((blog) => `- [${blog.title}](${blog.link})`).join("\n")],
 
   contact: ({ contacts }) => {
-    const links = contacts.filter((contact) => contact.visible !== false && contact.action !== "printResume" && contact.href);
+    const links = contacts.filter((contact) => contact.action !== "printResume" && contact.href);
     return links.length && ["## 📫 Reach me", links.map((contact) => `[${contact.title}](${contact.href})`).join(" · ")];
   },
 

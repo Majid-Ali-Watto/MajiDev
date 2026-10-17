@@ -75,7 +75,7 @@ function App() {
     {
       path: "/",
       title: "Portfolio",
-      sections: ["about", "contacts", "experience", "projects", "packages"],
+      sections: ["about", "contacts", "stats"],
       fallback: IntroSkeleton,
       element: <MyIntro Contact={Contact} />,
     },

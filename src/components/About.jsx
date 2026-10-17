@@ -13,7 +13,7 @@ About.propTypes = {
 };
 
 function About({ about }) {
-  const experience = useContent("experience");
+  const { experience } = useContent("stats"); // job dates only, for the total
   return (
     <Element id="about" className="about">
       <Box textAlign="left" mb="4">
