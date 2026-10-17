@@ -13,6 +13,12 @@ export default defineConfig({
 			devOptions: {
 				enabled: true // Enable PWA in development mode for testing
 			},
+			workbox: {
+				// The service worker answers page navigations with index.html (the SPA). Opening a file directly, e.g. a
+				// project image in a new tab (/kharchafy.webp), robots.txt or sitemap.xml, must reach the file instead,
+				// otherwise the router sends the unknown path to the home page.
+				navigateFallbackDenylist: [/\/[^/?]+\.[a-z0-9]+(?:\?|$)/i]
+			},
 			manifest: {
 				name: "Majid Ali, Full Stack Web Developer",
 				short_name: "Majidev.",
