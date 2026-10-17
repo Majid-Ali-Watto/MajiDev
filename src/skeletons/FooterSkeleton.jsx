@@ -1,12 +1,12 @@
-import { Box, Stack, Skeleton, SkeletonCircle } from "@chakra-ui/react";
+import { Box, Skeleton } from "@chakra-ui/react";
 
+// Mirrors components/Footer
 const FooterSkeleton = (
-  <Box p={6} textAlign="center" w="100%">
-    <Skeleton height="1px" mb={6} />
-    <Stack direction="row" justify="center" spacing={6} mb={4}>
-      {[1, 2, 3, 4].map((i) => <SkeletonCircle key={i} size="8" />)}
-    </Stack>
-    <Skeleton height="14px" width="180px" mx="auto" />
+  <Box mt={[6, 10]}>
+    <Box h="3px" bgGradient="linear(to-r, teal.400, purple.500)" borderRadius="full" opacity={0.5} />
+    <Box py={[4, 6]}>
+      <Skeleton height="14px" width="16rem" maxW="80%" mx="auto" />
+    </Box>
   </Box>
 );
 

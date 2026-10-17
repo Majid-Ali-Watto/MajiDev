@@ -28,8 +28,19 @@ jobs:
       - name: Install dependencies
         run: npm install --no-package-lock --no-audit --no-fund
 
+      # Vite inlines VITE_ variables at build time; .env is not in the repository, so they come from the
+      # repository's Actions Variables (Settings → Secrets and variables → Actions → Variables). See .env.example.
       - name: Build site
         run: npm run build
+        env:
+          VITE_APP_APIKEY: ${{ vars.VITE_APP_APIKEY }}
+          VITE_APP_AUTH_DOMAIN: ${{ vars.VITE_APP_AUTH_DOMAIN }}
+          VITE_APP_PROJECT_ID: ${{ vars.VITE_APP_PROJECT_ID }}
+          VITE_APP_STORAGE_BUCKET: ${{ vars.VITE_APP_STORAGE_BUCKET }}
+          VITE_APP_MESSAGING_SENDER_ID: ${{ vars.VITE_APP_MESSAGING_SENDER_ID }}
+          VITE_APP_APP_ID: ${{ vars.VITE_APP_APP_ID }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
 
       - name: Deploy production site
         run: >-

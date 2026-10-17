@@ -1,17 +1,12 @@
 /** @format */
 import PropTypes from "prop-types";
-import { experienceData } from "../data/experienceData";
-import { educationData } from "../data/educationData";
-import { skills, skillsObj } from "../data/skills";
-import { projects } from "../data/project-links";
+import useContent from "../hooks/useContent";
 import {
-  devFullName,
   devEmail,
   devPhone,
   devLocation,
   devPortfolio,
   devGithub,
-  devPost,
 } from "../data/generic-data";
 import { getTotalExperince, getExperienceYear } from "../utils/getExpYears";
 import toLocalDate from "../utils/toLocaleDateString";
@@ -174,12 +169,36 @@ const c = {
 
 const iconProps = { size: 10, color: GREEN, style: { flexShrink: 0 } };
 
-PrintResume.propTypes = { about: PropTypes.string };
+// Keeps the items whose `key` was ticked for this version; nothing ticked keeps them all
+const ticked = (items, picked, key) => (picked?.length ? items.filter((item) => picked.includes(item[key])) : items);
 
-export default function PrintResume({ about }) {
-  const totalExp = getTotalExperince();
+PrintResume.propTypes = {
+  // An item of the Résumés section (data/resumes.js); {} prints everything
+  resume: PropTypes.shape({
+    role: PropTypes.string,
+    summary: PropTypes.string,
+    skills: PropTypes.arrayOf(PropTypes.string),
+    experience: PropTypes.arrayOf(PropTypes.string),
+    projects: PropTypes.arrayOf(PropTypes.string),
+  }),
+};
+
+export default function PrintResume({ resume = {} }) {
+  const { paragraph: about } = useContent("about");
+  const experience = useContent("experience");
+  const educationData = useContent("education");
+  const skills = useContent("skills");
+  const allProjects = useContent("projects");
+  const { devName, roles } = useContent("settings");
+  // Total experience counts every job, even when this version leaves some of their projects out
+  const totalExp = getTotalExperince(experience);
+
+  const role = resume.role || roles[0];
+  const skillsData = skills.map((cat) => ({ ...cat, items: ticked(cat.items, resume.skills, "label") })).filter((cat) => cat.items.length);
+  const experienceData = experience.map((job) => ({ ...job, projects: ticked(job.projects, resume.experience, "name") }));
+  const projects = resume.projects?.length ? ticked(allProjects, resume.projects, "title") : allProjects.filter((proj) => proj.includeInResume);
   const summary =
-    about?.replace("Y-M-D", `<b>(${totalExp})</b>`) ||
+    (resume.summary || about)?.replace("Y-M-D", `<b>(${totalExp})</b>`) ||
     `Full Stack Web Developer with <b>(${totalExp})</b> of experience specializing in <b>Vue, React, Node.js, and Express</b>. Proficient in building scalable <b>micro front-end architectures</b>, modernizing legacy systems, and delivering efficient, user-focused solutions. Skilled in optimizing performance and developing reusable components for seamless software delivery.`;
 
   return (
@@ -188,8 +207,8 @@ export default function PrintResume({ about }) {
 
         {/* ── HEADER ── */}
         <div style={c.header}>
-          <p style={c.name}>{devFullName}</p>
-          <p style={c.titleLine}>{devPost}</p>
+          <p style={c.name}>{devName}</p>
+          <p style={c.titleLine}>{role}</p>
           <div style={c.contactRow}>
             <span style={c.contactItem}><FaEnvelope {...iconProps} />{devEmail}</span>
             <span style={c.contactItem}><FaPhone {...iconProps} />+{devPhone}</span>
@@ -205,10 +224,10 @@ export default function PrintResume({ about }) {
 
         {/* ── TECHNICAL SKILLS ── */}
         <p style={c.h}>Technical Skills</p>
-        {skillsObj.map((cat) => (
-          <div key={cat.type} style={c.skillRow}>
+        {skillsData.map((cat) => (
+          <div key={cat.label} style={c.skillRow}>
             <span style={c.skillLabel}>{cat.label}:</span>
-            <span style={c.skillValue}>{skills[cat.type].map((s) => s.label).join(", ")}</span>
+            <span style={c.skillValue}>{cat.items.map((s) => s.label).join(", ")}</span>
           </div>
         ))}
 
@@ -243,28 +262,32 @@ export default function PrintResume({ about }) {
         ))}
 
         {/* ── PROJECTS ── */}
-        <p style={c.h}>Projects</p>
-        {projects.filter((proj) => proj.includeInResume).map((proj, i) => (
-          <div key={i} style={c.projItem}>
-            <div style={c.projTitleRow}>
-              <p style={{ ...c.projTitle, margin: 0 }}>{proj.title}</p>
-              {proj.link && (
-                <a href={proj.link} target="_blank" rel="noreferrer" style={c.projLink}>
-                  <FaExternalLinkAlt size={7} style={{ flexShrink: 0 }} />
-                  Preview
-                </a>
-              )}
-              {proj.gLink && (
-                <a href={proj.gLink} target="_blank" rel="noreferrer" style={c.projLink}>
-                  <FaGithub size={8} style={{ flexShrink: 0 }} />
-                  GitHub
-                </a>
-              )}
-            </div>
-            <p style={c.projStack}>Stack: {proj.stack.join(", ")}</p>
-            <p style={c.projDesc} dangerouslySetInnerHTML={{ __html: proj.description }} />
-          </div>
-        ))}
+        {projects.length > 0 && (
+          <>
+            <p style={c.h}>Projects</p>
+            {projects.map((proj, i) => (
+              <div key={i} style={c.projItem}>
+                <div style={c.projTitleRow}>
+                  <p style={{ ...c.projTitle, margin: 0 }}>{proj.title}</p>
+                  {proj.link && (
+                    <a href={proj.link} target="_blank" rel="noreferrer" style={c.projLink}>
+                      <FaExternalLinkAlt size={7} style={{ flexShrink: 0 }} />
+                      Preview
+                    </a>
+                  )}
+                  {proj.gLink && (
+                    <a href={proj.gLink} target="_blank" rel="noreferrer" style={c.projLink}>
+                      <FaGithub size={8} style={{ flexShrink: 0 }} />
+                      GitHub
+                    </a>
+                  )}
+                </div>
+                {proj.stack?.length > 0 && <p style={c.projStack}>Stack: {proj.stack.join(", ")}</p>}
+                <p style={c.projDesc} dangerouslySetInnerHTML={{ __html: proj.description }} />
+              </div>
+            ))}
+          </>
+        )}
 
         {/* ── EDUCATION ── */}
         <p style={c.h}>Education</p>

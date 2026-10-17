@@ -1,12 +1,13 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Stack, IconButton } from "@chakra-ui/react";
 import { FaArrowUp } from "react-icons/fa";
+import { Routes, Route, Navigate, matchPath, useLocation } from "react-router-dom";
 import Helmet_SEO from "./ui/Helmet";
-import LazyRender from "./components/LazyRender";
-import useFirebase from "./hooks/useFirebase";
-import { contactLinks } from "./data/contact-links";
 import PropTypes from "prop-types";
-import { devFullName } from "./data/generic-data";
+import { loadContent } from "./hooks/useContent";
+import PageNav from "./components/PageNav";
+import ResumePicker from "./components/ResumePicker";
+import { ResumePickerContext } from "./hooks/useResumePicker";
 import {
   HeaderSkeleton,
   IntroSkeleton,
@@ -15,11 +16,13 @@ import {
   CardGridSkeleton,
   FooterSkeleton,
   CompanySkeleton,
+  ContactSkeleton,
 } from "./skeletons";
 
 // Lazy-loaded components
 // const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
+const ContactPage = lazy(() => import("./components/ContactPage"));
 const Header = lazy(() => import("./components/Header"));
 const MyIntro = lazy(() => import("./components/Intro"));
 const Projects = lazy(() => import("./components/Projects"));
@@ -31,35 +34,34 @@ const Education = lazy(() => import("./components/Education"));
 const Footer = lazy(() => import("./components/Footer"));
 const Skills = lazy(() => import("./components/Skills"));
 const Experience = lazy(() => import("./components/Experience"));
-const devName = devFullName || "Majid Ali";
 
-function HOC({ children, style, alt, fallback = CardGridSkeleton }) {
+function HOC({ children, style, alt, page, fallback = CardGridSkeleton }) {
+  const className = [page && "page", alt && "section-alt"].filter(Boolean).join(" ");
   return (
-    <>
-      <Suspense fallback={fallback}>
-        <div style={style} className={alt ? "section-alt" : ""}>
-        <LazyRender>{children}</LazyRender>
-        </div>
-      </Suspense>
-    </>
+    // The section shell stays mounted while its content loads, so the skeleton fills the same card the content will
+    <div style={style} className={className}>
+      <Suspense fallback={fallback}>{children}</Suspense>
+    </div>
   );
 }
 HOC.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   alt: PropTypes.bool,
+  page: PropTypes.bool,
   fallback: PropTypes.node,
 };
 
 function App() {
-  const { uploads } = useFirebase();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [resumePickerOpen, setResumePickerOpen] = useState(false);
+  const openResumePicker = useCallback(() => setResumePickerOpen(true), []);
+  const { pathname } = useLocation();
 
-  // Update resume link when uploads change
+  // Each page starts at the top
   useEffect(() => {
-    const resumeLink = uploads?.[0]?.resumeLink || import.meta.env.VITE_APP_RESUME_LINK;
-    if (contactLinks[6]) contactLinks[6].href = resumeLink;
-  }, [uploads]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 400);
@@ -67,66 +69,59 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const data = uploads?.[0];
+  // One page per header link (src/data/nav-links.js). `sections` are the content keys the page renders (hooks/useContent);
+  // the page shows `fallback` until they and its code have loaded.
+  const pages = [
+    {
+      path: "/",
+      title: "Portfolio",
+      sections: ["about", "contacts", "experience", "projects", "packages"],
+      fallback: IntroSkeleton,
+      element: <MyIntro Contact={Contact} />,
+    },
+    { path: "/experience", title: "Experience", sections: ["experience"], fallback: TimelineSkeleton, element: <Experience /> },
+    { path: "/skills", title: "Skills", sections: ["skills"], fallback: SkillsSkeleton, element: <Skills /> },
+    { path: "/services", title: "Services", sections: ["services"], fallback: CardGridSkeleton, element: <Services /> },
+    { path: "/venture", title: "Venture", sections: ["company"], fallback: CompanySkeleton, element: <Company /> },
+    { path: "/projects", title: "Projects", sections: ["projects"], fallback: CardGridSkeleton, element: <Projects /> },
+    { path: "/blogs", title: "Blogs", sections: ["blogs"], fallback: CardGridSkeleton, element: <Blogs /> },
+    { path: "/packages", title: "Packages", sections: ["packages"], fallback: CardGridSkeleton, element: <Packages /> },
+    { path: "/education", title: "Education", sections: ["education"], fallback: TimelineSkeleton, element: <Education /> },
+    { path: "/contact", title: "Contact", sections: ["contacts"], fallback: ContactSkeleton, element: <ContactPage /> },
+  ];
+
+  // Start every request this page needs at once, alongside its code download, instead of one after another as components
+  // suspend. Requests are shared and made once, so repeating this on every render is free. `settings` is the layout's.
+  const page = pages.find(({ path }) => matchPath(path, pathname));
+  loadContent(["settings", ...(page?.sections ?? [])]);
 
   return (
-    <>
-      <Helmet_SEO heading="Portfolio" />
+    <ResumePickerContext.Provider value={openResumePicker}>
       <Suspense fallback={HeaderSkeleton}>
         <Header />
       </Suspense>
 
       <Stack className="mainBody">
-        <HOC fallback={IntroSkeleton}>
-          <MyIntro
-            image={data?.imageBase64}
-            devName={devName}
-            Contact={Contact}
-            about={data?.paragraph}
-          />
-        </HOC>
+        <Routes>
+          {pages.map(({ path, title, fallback, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <HOC page alt={path !== "/"} fallback={fallback}>
+                  <Helmet_SEO heading={title} />
+                  {element}
+                </HOC>
+              }
+            />
+          ))}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
 
-        {/* <HOC>
-          <About about={data?.paragraph} />
-        </HOC> */}
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={TimelineSkeleton}>
-          <Experience />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={SkillsSkeleton}>
-          <Skills />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
-          <Services />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} fallback={CompanySkeleton}>
-          <Company />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
-          <Projects />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
-          <Blogs />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={CardGridSkeleton}>
-          <Packages />
-        </HOC>
-
-        <HOC style={{marginTop: "2rem"}} alt fallback={TimelineSkeleton}>
-          <Education />
-        </HOC>
-        {/* <Divider mt="5" mb="5" /> */}
+        <PageNav />
 
         <HOC fallback={FooterSkeleton}>
-          {/* <Contact />
-          <br /> */}
-          <Footer owner={devName} />
+          <Footer />
         </HOC>
       </Stack>
 
@@ -145,7 +140,9 @@ function App() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         />
       )}
-    </>
+
+      <ResumePicker isOpen={resumePickerOpen} onClose={() => setResumePickerOpen(false)} />
+    </ResumePickerContext.Provider>
   );
 }
 

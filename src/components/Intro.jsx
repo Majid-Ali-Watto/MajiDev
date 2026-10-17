@@ -12,33 +12,108 @@ import {
   VStack,
   HStack,
   Icon,
-  Highlight
+  Highlight,
+  Flex,
+  usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import AnimatedText from "./Animate";
-import { devFullName, devLocation } from "../data/generic-data";
-import PrintResume from "./PrintResume";
+import { devLocation } from "../data/generic-data";
 import { motion } from "framer-motion";
 import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 import { getTotalExperince } from "../utils/getExpYears";
-import { FaMapMarkerAlt, FaBriefcase } from "react-icons/fa";
+import useContent from "../hooks/useContent";
+import { FaMapMarkerAlt, FaBriefcase, FaCode } from "react-icons/fa";
+
+const FALLBACK_IMAGE = "/majid2.webp";
+
+function ProfilePhoto({ src, alt }) {
+  const reduceMotion = usePrefersReducedMotion();
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={
+        reduceMotion
+          ? { opacity: 1, scale: 1 }
+          : { opacity: 1, scale: 1, y: [0, -8, 0] }
+      }
+      transition={{
+        opacity: { duration: 1 },
+        scale: { duration: 1 },
+        y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+      }}
+    >
+      <Box
+        role="group"
+        position="relative"
+        w={{ base: "clamp(150px, 50vw, 200px)", md: "clamp(220px, 28vw, 440px)" }}
+        aspectRatio={1}
+      >
+        <Box
+          aria-hidden
+          position="absolute"
+          inset={0}
+          borderRadius="3xl"
+          bgGradient="linear(to-br, teal.400, purple.500)"
+          transform="rotate(6deg)"
+          boxShadow="0 12px 48px rgba(56, 178, 172, 0.35)"
+          transition="transform 0.5s ease"
+          _groupHover={{ transform: "rotate(0deg) scale(1.04)" }}
+        />
+        <Box
+          as="img"
+          src={src}
+          alt={alt}
+          onError={(e) => (e.currentTarget.src = FALLBACK_IMAGE)}
+          position="relative"
+          w="100%"
+          h="100%"
+          objectFit="cover"
+          borderRadius="3xl"
+          borderWidth="4px"
+          borderColor="chakra-body-bg"
+          transition="transform 0.5s ease"
+          _groupHover={{ transform: "translate(-4px, -4px)" }}
+        />
+        <Flex
+          aria-hidden
+          position="absolute"
+          right="-0.5rem"
+          bottom="1rem"
+          boxSize={{ base: 9, md: 11 }}
+          align="center"
+          justify="center"
+          borderRadius="xl"
+          bg="chakra-body-bg"
+          color="teal.500"
+          boxShadow="lg"
+          borderWidth="1px"
+        >
+          <Icon as={FaCode} />
+        </Flex>
+      </Box>
+    </motion.div>
+  );
+}
+
+ProfilePhoto.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};
 
 MyIntro.propTypes = {
-  devName: PropTypes.string.isRequired,
   Contact: PropTypes.elementType.isRequired,
-  image: PropTypes.string,
-  about: PropTypes.string,
 };
 
 export default function MyIntro({
   Contact,
-  devName = devFullName,
-  image,
-  about,
 }) {
-  const imgSrc = image || "/majid2.webp";
+  const { devName } = useContent("settings");
+  const experience = useContent("experience");
+  const { imageBase64, paragraph: about } = useContent("about");
+  const imgSrc = imageBase64 || FALLBACK_IMAGE;
   const aboutText =
-    about?.replace("Y-M-D", `(${getTotalExperince()})`) ||
-    `Full Stack Web Developer with (${getTotalExperince()}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`;
+    about?.replace("Y-M-D", `(${getTotalExperince(experience)})`) ||
+    `Full Stack Web Developer with (${getTotalExperince(experience)}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`;
 
   return (
     <>
@@ -54,11 +129,9 @@ export default function MyIntro({
           pb={{ base: 6, md: 0 }}
           gap={{ base: 8, md: 0 }}
         >
-          <img
+          <ProfilePhoto
             src={imgSrc}
             alt={devName ? `${devName}'s profile` : "Developer's profile image"}
-            className="profile-img"
-            onError={(e) => (e.target.src = "/majid2.webp")}
           />
 
           <VStack spacing={4} align="center" className="intro">
@@ -85,7 +158,7 @@ export default function MyIntro({
                   <HStack spacing={1}>
                     <Icon as={FaBriefcase} color="green.500" boxSize={3.5} />
                     <Text fontSize="sm" opacity={0.7}>
-                      {getTotalExperince()} Experience
+                      {getTotalExperince(experience)} Experience
                     </Text>
                   </HStack>
                 </HStack>
@@ -122,8 +195,6 @@ export default function MyIntro({
       <Suspense fallback={StatsSkeleton}>
         <Stats />
       </Suspense>
-
-      <PrintResume about={about} />
     </>
   );
 }

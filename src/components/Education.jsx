@@ -1,5 +1,4 @@
 import {
-  Box,
   Step,
   StepDescription,
   StepIndicator,
@@ -12,12 +11,14 @@ import {
   useSteps,
 } from "@chakra-ui/react";
 import { Element } from "react-scroll";
-import { educationData } from "../data/educationData";
+import useContent from "../hooks/useContent";
 import SectionHeader from "../ui/SectionHeader";
 import { motion } from "framer-motion";
+import TimelineCard from "../ui/TimelineCard";
 import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 
 const Education = () => {
+  const educationData = useContent("education");
   const { activeStep } = useSteps({
     index: 0,
     count: educationData.length,
@@ -58,29 +59,19 @@ const Education = () => {
                 />
               </StepIndicator>
 
-              <Box
-                flex={1}
-                minW={0}
-                mt={0}
-                ml={[0, 2]}
-                borderWidth="1px"
-                borderRadius="lg"
-                p={[2, 4]}
-                transition="transform 0.3s ease, box-shadow 0.3s ease"
-                _hover={{ transform: "translateY(-3px)", boxShadow: "xl" }}
-              >
+              <TimelineCard>
                 <StepTitle fontSize={titleFontSize} fontWeight="bold">
                   {education.degree}
                 </StepTitle>
 
-                <StepDescription fontSize={descriptionFontSize} opacity={0.8}>
+                <StepDescription fontSize={descriptionFontSize} color="teal.500" fontWeight="600">
                   {education.institution}
                 </StepDescription>
 
                 <Text fontSize="sm" opacity={0.6} mt={1}>
                   {education.duration}
                 </Text>
-              </Box>
+              </TimelineCard>
 
               <StepSeparator />
             </Step>

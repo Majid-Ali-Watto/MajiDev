@@ -1,31 +1,33 @@
-import { Box, Stack, SimpleGrid, Skeleton, SkeletonCircle } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Skeleton, SkeletonCircle } from "@chakra-ui/react";
+import SectionHeadingSkeleton from "./SectionHeadingSkeleton";
 
+// Mirrors components/Skills: category panels with a row of chips
 const SkillsSkeleton = (
-  <Stack p={8} w="100%" spacing={6}>
-    <Skeleton height="30px" width="20%" />
-    {[1, 2].map((cat) => (
-      <Stack key={cat} spacing={3}>
-        <Skeleton height="18px" width="28%" borderRadius="md" />
-        <SimpleGrid columns={{ base: 3, md: 5, lg: 8 }} spacing={3}>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <Box
-              key={i}
-              p={3}
-              borderRadius="lg"
-              borderWidth="1px"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              gap={2}
-            >
-              <SkeletonCircle size="8" />
-              <Skeleton height="10px" width="80%" />
-            </Box>
-          ))}
-        </SimpleGrid>
-      </Stack>
-    ))}
-  </Stack>
+  <Box>
+    {SectionHeadingSkeleton}
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={[4, 6]}>
+      {[1, 2, 3, 4].map((panel) => (
+        <Box
+          key={panel}
+          p={[4, 6]}
+          borderRadius="xl"
+          borderWidth="1px"
+          borderTopWidth="3px"
+          borderTopColor="teal.400"
+        >
+          <Flex align="center" gap={3} mb={4}>
+            <SkeletonCircle boxSize="2.5rem" />
+            <Skeleton height="1.2rem" width="35%" />
+          </Flex>
+          <Flex wrap="wrap" gap={2}>
+            {[5, 7, 6, 8, 5, 7].map((w, chip) => (
+              <Skeleton key={chip} height="2rem" width={`${w * 14}px`} borderRadius="full" />
+            ))}
+          </Flex>
+        </Box>
+      ))}
+    </SimpleGrid>
+  </Box>
 );
 
 export default SkillsSkeleton;

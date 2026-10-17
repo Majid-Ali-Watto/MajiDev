@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-export default function MyAccordion({ title, about, children }) {
+export default function MyAccordion({ title, about, defaultOpen = false, children }) {
   const fontSize = useBreakpointValue({
     base: "sm",
     md: "md",
@@ -20,7 +20,7 @@ export default function MyAccordion({ title, about, children }) {
   });
 
   return (
-    <Accordion allowMultiple width="100%">
+    <Accordion allowMultiple defaultIndex={defaultOpen ? [0] : []} width="100%">
       <AccordionItem border="none">
         <span>
           <AccordionButton px={0} py={paddingY}>
@@ -58,4 +58,5 @@ MyAccordion.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
   about: PropTypes.string,
+  defaultOpen: PropTypes.bool,
 };
