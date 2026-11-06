@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getMultiFactorResolver, signInWithEmailAndPassword, TotpMultiFactorGenerator } from "firebase/auth";
 import {
   Alert,
   AlertIcon,
@@ -19,26 +19,72 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FaArrowRight, FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUserShield } from "react-icons/fa";
+import { FaArrowRight, FaEnvelope, FaEye, FaEyeSlash, FaLock, FaMobileAlt, FaUserShield } from "react-icons/fa";
 import { auth } from "../config/firebaseApp";
+import CodeInput from "./CodeInput";
 
+// Sign-in is two steps once the authenticator app is set up (admin/TotpSetup): the password, then the app's 6-digit code.
+// Firebase answers the password with "multi-factor auth required"; its resolver then finishes the sign-in with the code.
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [resolver, setResolver] = useState(null); // set = the password was right, the code is next
+  const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const submit = async (e) => {
-    e.preventDefault();
+  const signIn = async () => {
     setBusy(true);
     setError("");
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
-      setError(err.code === "auth/too-many-requests" ? "Too many attempts. Try again later." : "Invalid email or password.");
+      if (err.code === "auth/multi-factor-auth-required") {
+        setResolver(getMultiFactorResolver(auth, err));
+        setPassword("");
+      } else {
+        setError(err.code === "auth/too-many-requests" ? "Too many attempts. Try again later." : "Invalid email or password.");
+      }
       setBusy(false);
     }
+  };
+
+  const verify = async (oneTimePassword) => {
+    const hint = resolver.hints.find((factor) => factor.factorId === TotpMultiFactorGenerator.FACTOR_ID);
+    if (!hint) {
+      setError("This account's second step is not an authenticator app.");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      await resolver.resolveSignIn(TotpMultiFactorGenerator.assertionForSignIn(hint.uid, oneTimePassword));
+      // Signed in: AdminPage swaps this screen for the dashboard
+    } catch (err) {
+      if (err.code === "auth/invalid-multi-factor-session") {
+        setResolver(null);
+        setError("That sign-in took too long. Enter your password again.");
+      } else if (err.code === "auth/too-many-requests") {
+        setError("Too many attempts. Try again later.");
+      } else {
+        setError("That code didn't match. Wait for the next code in your app and try again.");
+      }
+      setCode("");
+      setBusy(false);
+    }
+  };
+
+  const startOver = () => {
+    setResolver(null);
+    setCode("");
+    setError("");
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!resolver) signIn();
+    else if (code.length === 6) verify(code);
   };
 
   return (
@@ -64,12 +110,12 @@ export default function AdminLogin() {
         <Stack spacing={6}>
           <Stack spacing={3} align="center" textAlign="center">
             <Flex boxSize={16} align="center" justify="center" borderRadius="2xl" color="white" fontSize="2xl" bgGradient="linear(to-br, teal.400, purple.500)" boxShadow="0 10px 30px rgba(56,178,172,0.35)">
-              <Icon as={FaUserShield} />
+              <Icon as={resolver ? FaMobileAlt : FaUserShield} />
             </Flex>
             <Box>
-              <Heading size="lg">Welcome back</Heading>
+              <Heading size="lg">{resolver ? "Two-step verification" : "Welcome back"}</Heading>
               <Text mt={1} fontSize="sm" opacity={0.7} textAlign="center">
-                Sign in to manage your portfolio content
+                {resolver ? "Enter the 6-digit code from your authenticator app" : "Sign in to manage your portfolio content"}
               </Text>
             </Box>
           </Stack>
@@ -81,55 +127,73 @@ export default function AdminLogin() {
             </Alert>
           )}
 
-          <Stack spacing={4}>
-            <FormControl isRequired>
-              <FormLabel fontSize="sm" fontWeight="600">
-                Email
-              </FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" color="gray.400">
-                  <FaEnvelope />
-                </InputLeftElement>
-                <Input type="email" autoComplete="username" placeholder="you@example.com" focusBorderColor="teal.400" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </InputGroup>
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel fontSize="sm" fontWeight="600">
-                Password
-              </FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" color="gray.400">
-                  <FaLock />
-                </InputLeftElement>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
-                  placeholder="••••••••"
-                  focusBorderColor="teal.400"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <InputRightElement>
-                  <IconButton
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    size="sm"
-                    variant="ghost"
-                    icon={showPassword ? <FaEyeSlash /> : <FaEye />}
-                    onClick={() => setShowPassword((v) => !v)}
+          {resolver ? (
+            <CodeInput value={code} onChange={setCode} onComplete={verify} isDisabled={busy} />
+          ) : (
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel fontSize="sm" fontWeight="600">
+                  Email
+                </FormLabel>
+                <InputGroup>
+                  <InputLeftElement pointerEvents="none" color="gray.400">
+                    <FaEnvelope />
+                  </InputLeftElement>
+                  <Input type="email" autoComplete="username" placeholder="you@example.com" focusBorderColor="teal.400" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </InputGroup>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel fontSize="sm" fontWeight="600">
+                  Password
+                </FormLabel>
+                <InputGroup>
+                  <InputLeftElement pointerEvents="none" color="gray.400">
+                    <FaLock />
+                  </InputLeftElement>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    placeholder="••••••••"
+                    focusBorderColor="teal.400"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-          </Stack>
+                  <InputRightElement>
+                    <IconButton
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      size="sm"
+                      variant="ghost"
+                      icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+                      onClick={() => setShowPassword((v) => !v)}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            </Stack>
+          )}
 
-          <Button type="submit" size="lg" colorScheme="teal" rightIcon={<FaArrowRight />} isLoading={busy} loadingText="Signing in">
-            Sign in
+          <Button
+            type="submit"
+            size="lg"
+            colorScheme="teal"
+            rightIcon={<FaArrowRight />}
+            isLoading={busy}
+            loadingText={resolver ? "Verifying" : "Signing in"}
+            isDisabled={resolver && code.length < 6}
+          >
+            {resolver ? "Verify" : "Sign in"}
           </Button>
 
           <Text fontSize="sm" textAlign="center" opacity={0.7}>
-            <Link href="/" color="teal.400">
-              ← Back to site
-            </Link>
+            {resolver ? (
+              <Link as="button" type="button" onClick={startOver} color="teal.400">
+                ← Use a different account
+              </Link>
+            ) : (
+              <Link href="/" color="teal.400">
+                ← Back to site
+              </Link>
+            )}
           </Text>
         </Stack>
       </Box>

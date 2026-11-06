@@ -8,6 +8,28 @@
   to = "/index.html"
   status = 200
 
+# Security headers for every response. Netlify applies every matching [[headers]] block, so the ones below add to these.
+# Content-Security-Policy allows only what the site loads:
+# - connect-src: Firestore (content), Firebase Auth (/admin sign-in and token refresh), majidev-backend (/admin → GitHub).
+#   Changing VITE_API_URL means changing the backend address here too.
+# - img-src https: project images and the README preview's badges may be full URLs; data: the admin's photo and favicon.
+# - style-src 'unsafe-inline': Chakra UI (emotion) injects its styles at runtime.
+# - frame-ancestors 'none' (and X-Frame-Options for older browsers): no other site can frame /admin (clickjacking).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://majidev-backend.vercel.app; frame-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+# Vite puts a content hash in every file name under /assets, so a changed file always has a new URL
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Keep the admin portal out of search results (it is not linked or listed in the sitemap either).
 [[headers]]
   for = "/admin"

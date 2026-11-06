@@ -50,12 +50,12 @@ export default async function printResume(resume = {}) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${title}</title>
   <style>${styles}</style>
 </head>
 <body>${content}</body>
 </html>`);
   doc.close();
+  doc.title = title; // set as text: names from content are never parsed as HTML
 
   // Wait for content to render before printing
   iframe.onload = () => {

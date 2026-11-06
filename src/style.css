@@ -63,7 +63,7 @@ body,
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
-  font-family: "Fira Code", monospace !important;
+  font-family: "Fira Code Variable", monospace !important; /* self-hosted: @fontsource-variable/fira-code in main.jsx */
   /* font-family: "Poppins", sans-serif; */
 }
 

@@ -14,6 +14,7 @@ import {
   Icon,
   Highlight,
   Flex,
+  Skeleton,
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import AnimatedText from "./Animate";
@@ -26,7 +27,8 @@ import { FaMapMarkerAlt, FaBriefcase, FaCode } from "react-icons/fa";
 
 const FALLBACK_IMAGE = "/majid2.webp";
 
-function ProfilePhoto({ src, alt }) {
+// The floating, tilted frame around the profile photo; holds the photo or, while it loads, a placeholder of the same size
+function PhotoFrame({ children }) {
   const reduceMotion = usePrefersReducedMotion();
   return (
     <motion.div
@@ -59,21 +61,7 @@ function ProfilePhoto({ src, alt }) {
           transition="transform 0.5s ease"
           _groupHover={{ transform: "rotate(0deg) scale(1.04)" }}
         />
-        <Box
-          as="img"
-          src={src}
-          alt={alt}
-          onError={(e) => (e.currentTarget.src = FALLBACK_IMAGE)}
-          position="relative"
-          w="100%"
-          h="100%"
-          objectFit="cover"
-          borderRadius="3xl"
-          borderWidth="4px"
-          borderColor="chakra-body-bg"
-          transition="transform 0.5s ease"
-          _groupHover={{ transform: "translate(-4px, -4px)" }}
-        />
+        {children}
         <Flex
           aria-hidden
           position="absolute"
@@ -95,8 +83,38 @@ function ProfilePhoto({ src, alt }) {
   );
 }
 
+PhotoFrame.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const photoProps = {
+  position: "relative",
+  w: "100%",
+  h: "100%",
+  borderRadius: "3xl",
+  borderWidth: "4px",
+  borderColor: "chakra-body-bg",
+};
+
+// The admin's photo (useContent "photo": fetched apart from the intro text), else the built-in one
+function ProfilePhoto({ alt }) {
+  const { imageBase64 } = useContent("photo");
+  return (
+    <Box
+      as="img"
+      src={imageBase64 || FALLBACK_IMAGE}
+      alt={alt}
+      decoding="async"
+      onError={(e) => (e.currentTarget.src = FALLBACK_IMAGE)}
+      objectFit="cover"
+      transition="transform 0.5s ease"
+      _groupHover={{ transform: "translate(-4px, -4px)" }}
+      {...photoProps}
+    />
+  );
+}
+
 ProfilePhoto.propTypes = {
-  src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 };
 
@@ -109,8 +127,7 @@ export default function MyIntro({
 }) {
   const { devName } = useContent("settings");
   const { experience } = useContent("stats"); // job dates only, for the total
-  const { imageBase64, paragraph: about } = useContent("about");
-  const imgSrc = imageBase64 || FALLBACK_IMAGE;
+  const { paragraph: about } = useContent("about");
   const aboutText =
     about?.replace("Y-M-D", `(${getTotalExperince(experience)})`) ||
     `Full Stack Web Developer with (${getTotalExperince(experience)}) of experience, building end-to-end products across Vue.js, Nuxt.js, React, and TypeScript on the frontend, and Python/FastAPI microservices with gRPC and Kafka on the backend. Experienced with MSSQL, Redis, Docker, Kong API Gateway, and CI/CD pipelines with Prometheus, Grafana, and ELK Stack observability. Currently building LocalhostOnly.tech, a full-stack software delivery company for founders and lean teams — launching soon.`;
@@ -129,10 +146,12 @@ export default function MyIntro({
           pb={{ base: 6, md: 0 }}
           gap={{ base: 8, md: 0 }}
         >
-          <ProfilePhoto
-            src={imgSrc}
-            alt={devName ? `${devName}'s profile` : "Developer's profile image"}
-          />
+          <PhotoFrame>
+            {/* The text never waits for the photo: until it arrives, a placeholder holds its place */}
+            <Suspense fallback={<Skeleton {...photoProps} startColor="whiteAlpha.300" endColor="whiteAlpha.500" />}>
+              <ProfilePhoto alt={devName ? `${devName}'s profile` : "Developer's profile image"} />
+            </Suspense>
+          </PhotoFrame>
 
           <VStack spacing={4} align="center" className="intro">
             <motion.div

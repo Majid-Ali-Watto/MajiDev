@@ -2,7 +2,9 @@ import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 import { navLinks } from "../data/nav-links";
+import usePageMotion from "../hooks/usePageMotion";
 
 function PageLink({ link, label, direction }) {
   const isNext = direction === "next";
@@ -50,8 +52,10 @@ PageLink.propTypes = {
 };
 
 // Previous/next links in header order; CSS shows them only while the header is collapsed to the hamburger
+// Rendered with each page (App's routes), so it leaves and arrives with the page it belongs to
 function PageNav() {
   const { pathname } = useLocation();
+  const pageMotion = usePageMotion();
   const index = navLinks.findIndex((item) => item.path === pathname);
   if (index === -1) return null;
 
@@ -59,12 +63,12 @@ function PageNav() {
   const next = navLinks[index + 1];
 
   return (
-    <nav className="page-nav" aria-label="Page">
+    <motion.nav className="page-nav" aria-label="Page" {...pageMotion}>
       <SimpleGrid columns={2} spacing={2} mt={3}>
         {prev && <PageLink link={prev} label="Previous" direction="prev" />}
         {next && <PageLink link={next} label="Next" direction="next" />}
       </SimpleGrid>
-    </nav>
+    </motion.nav>
   );
 }
 

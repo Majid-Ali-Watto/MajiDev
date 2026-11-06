@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiArrowRight } from "react-icons/fi";
 import { NavLink, useLocation } from "react-router-dom";
 import { navLinks } from "../data/nav-links";
+import { siteUrl } from "../data/generic-data";
 import useContent from "../hooks/useContent";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,7 +19,7 @@ function Header() {
   }, [pathname]);
 
   function openLink() {
-    window.location.href = import.meta.env.VITE_SITE_URL;
+    window.location.href = siteUrl;
   }
 
   function Links() {

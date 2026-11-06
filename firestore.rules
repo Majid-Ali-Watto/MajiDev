@@ -5,8 +5,12 @@ rules_version = '2';
 // 2. Firebase console → Firestore → Rules → paste this file → Publish.
 service cloud.firestore {
   match /databases/{database}/documents {
+    // The admin account, signed in with its authenticator app code (two-step sign-in, see README): a session from the
+    // password alone can't write.
     function isAdmin() {
-      return request.auth != null && request.auth.uid == "STq3i9XPYQMVxU09vwua7XBugx43";
+      return request.auth != null
+        && request.auth.uid == "STq3i9XPYQMVxU09vwua7XBugx43"
+        && request.auth.token.firebase.sign_in_second_factor == "totp";
     }
 
     // Site content: one collection per section, each holding a single `content` document (src/hooks/useContent.js).
@@ -18,18 +22,6 @@ service cloud.firestore {
     match /{section}/content {
       allow read: if isSection(section);
       allow write: if isAdmin() && isSection(section);
-    }
-
-    // Old locations. Opening /admin moves their data into the collections above and deletes them;
-    // after that (and once the new site is live), delete these two blocks and publish again.
-    match /content/{doc} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    match /uploads/{doc} {
-      allow read: if true;
-      allow write: if isAdmin();
     }
   }
 }

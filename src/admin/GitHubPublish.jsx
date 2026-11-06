@@ -4,6 +4,7 @@ import { Alert, AlertDescription, AlertIcon, Avatar, Badge, Box, Button, ButtonG
 import { FaBuilding, FaGithub, FaLink, FaMapMarkerAlt } from "react-icons/fa";
 import { auth } from "../config/firebaseApp";
 import { buildProfile, buildReadme } from "./githubReadme";
+import { siteUrl } from "../data/generic-data";
 
 // The majidev-backend service (its own repository, deployed on Vercel), e.g. https://majidev-backend.vercel.app
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, "");
@@ -148,7 +149,7 @@ ProfileCard.propTypes = { profile: PropTypes.object.isRequired };
 export default function GitHubPublish({ content }) {
   const { github } = content;
   // Credit the public site, not wherever /admin happens to run (e.g. the dev server)
-  const readme = useMemo(() => buildReadme(content, import.meta.env.VITE_SITE_URL || window.location.origin), [content]);
+  const readme = useMemo(() => buildReadme(content, siteUrl), [content]);
   const profile = useMemo(() => buildProfile(content), [content]);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState(null);

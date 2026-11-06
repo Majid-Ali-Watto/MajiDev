@@ -1,4 +1,5 @@
 import { getExperienceYear, getTotalExperince } from "../utils/getExpYears";
+import parseDate from "../utils/parseDate";
 
 // Sections the profile README can include, in the order they appear
 export const README_SECTIONS = [
@@ -35,7 +36,7 @@ function bioState(content) {
   return `<!--github-bio:${state.replaceAll("--", "-\\u002d")}-->`; // "--" can't appear inside an HTML comment
 }
 
-const monthYear = (date) => (date === "Present" ? "Present" : new Date(date).toLocaleDateString("en-US", { month: "short", year: "numeric" }));
+const monthYear = (date) => (date === "Present" ? "Present" : parseDate(date).toLocaleDateString("en-US", { month: "short", year: "numeric" }));
 const code = (items) => items.map((item) => `\`${item}\``).join(" ");
 
 const renderers = {
