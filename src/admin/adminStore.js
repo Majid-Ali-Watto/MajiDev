@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc, writeBatch } from "firebase/firestore/lite";
+import { doc, getDoc, setDoc, writeBatch } from "firebase/firestore/lite";
 import { db } from "../config/firebaseApp";
 import { SECTION_DOC } from "../hooks/useContent";
 import { STATS_SOURCES, forSite, siteContent, statsFor } from "../data/siteContent";
@@ -23,32 +23,15 @@ function builtInData(key) {
 }
 
 // Makes sure every section has its own document, in one atomic batch (either all of it is written or none of it):
-// - Before per-section collections, sections were fields of content/site (or content/{key} docs) and the profile was uploads/*,
-//   alongside fields the site never used (resumeLink, timestamp). Those sections are copied over and the old documents deleted.
 // - Any section still without a document gets its built-in content, so everything the site shows lives in Firestore.
 // - The stats document is (re)written if it is missing or does not match the sections, e.g. on the first load after it was added.
+// Nothing is written when both are already in place, which is every load after the first.
 async function fillSections(sections, storedStats) {
-  const [content, uploads] = await Promise.all([getDocs(collection(db, "content")), getDocs(collection(db, "uploads"))]);
-
-  const legacy = {};
-  for (const snap of content.docs) {
-    if (snap.id !== "site") {
-      if (SECTIONS.includes(snap.id)) legacy[snap.id] = snap.data();
-      continue;
-    }
-    const site = snap.data();
-    for (const key of SECTIONS) if (site[key] !== undefined) legacy[key] ??= sectionData(key, site[key], site.builtIn?.[key]);
-  }
-  // The profile kept empty strings for fields left at their default; the new document omits them
-  const profile = uploads.docs[0]?.data() ?? {};
-  const about = Object.fromEntries(Object.keys(siteContent.about).filter((name) => profile[name]).map((name) => [name, profile[name]]));
-  if (Object.keys(about).length) legacy.about = { value: about };
-
   const batch = writeBatch(db);
   let writes = 0;
   for (const key of SECTIONS) {
     if (sections[key]) continue;
-    sections[key] = legacy[key] ?? builtInData(key);
+    sections[key] = builtInData(key);
     batch.set(sectionDoc(key), sections[key]);
     writes++;
   }
@@ -57,8 +40,7 @@ async function fillSections(sections, storedStats) {
     batch.set(sectionDoc(STATS), stats);
     writes++;
   }
-  [...content.docs, ...uploads.docs].forEach((snap) => batch.delete(snap.ref));
-  if (writes || !content.empty || !uploads.empty) await batch.commit();
+  if (writes) await batch.commit();
 }
 
 // `stored` keeps the shape the editor expects: { [key]: value, builtIn: { [key]: true } }.

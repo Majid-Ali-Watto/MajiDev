@@ -17,7 +17,10 @@ export default defineConfig({
 				// The service worker answers page navigations with index.html (the SPA). Opening a file directly, e.g. a
 				// project image in a new tab (/kharchafy.webp), robots.txt or sitemap.xml, must reach the file instead,
 				// otherwise the router sends the unknown path to the home page.
-				navigateFallbackDenylist: [/\/[^/?]+\.[a-z0-9]+(?:\?|$)/i]
+				navigateFallbackDenylist: [/\/[^/?]+\.[a-z0-9]+(?:\?|$)/i],
+				// /admin's code (Firebase SDK, editors) and its README preview renderer are only for the site owner: don't
+				// make every visitor's service worker download them. /admin still loads them from the network when opened.
+				globIgnores: ["**/AdminPage-*.js", "**/marked.esm-*.js"]
 			},
 			manifest: {
 				name: "Majid Ali, Full Stack Web Developer",

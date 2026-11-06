@@ -51,6 +51,8 @@ function CardsList({ id, heading, list, buttons, showAll }) {
 									<Image
 										src={record.imgURL}
 										alt={record.title}
+										loading="lazy"
+										decoding="async"
 										height="100%"
 										width="100%"
 										objectFit="cover"
@@ -73,7 +75,7 @@ function CardsList({ id, heading, list, buttons, showAll }) {
 										_hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
 										borderRadius="full"
 										size="sm"
-										onClick={() => window.open(record.imgURL, "_blank")}
+										onClick={() => window.open(record.imgURL, "_blank", "noopener,noreferrer")}
 									/>
 								</Box>
 							)}

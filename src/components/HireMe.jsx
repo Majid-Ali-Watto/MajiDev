@@ -1,5 +1,5 @@
 import { Button, HStack } from "@chakra-ui/react";
-import { devResume, hireMeLink } from "../data/generic-data";
+import { hireMeLink } from "../data/generic-data";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { TbFileCv } from "react-icons/tb";
 import printResume from "../utils/printResume";

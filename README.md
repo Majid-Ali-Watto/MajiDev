@@ -69,6 +69,34 @@ src/
     └── firebaseConfig.js
 ```
 
+## 🔐 Two-step sign-in (/admin)
+
+`/admin` signs in with your password **and** a 6-digit code from an authenticator app (Google Authenticator, Microsoft
+Authenticator, 1Password, Authy…). Firestore rules and the backend only accept a session that used the code, so a leaked
+password alone can't change the site or publish to GitHub.
+
+**One-time setup on the Firebase project** (in this order):
+
+1. Firebase console → Authentication → Settings → **Upgrade to Firebase Authentication with Identity Platform**
+   (the console shows its pricing before you confirm; a single admin account is far inside the free usage).
+2. Turn on authenticator apps (TOTP). The console has no switch for it, so run this once, e.g. in Google Cloud Shell
+   (replace `PROJECT_ID` with the site's `VITE_APP_PROJECT_ID`):
+   ```bash
+   curl -X PATCH "https://identitytoolkit.googleapis.com/admin/v2/projects/PROJECT_ID/config?updateMask=mfa" \
+     -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+     -H "X-Goog-User-Project: PROJECT_ID" \
+     -H "Content-Type: application/json" \
+     -d '{"mfa": {"providerConfigs": [{"state": "ENABLED", "totpProviderConfig": {"adjacentIntervals": 5}}]}}'
+   ```
+3. Deploy the site, open `/admin`, sign in, and follow **Set up two-step sign-in**: scan the QR code, enter a code, then
+   sign in again with password + code. Save the setup key it shows in your password manager: it's how you add the
+   account to a new phone.
+4. Only now publish `firestore.rules` (Firebase console → Firestore → Rules) and deploy majidev-backend. Before step 3
+   they would lock you out of saving, since no session of yours has used a code yet.
+
+**Lost the phone and the setup key?** Remove the second factor with the Firebase Admin SDK
+(`getAuth().updateUser(uid, { multiFactor: { enrolledFactors: null } })`), then set it up again.
+
 
 
 

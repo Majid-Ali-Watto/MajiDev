@@ -44,10 +44,28 @@ export const VISIBLE = "visible";
 
 export const isHidden = (...items) => items.some((item) => item?.[VISIBLE] === false);
 
-// `value` without hidden list items, at any depth (e.g. a hidden project inside a job, or a hidden skill inside a category)
-export function withoutHidden(value) {
-  if (Array.isArray(value)) return value.filter((item) => !isHidden(item)).map(withoutHidden);
-  if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([name, v]) => [name, withoutHidden(v)]));
+// Content fields the site turns into links (a card also opens its `imgURL`). Only these schemes are kept, so a stored
+// "javascript:" URL can never run on the site; the URL parser is the browser's own, so tricks like "java\tscript:" fail too.
+const LINK_FIELDS = new Set(["href", "link", "gLink", "url", "blog", "imgURL"]);
+const SAFE_SCHEMES = new Set(["http:", "https:", "mailto:", "tel:"]);
+
+export function isSafeLink(url) {
+  try {
+    return SAFE_SCHEMES.has(new URL(url, "https://relative.invalid").protocol); // a relative path counts as https
+  } catch {
+    return false;
+  }
+}
+
+// `value` as the public sees it: without hidden list items at any depth (e.g. a hidden project inside a job, or a hidden
+// skill inside a category), and with unsafe links emptied (readers already skip an empty link)
+export function publicView(value) {
+  if (Array.isArray(value)) return value.filter((item) => !isHidden(item)).map(publicView);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([name, v]) => [name, LINK_FIELDS.has(name) && typeof v === "string" && v && !isSafeLink(v) ? "" : publicView(v)]),
+    );
+  }
   return value;
 }
 
@@ -60,8 +78,8 @@ export function sectionContent(key, stored) {
 }
 
 // What the public site renders for one section. Every site reader goes through here (pages and the printed résumé),
-// and /admin publishes the same view to GitHub, so hidden items are dropped in this one place.
-export const forSite = (key, stored) => withoutHidden(sectionContent(key, stored));
+// and /admin publishes the same view to GitHub, so hidden items and unsafe links are dropped in this one place.
+export const forSite = (key, stored) => publicView(sectionContent(key, stored));
 
 // The `stats` section is derived, not edited: the home page's figures, so it fetches this small document instead of the
 // whole sections they come from. /admin rewrites it with every save of a source section (admin/adminStore.js).

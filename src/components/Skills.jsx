@@ -1,5 +1,6 @@
 import { Box, Card, Flex, Heading, SimpleGrid, Tag, TagLabel, TagLeftIcon, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 import SectionHeader from "../ui/SectionHeader";
 import { skillIcons, FallbackSkillIcon } from "../data/skillIcons";
 import useContent from "../hooks/useContent";
@@ -25,6 +26,12 @@ const SkillChip = ({ label, icon, colorScheme }) => (
     </TagLabel>
   </Tag>
 );
+
+SkillChip.propTypes = {
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  colorScheme: PropTypes.string,
+};
 
 const SkillPanel = ({ label, icon, colorScheme, items }) => {
   const CategoryIcon = skillIcons[icon] ?? FallbackSkillIcon;
@@ -74,6 +81,13 @@ const SkillPanel = ({ label, icon, colorScheme, items }) => {
       </Card>
     </motion.div>
   );
+};
+
+SkillPanel.propTypes = {
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string,
+  colorScheme: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string.isRequired, icon: PropTypes.string })).isRequired,
 };
 
 const SkillsSection = () => {

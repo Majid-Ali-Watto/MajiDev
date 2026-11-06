@@ -197,9 +197,23 @@ export default function PrintResume({ resume = {} }) {
   const skillsData = skills.map((cat) => ({ ...cat, items: ticked(cat.items, resume.skills, "label") })).filter((cat) => cat.items.length);
   const experienceData = experience.map((job) => ({ ...job, projects: ticked(job.projects, resume.experience, "name") }));
   const projects = resume.projects?.length ? ticked(allProjects, resume.projects, "title") : allProjects.filter((proj) => proj.includeInResume);
-  const summary =
-    (resume.summary || about)?.replace("Y-M-D", `<b>(${totalExp})</b>`) ||
-    `Full Stack Web Developer with <b>(${totalExp})</b> of experience specializing in <b>Vue, React, Node.js, and Express</b>. Proficient in building scalable <b>micro front-end architectures</b>, modernizing legacy systems, and delivering efficient, user-focused solutions. Skilled in optimizing performance and developing reusable components for seamless software delivery.`;
+  // Content is rendered as text, never as HTML, so nothing saved in /admin can inject markup into the résumé.
+  // The first "Y-M-D" becomes the total experience, in bold.
+  const text = resume.summary || about;
+  const [before, after] = text ? text.split(/Y-M-D(.*)/s) : [];
+  const summary = text ? (
+    <>
+      {before}
+      {after !== undefined && <b>({totalExp})</b>}
+      {after}
+    </>
+  ) : (
+    <>
+      Full Stack Web Developer with <b>({totalExp})</b> of experience specializing in <b>Vue, React, Node.js, and Express</b>. Proficient in building
+      scalable <b>micro front-end architectures</b>, modernizing legacy systems, and delivering efficient, user-focused solutions. Skilled in optimizing
+      performance and developing reusable components for seamless software delivery.
+    </>
+  );
 
   return (
     <div className="print-resume" aria-hidden="true">
@@ -220,7 +234,7 @@ export default function PrintResume({ resume = {} }) {
 
         {/* ── PROFESSIONAL SUMMARY ── */}
         <p style={{ ...c.h, marginTop: 0 }}>Professional Summary</p>
-        <p style={{ margin: 0, fontSize: "9.5px", lineHeight: "1.6" }} dangerouslySetInnerHTML={{ __html: summary }} />
+        <p style={{ margin: 0, fontSize: "9.5px", lineHeight: "1.6" }}>{summary}</p>
 
         {/* ── TECHNICAL SKILLS ── */}
         <p style={c.h}>Technical Skills</p>
@@ -250,10 +264,10 @@ export default function PrintResume({ resume = {} }) {
             {exp.projects.map((proj, j) => (
               <div key={j} style={{ paddingLeft: "6px" }}>
                 {proj.name  && <p style={c.projName}>▸ {proj.name}</p>}
-                {proj.about && <p style={c.projAbout} dangerouslySetInnerHTML={{ __html: proj.about }} />}
+                {proj.about && <p style={c.projAbout}>{proj.about}</p>}
                 <ul style={c.ul}>
                   {proj.description.map((d, k) => (
-                    <li key={k} style={c.li} dangerouslySetInnerHTML={{ __html: d.description }}></li>
+                    <li key={k} style={c.li}>{d.description}</li>
                   ))}
                 </ul>
               </div>
@@ -283,7 +297,7 @@ export default function PrintResume({ resume = {} }) {
                   )}
                 </div>
                 {proj.stack?.length > 0 && <p style={c.projStack}>Stack: {proj.stack.join(", ")}</p>}
-                <p style={c.projDesc} dangerouslySetInnerHTML={{ __html: proj.description }} />
+                <p style={c.projDesc}>{proj.description}</p>
               </div>
             ))}
           </>

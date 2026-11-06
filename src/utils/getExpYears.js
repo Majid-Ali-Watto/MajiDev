@@ -1,11 +1,13 @@
+import parseDate from "./parseDate";
+
 // Helper function to calculate experience years, months, and days
 export function getExperienceYear(
   startDt = null,
   endDt = null,
   objResult = false
 ) {
-  const sdt = new Date(startDt); // Start date
-  const currentDate = endDt !== "Present" ? new Date(endDt) : new Date(); // Current date
+  const sdt = parseDate(startDt); // Start date
+  const currentDate = endDt !== "Present" ? parseDate(endDt) : new Date(); // Current date
 
   let years = currentDate.getFullYear() - sdt.getFullYear();
   let months = currentDate.getMonth() - sdt.getMonth();
