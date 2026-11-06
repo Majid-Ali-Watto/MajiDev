@@ -5,7 +5,7 @@ rules_version = '2';
 // 2. Firebase console → Firestore → Rules → paste this file → Publish.
 service cloud.firestore {
   match /databases/{database}/documents {
-    // The admin account, signed in with its authenticator app code (two-step sign-in, see README): a session from the
+    // The admin account, signed in with its authenticator app code (two-step sign-in, see DEVELOPMENT.md): a session from the
     // password alone can't write.
     function isAdmin() {
       return request.auth != null
