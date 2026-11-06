@@ -124,7 +124,7 @@ export default function TotpSetup({ user }) {
       <Alert status="warning" borderRadius="lg">
         <AlertIcon />
         <AlertDescription fontSize="sm">
-          Authenticator apps aren&apos;t enabled for this Firebase project yet. Follow &quot;Two-step sign-in&quot; in the README (one-time setup), then reload this page.
+          Authenticator apps aren&apos;t enabled for this Firebase project yet. Follow &quot;Two-step sign-in&quot; in DEVELOPMENT.md (one-time setup), then reload this page.
         </AlertDescription>
       </Alert>
     );

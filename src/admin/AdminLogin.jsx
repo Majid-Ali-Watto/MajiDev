@@ -23,6 +23,12 @@ import { FaArrowRight, FaEnvelope, FaEye, FaEyeSlash, FaLock, FaMobileAlt, FaUse
 import { auth } from "../config/firebaseApp";
 import CodeInput from "./CodeInput";
 
+// A bare username ("majidaliqau") means a Gmail address; anything with an "@" is used as typed
+const withGmail = (value) => {
+  const email = value.trim();
+  return email && !email.includes("@") ? `${email}@gmail.com` : email;
+};
+
 // Sign-in is two steps once the authenticator app is set up (admin/TotpSetup): the password, then the app's 6-digit code.
 // Firebase answers the password with "multi-factor auth required"; its resolver then finishes the sign-in with the code.
 export default function AdminLogin() {
@@ -35,10 +41,12 @@ export default function AdminLogin() {
   const [busy, setBusy] = useState(false);
 
   const signIn = async () => {
+    const fullEmail = withGmail(email);
+    setEmail(fullEmail);
     setBusy(true);
     setError("");
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, fullEmail, password);
     } catch (err) {
       if (err.code === "auth/multi-factor-auth-required") {
         setResolver(getMultiFactorResolver(auth, err));
@@ -139,7 +147,23 @@ export default function AdminLogin() {
                   <InputLeftElement pointerEvents="none" color="gray.400">
                     <FaEnvelope />
                   </InputLeftElement>
-                  <Input type="email" autoComplete="username" placeholder="you@example.com" focusBorderColor="teal.400" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  {/* type="text" (with the email keyboard): type="email" would block a bare username before withGmail completes it */}
+                  <Input
+                    type="text"
+                    inputMode="email"
+                    autoComplete="username"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    placeholder="you or you@example.com"
+                    focusBorderColor="teal.400"
+                    paddingEnd="6.5rem" // room for the "@gmail.com" hint
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => setEmail(withGmail)}
+                  />
+                  <InputRightElement pointerEvents="none" w="auto" pr={3} fontSize="sm" color="gray.400">
+                    {email && !email.includes("@") ? "@gmail.com" : null}
+                  </InputRightElement>
                 </InputGroup>
               </FormControl>
               <FormControl isRequired>
