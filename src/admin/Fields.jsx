@@ -30,7 +30,10 @@ import { FaArrowDown, FaArrowUp, FaEye, FaEyeSlash, FaImage, FaPlus, FaTrash, Fa
 import { emptyValue, optionLabel, optionValue } from "./adminSchemas";
 import { AdminContent } from "./adminContent";
 import { VISIBLE } from "../data/siteContent";
-import { resizeImage } from "./resizeImage";
+import { scaleImage, resizeImage } from "./resizeImage";
+import { saveImage } from "./adminStore";
+import useImageSrc from "../hooks/useImageSrc";
+import { uploadedImageId } from "../utils/uploadedImage";
 
 const focus = { focusBorderColor: "teal.400" };
 
@@ -109,6 +112,52 @@ function ImageInput({ value, onChange, options, label }) {
   );
 }
 ImageInput.propTypes = { value: PropTypes.string.isRequired, onChange: PropTypes.func.isRequired, options: PropTypes.shape({ size: PropTypes.number, mime: PropTypes.string }).isRequired, label: PropTypes.string.isRequired };
+
+// What a card's picture is stored as: whatever the user types (a /public path or a URL), or "upload:{id}" once a file is
+// uploaded. Each upload is its own Firestore document, so it must stay small (maxLength; the rules in firestore.rules
+// enforce a limit too); the browser scales it down to fit a card.
+const CARD_IMAGE = { maxWidth: 1000, mime: "image/webp", maxLength: 150_000 };
+
+function CardImageInput({ value, onChange, label }) {
+  const inputRef = useRef(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const preview = useImageSrc(uploadedImageId(value) ? value : "");
+
+  const pick = async (e) => {
+    const file = e.target.files[0];
+    e.target.value = ""; // allow picking the same file again
+    if (!file) return;
+    setBusy(true);
+    setError("");
+    try {
+      onChange(await saveImage(await scaleImage(file, CARD_IMAGE)));
+    } catch (err) {
+      setError(err.code === "permission-denied" ? "Not allowed: publish the latest firestore.rules (it adds the images collection)." : err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <>
+      <HStack>
+        <Input {...focus} value={value} onChange={(e) => onChange(e.target.value)} />
+        <Button size="md" flexShrink={0} leftIcon={<FaUpload />} colorScheme="teal" variant="outline" isLoading={busy} onClick={() => inputRef.current.click()}>
+          Upload
+        </Button>
+        <input ref={inputRef} type="file" accept="image/*" hidden aria-label={`Choose ${label}`} onChange={pick} />
+      </HStack>
+      {preview && <Image mt={2} src={preview} alt={`${label} preview`} maxH="7rem" borderRadius="md" borderWidth="1px" />}
+      {error && (
+        <Text mt={2} fontSize="xs" color="red.400" role="alert">
+          {error}
+        </Text>
+      )}
+    </>
+  );
+}
+CardImageInput.propTypes = { value: PropTypes.string.isRequired, onChange: PropTypes.func.isRequired, label: PropTypes.string.isRequired };
 
 // Checkboxes over items of another section (see `choices` in adminSchemas), grouped under their `group` heading.
 // Hidden items are offered too (marked), so hiding one keeps its tick. Ticked values whose item was renamed or deleted
@@ -191,6 +240,7 @@ function Field({ field, value, onChange, item }) {
       </Select>
     );
   else if (type === "image") control = <ImageInput value={value ?? ""} onChange={onChange} options={field.image} label={label} />;
+  else if (type === "cardImage") control = <CardImageInput value={value ?? ""} onChange={onChange} label={label} />;
   else if (type === "tags") control = <TagsInput value={value ?? []} onChange={onChange} />;
   else if (type === "choices") control = <ChoicesInput options={options} value={value ?? []} onChange={onChange} />;
   else control = <Input {...focus} value={value ?? ""} onChange={(e) => onChange(e.target.value)} />;

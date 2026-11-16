@@ -10,6 +10,8 @@ const colorOptions = ["teal", "purple", "blue", "orange", "green", "red", "pink"
 
 const text = (name, label, extra) => ({ type: "text", name, label, ...extra });
 const area = (name, label, extra) => ({ type: "textarea", name, label, ...extra });
+// A card's picture: typed as a path or URL, or uploaded (stored as "upload:{id}", see utils/uploadedImage)
+const cardImage = (hint) => ({ type: "cardImage", name: "imgURL", label: "Image", hint });
 const tags = (name, label, hint) => ({ type: "tags", name, label, hint: hint ?? "Comma separated" });
 // Checkboxes over items of other sections. `options(content)` gets the saved content of every section (hidden items included)
 // and returns [{ value, label, group?, hidden? }]; the field stores the checked values. `hidden` marks items the site leaves out.
@@ -17,13 +19,14 @@ const choices = (name, label, options, hint) => ({ type: "choices", name, label,
 
 const DATE = { pattern: /^\d{4}-\d{2}-\d{2}$/, hint: "YYYY-MM-DD" };
 
-const imageHint = "Path under /public (e.g. /my-project.webp) or a full URL";
+const imageHint = "Upload a file, or give a path under /public (e.g. /my-project.webp) or a full URL";
+const projectImageHint = `${imageHint}. Leave empty to show a screenshot of the Live preview URL`;
 const cardFields = {
   projects: [
     text("title", "Title", { required: true }),
     text("link", "Live preview URL"),
     text("gLink", "GitHub URL"),
-    text("imgURL", "Image", { hint: imageHint }),
+    cardImage(projectImageHint),
     area("description", "Description", { required: true }),
     tags("stack", "Tech stack"),
     { type: "boolean", name: "includeInResume", label: "Include in printed resume" },
@@ -31,20 +34,20 @@ const cardFields = {
   services: [
     text("title", "Title", { required: true }),
     text("link", "Link"),
-    text("imgURL", "Image", { hint: imageHint }),
+    cardImage(imageHint),
     area("description", "Description", { required: true }),
   ],
   blogs: [
     text("title", "Title", { required: true }),
     text("link", "Blog URL", { required: true }),
-    text("imgURL", "Image", { hint: imageHint }),
+    cardImage(imageHint),
     area("description", "Description", { required: true }),
   ],
   packages: [
     text("title", "Title", { required: true }),
     text("link", "npm URL"),
     text("gLink", "GitHub URL"),
-    text("imgURL", "Image", { hint: imageHint }),
+    cardImage(imageHint),
     area("description", "Description", { required: true }),
   ],
 };

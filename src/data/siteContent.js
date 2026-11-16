@@ -10,6 +10,7 @@ import { settings } from "./settings";
 import { contactLinks } from "./contact-links";
 import { resumes } from "./resumes";
 import { github } from "./github";
+import { uploadedImageId } from "../utils/uploadedImage";
 
 // Built-in defaults. A Firestore `{key}/content` document overrides its section (edited from /admin).
 export const siteContent = {
@@ -57,13 +58,44 @@ export function isSafeLink(url) {
   }
 }
 
+// Some hosts' "share" links are HTML pages an <img> can't show. Pasted as an image, they become the file itself:
+// a GitHub file page (github.com/<user>/<repo>/blob/<branch>/<path>) → raw.githubusercontent.com, and a public Google Drive
+// file (…/file/d/<id>/view, /open?id=<id>, /uc?id=<id>) → its image on lh3.googleusercontent.com. Any other URL is returned as is.
+export function imageSrc(url) {
+  try {
+    const { protocol, hostname, pathname, search, searchParams } = new URL(url);
+    if (protocol !== "https:") return url;
+    if (hostname === "github.com") {
+      const [, user, repo, kind, ...rest] = pathname.split("/");
+      if ((kind === "blob" || kind === "raw") && rest.length > 1) return `https://raw.githubusercontent.com/${user}/${repo}/${rest.join("/")}${search}`;
+    } else if (hostname === "drive.google.com") {
+      const id = pathname.match(/^\/file\/(?:u\/\d+\/)?d\/([\w-]+)/)?.[1] ?? (/^\/(?:open|uc)$/.test(pathname) ? searchParams.get("id") : null);
+      if (id && /^[\w-]+$/.test(id)) return `https://lh3.googleusercontent.com/d/${id}`;
+    }
+  } catch {
+    // a relative path (under /public) or malformed text: shown as written
+  }
+  return url;
+}
+
+// A screenshot of the page at `link`, for a card that has no image of its own (empty if `link` isn't a web page).
+// The image is rendered by thum.io from the public URL alone, so nothing has to be stored or deployed.
+export const previewSrc = (link) => (/^https?:\/\//i.test(link ?? "") ? `https://image.thum.io/get/width/1000/crop/625/${link}` : "");
+
+// A link field as the public sees it: emptied if its scheme is unsafe, and an image's share page turned into the file.
+// An image uploaded in /admin ("upload:{id}") is kept: it is a Firestore document id, never a URL the browser opens.
+const publicLink = (name, url) => {
+  if (name === "imgURL" && uploadedImageId(url)) return url;
+  return !isSafeLink(url) ? "" : name === "imgURL" ? imageSrc(url) : url;
+};
+
 // `value` as the public sees it: without hidden list items at any depth (e.g. a hidden project inside a job, or a hidden
 // skill inside a category), and with unsafe links emptied (readers already skip an empty link)
 export function publicView(value) {
   if (Array.isArray(value)) return value.filter((item) => !isHidden(item)).map(publicView);
   if (value && typeof value === "object") {
     return Object.fromEntries(
-      Object.entries(value).map(([name, v]) => [name, LINK_FIELDS.has(name) && typeof v === "string" && v && !isSafeLink(v) ? "" : publicView(v)]),
+      Object.entries(value).map(([name, v]) => [name, LINK_FIELDS.has(name) && typeof v === "string" && v ? publicLink(name, v) : publicView(v)]),
     );
   }
   return value;

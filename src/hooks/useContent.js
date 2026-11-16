@@ -16,7 +16,7 @@ const PARTS = {
 };
 const sectionOf = (key) => PARTS[key]?.section ?? key;
 
-const DOCUMENTS = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
+export const DOCUMENTS = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
 
 // Firestore REST tags every value with its type: { stringValue: "…" }, { mapValue: { fields } }, { arrayValue: { values } }, …
 function decode(value) {
