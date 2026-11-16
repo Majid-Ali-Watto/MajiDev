@@ -1,26 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import { devPost } from "../data/generic-data";
-
-const roles = [
-  devPost,
-  "Vue.js / Nuxt.js / React Specialist",
-  "Python & FastAPI Engineer",
-  "Microservices & DevOps",
-];
+import useContent from "../hooks/useContent";
 
 export default function AnimatedText() {
-  const [text, setText] = useState(roles[0]);
-  const currentIndex = useRef(0);
+  const { roles } = useContent("settings");
+  const [index, setIndex] = useState(0);
+  const count = roles.length;
+  const text = roles[index % count];
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      currentIndex.current = (currentIndex.current + 1) % roles.length;
-      setText(roles[currentIndex.current]);
-    }, 3000);
-
+    if (count < 2) return;
+    const intervalId = setInterval(() => setIndex((i) => (i + 1) % count), 3000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [count]);
 
   return (
     <Box

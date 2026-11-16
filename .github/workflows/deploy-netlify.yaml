@@ -1,0 +1,57 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - latest-ui
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.5
+
+      # Exactly the versions in package-lock.json. No secret is in the environment yet, so install scripts can't read one.
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      # Vite inlines VITE_ variables at build time; .env is not in the repository, so they come from the
+      # repository's Actions Variables (Settings → Secrets and variables → Actions → Variables). See .env.example.
+      - name: Build site
+        run: npm run build
+        env:
+          VITE_APP_APIKEY: ${{ vars.VITE_APP_APIKEY }}
+          VITE_APP_AUTH_DOMAIN: ${{ vars.VITE_APP_AUTH_DOMAIN }}
+          VITE_APP_PROJECT_ID: ${{ vars.VITE_APP_PROJECT_ID }}
+          VITE_APP_STORAGE_BUCKET: ${{ vars.VITE_APP_STORAGE_BUCKET }}
+          VITE_APP_MESSAGING_SENDER_ID: ${{ vars.VITE_APP_MESSAGING_SENDER_ID }}
+          VITE_APP_APP_ID: ${{ vars.VITE_APP_APP_ID }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+
+      # The Netlify token exists only in this step; netlify-cli is pinned so a new release can't change what runs with it
+      - name: Deploy production site
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: >-
+          npx --yes netlify-cli@27.16.2 deploy
+          --dir=dist
+          --no-build
+          --prod
+          --site="$NETLIFY_SITE_ID"
+          --message="GitHub Actions $GITHUB_SHA"

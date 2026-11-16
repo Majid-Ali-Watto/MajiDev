@@ -1,70 +1,15 @@
-import {
-  FaLinkedin,
-  FaMedium,
-  FaGithub,
-  FaEnvelope,
-  FaWhatsapp,
-  FaBuilding,
-} from "react-icons/fa6";
-import { TbFileCv, TbBrandUpwork } from "react-icons/tb";
-import {
-  devArticles,
-  devEmail,
-  devGithub,
-  devPhone,
-  devPortfolio,
-  hireMeLink,
-} from "./generic-data";
+import { devArticles, devEmail, devGithub, devPhone, devPortfolio, hireMeLink } from "./generic-data";
 import { companyData } from "./company-data";
-import printResume from "../utils/printResume";
 
+// Serializable so it can be stored in Firestore as-is. Icon names resolve through ./contactIcons.
+// action: "link" opens `href`; "printResume" prints the on-page résumé (href is ignored).
 export const contactLinks = [
-  {
-    href: devPortfolio,
-    title: "LinkedIn",
-    color: "blue",
-    icon: FaLinkedin,
-  },
-  {
-    href: devGithub,
-    title: "Github",
-    // color: "black",
-    icon: FaGithub,
-  },
-
-  {
-    href: "mailto:" + devEmail,
-    title: "Email",
-    color: "red",
-    icon: FaEnvelope,
-  },
-  {
-    href: "https://wa.me/" + devPhone,
-    title: "Whatsapp",
-    color: "green",
-    icon: FaWhatsapp,
-  },
-  {
-    href: devArticles,
-    title: "Medium",
-    // color: "black",
-    icon: FaMedium,
-  },
-  {
-    href: hireMeLink,
-    title: "Upwork",
-    // color: "black",
-    icon: TbBrandUpwork,
-  },
-  {
-    title: "Resume",
-    // color: "black",
-    icon: TbFileCv,
-    onClick: printResume,
-  },
-  {
-    href: companyData.link,
-    title: companyData.name,
-    icon: FaBuilding,
-  },
+  { title: "LinkedIn", action: "link", href: devPortfolio, icon: "FaLinkedin", color: "blue", visible: true },
+  { title: "Github", action: "link", href: devGithub, icon: "FaGithub", color: "", visible: true },
+  { title: "Email", action: "link", href: "mailto:" + devEmail, icon: "FaEnvelope", color: "red", visible: true },
+  { title: "Whatsapp", action: "link", href: "https://wa.me/" + devPhone, icon: "FaWhatsapp", color: "green", visible: true },
+  { title: "Medium", action: "link", href: devArticles, icon: "FaMedium", color: "", visible: true },
+  { title: "Upwork", action: "link", href: hireMeLink, icon: "TbBrandUpwork", color: "", visible: true },
+  { title: "Resume", action: "printResume", href: "", icon: "TbFileCv", color: "", visible: true },
+  { title: companyData.name, action: "link", href: companyData.link, icon: "FaBuilding", color: "", visible: true },
 ];

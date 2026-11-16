@@ -1,8 +1,9 @@
 
-import { blogs } from "../data/blogs";
+import useContent from "../hooks/useContent";
 import CardsList from "../ui/CardsList";
 
 function Blogs() {
+	const blogs = useContent("blogs");
 	return (
 		<CardsList
 			id="blogs"

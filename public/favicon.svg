@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+	<title>Majidev.</title>
+	<rect width="512" height="512" rx="112" fill="#0f172a"/>
+	<path transform="translate(93.93 396) scale(0.20202 -0.20202)" fill="#faf9f6" d="M1087 1386 1165 0H879L862 593Q859 703 860.5 784.0Q862 865 867.0 939.5Q872 1014 879 1107L723 236H475L307 1107Q315 1020 320.0 943.5Q325 867 326.5 783.0Q328 699 326 588L316 0H35L113 1386H450L604 490L750 1386Z"/>
+	<circle cx="381" cy="366" r="30" fill="#0D9488"/>
+</svg>

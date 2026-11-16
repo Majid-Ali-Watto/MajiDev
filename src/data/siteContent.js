@@ -1,0 +1,127 @@
+import { experienceData } from "./experienceData";
+import { educationData } from "./educationData";
+import { skillsData } from "./skills";
+import { projects } from "./project-links";
+import { services } from "./services";
+import { blogs } from "./blogs";
+import { packages } from "./packages";
+import { companyData } from "./company-data";
+import { settings } from "./settings";
+import { contactLinks } from "./contact-links";
+import { resumes } from "./resumes";
+import { github } from "./github";
+import { uploadedImageId } from "../utils/uploadedImage";
+
+// Built-in defaults. A Firestore `{key}/content` document overrides its section (edited from /admin).
+export const siteContent = {
+  // Developer photo and intro paragraph. Empty: Intro and the printed résumé use the built-in photo and text.
+  about: { imageBase64: "", paragraph: "" },
+  experience: experienceData,
+  education: educationData,
+  skills: skillsData,
+  projects,
+  services,
+  blogs,
+  packages,
+  company: companyData,
+  contacts: contactLinks,
+  settings,
+  resumes,
+  github,
+};
+
+// Merges stored content over the defaults. Single-record sections (settings, company) merge field by field,
+// so a record saved before a field existed still gets that field's default instead of `undefined`.
+export function withDefaults(stored = {}) {
+  const merged = { ...siteContent, ...stored };
+  for (const [key, value] of Object.entries(siteContent)) {
+    if (!Array.isArray(value)) merged[key] = { ...value, ...stored[key] };
+  }
+  return merged;
+}
+
+// List items the admin hid (the eye toggle in /admin) carry `[VISIBLE]: false`: they stay stored but the site leaves them out
+export const VISIBLE = "visible";
+
+export const isHidden = (...items) => items.some((item) => item?.[VISIBLE] === false);
+
+// Content fields the site turns into links (a card also opens its `imgURL`). Only these schemes are kept, so a stored
+// "javascript:" URL can never run on the site; the URL parser is the browser's own, so tricks like "java\tscript:" fail too.
+const LINK_FIELDS = new Set(["href", "link", "gLink", "url", "blog", "imgURL"]);
+const SAFE_SCHEMES = new Set(["http:", "https:", "mailto:", "tel:"]);
+
+export function isSafeLink(url) {
+  try {
+    return SAFE_SCHEMES.has(new URL(url, "https://relative.invalid").protocol); // a relative path counts as https
+  } catch {
+    return false;
+  }
+}
+
+// Some hosts' "share" links are HTML pages an <img> can't show. Pasted as an image, they become the file itself:
+// a GitHub file page (github.com/<user>/<repo>/blob/<branch>/<path>) → raw.githubusercontent.com, and a public Google Drive
+// file (…/file/d/<id>/view, /open?id=<id>, /uc?id=<id>) → its image on lh3.googleusercontent.com. Any other URL is returned as is.
+export function imageSrc(url) {
+  try {
+    const { protocol, hostname, pathname, search, searchParams } = new URL(url);
+    if (protocol !== "https:") return url;
+    if (hostname === "github.com") {
+      const [, user, repo, kind, ...rest] = pathname.split("/");
+      if ((kind === "blob" || kind === "raw") && rest.length > 1) return `https://raw.githubusercontent.com/${user}/${repo}/${rest.join("/")}${search}`;
+    } else if (hostname === "drive.google.com") {
+      const id = pathname.match(/^\/file\/(?:u\/\d+\/)?d\/([\w-]+)/)?.[1] ?? (/^\/(?:open|uc)$/.test(pathname) ? searchParams.get("id") : null);
+      if (id && /^[\w-]+$/.test(id)) return `https://lh3.googleusercontent.com/d/${id}`;
+    }
+  } catch {
+    // a relative path (under /public) or malformed text: shown as written
+  }
+  return url;
+}
+
+// A screenshot of the page at `link`, for a card that has no image of its own (empty if `link` isn't a web page).
+// The image is rendered by thum.io from the public URL alone, so nothing has to be stored or deployed.
+export const previewSrc = (link) => (/^https?:\/\//i.test(link ?? "") ? `https://image.thum.io/get/width/1000/crop/625/${link}` : "");
+
+// A link field as the public sees it: emptied if its scheme is unsafe, and an image's share page turned into the file.
+// An image uploaded in /admin ("upload:{id}") is kept: it is a Firestore document id, never a URL the browser opens.
+const publicLink = (name, url) => {
+  if (name === "imgURL" && uploadedImageId(url)) return url;
+  return !isSafeLink(url) ? "" : name === "imgURL" ? imageSrc(url) : url;
+};
+
+// `value` as the public sees it: without hidden list items at any depth (e.g. a hidden project inside a job, or a hidden
+// skill inside a category), and with unsafe links emptied (readers already skip an empty link)
+export function publicView(value) {
+  if (Array.isArray(value)) return value.filter((item) => !isHidden(item)).map(publicView);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([name, v]) => [name, LINK_FIELDS.has(name) && typeof v === "string" && v ? publicLink(name, v) : publicView(v)]),
+    );
+  }
+  return value;
+}
+
+// One section's content from its stored document { value, builtIn }, hidden items included.
+// `builtIn` is a list section's admin "Show default data" switch: the built-in list shows even though an edited copy is stored.
+// Single-record sections fall back per field instead: a field missing from `value` keeps its default.
+export function sectionContent(key, stored) {
+  if (stored?.value === undefined || stored.builtIn) return siteContent[key];
+  return withDefaults({ [key]: stored.value })[key];
+}
+
+// What the public site renders for one section. Every site reader goes through here (pages and the printed résumé),
+// and /admin publishes the same view to GitHub, so hidden items and unsafe links are dropped in this one place.
+export const forSite = (key, stored) => publicView(sectionContent(key, stored));
+
+// The `stats` section is derived, not edited: the home page's figures, so it fetches this small document instead of the
+// whole sections they come from. /admin rewrites it with every save of a source section (admin/adminStore.js).
+// Each visible job keeps its dates (not a fixed "3Y 11M") so the total stays current; `experience.length` = companies.
+export const STATS_SOURCES = ["experience", "projects", "packages"];
+
+// `view` = the source sections as the site shows them (forSite)
+export function statsFor({ experience, projects, packages }) {
+  return { experience: experience.map(({ startDate, endDate }) => ({ startDate, endDate })), projects: projects.length, packages: packages.length };
+}
+
+// Built-in stats, from the built-in sections; used until /admin has written the stats document
+siteContent.stats = statsFor(Object.fromEntries(STATS_SOURCES.map((key) => [key, forSite(key)])));

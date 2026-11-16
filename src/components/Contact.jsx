@@ -1,9 +1,12 @@
-import { contactLinks } from "../data/contact-links";
-import { Link, Box, Tooltip } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import useContactLinks from "../hooks/useContactLinks";
 import { fadeInUp } from "../data/fadeInUpTransitionConfig";
 
+const MotionButton = motion(Button);
+
 function Contact() {
+  const contacts = useContactLinks();
   return (
     <section id="contact" className="contact-form">
       <motion.div
@@ -12,53 +15,24 @@ function Contact() {
         variants={fadeInUp}
         viewport={{ once: true }}
       >
-        <Box
-          w="fit-content"
-          borderRadius="lg"
-          overflow="hidden"
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          flexWrap="wrap"
-          gap={[3, 5, 8]}
-        >
-          {contactLinks.map((contactLink) => {
-            // Use React.createElement for the icon component
-            const IconComponent = contactLink.icon;
-
-            const linkProps = contactLink.onClick
-              ? { as: "button", onClick: contactLink.onClick }
-              : { href: contactLink.href, target: "_blank", rel: "noreferrer" };
-
-            return (
-              <Tooltip key={contactLink.title} label={contactLink.title} hasArrow>
-                <Link
-                  className="contact-link"
-                  {...linkProps}
-                >
-                  <Box
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    p={3}
-                    transition="transform 0.3s ease, box-shadow 0.3s ease"
-                    _hover={{ boxShadow: "xl", borderColor: "teal.400" }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.15 }}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                      style={{ display: "inline-block" }}
-                    >
-                      <IconComponent
-                        style={{ fontSize: "25px", color: contactLink.color }}
-                      />
-                    </motion.div>
-                  </Box>
-                </Link>
-              </Tooltip>
-            );
-          })}
-        </Box>
+        <Flex wrap="wrap" justify="center" gap={[2, 3]} maxW="640px">
+          {contacts.map(({ title, color, Icon, linkProps }, index) => (
+            <MotionButton
+              key={`${index}-${title}`}
+              {...linkProps}
+              variant="outline"
+              size={["sm", "md"]}
+              borderRadius="full"
+              fontWeight="500"
+              leftIcon={<Icon color={color} />}
+              _hover={{ boxShadow: "lg", borderColor: "teal.400" }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {title}
+            </MotionButton>
+          ))}
+        </Flex>
       </motion.div>
     </section>
   );

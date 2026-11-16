@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// Public site reads content; only the admin account can write.
+// 1. Firebase console → Authentication → add your admin user, copy its UID, paste it below.
+// 2. Firebase console → Firestore → Rules → paste this file → Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // The admin account, signed in with its authenticator app code (two-step sign-in, see DEVELOPMENT.md): a session from the
+    // password alone can't write.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == "STq3i9XPYQMVxU09vwua7XBugx43"
+        && request.auth.token.firebase.sign_in_second_factor == "totp";
+    }
+
+    // Site content: one collection per section, each holding a single `content` document (src/hooks/useContent.js).
+    // `stats` is derived from experience/projects/packages; /admin writes it alongside them.
+    function isSection(section) {
+      return section in ["about", "settings", "contacts", "experience", "education", "skills", "projects", "services", "blogs", "packages", "company", "resumes", "github", "stats"];
+    }
+
+    match /{section}/content {
+      allow read: if isSection(section);
+      allow write: if isAdmin() && isSection(section);
+    }
+
+    // Images uploaded in /admin, one document each ({ data: a data URL }); a content field refers to one as "upload:{id}"
+    // (src/utils/uploadedImage.js). Anyone can read an image whose id they know, but not list them. The size limit keeps
+    // them small (the admin scales them to about 150 kB).
+    match /images/{id} {
+      allow get: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(["data"])
+        && request.resource.data.data is string
+        && request.resource.data.data.size() <= 200000;
+    }
+  }
+}
