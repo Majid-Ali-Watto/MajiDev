@@ -1,8 +1,8 @@
 export const experienceData = [
   {
-    company: "AZM Developement",
+    company: "AZM Development",
     location: "Islamabad",
-    role: "Software Engineer (II)",
+    role: "Senior Software Engineer (I)",
     startDate: "2025-09-15",
     endDate: "Present",
     projects: [

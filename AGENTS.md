@@ -47,6 +47,28 @@ Never read, index, or suggest changes inside:
 - Content dates (`YYYY-MM-DD`) go through `utils/parseDate` (local calendar day), never `new Date(string)`, so figures match the backend in every time zone
 - `src/data/contact-links.js` is plain data (icons by name via `src/data/contactIcons.js`); `hooks/useContactLinks` resolves contacts for `components/Contact.jsx` and `ContactPage.jsx`, turning the `printResume` action into a button that opens the résumé picker
 
+## Sweep Every Copy After a Change
+Facts about Majid (job title, company, skills, projects, dates, contact links, taglines) are repeated in many files that don't read from each other. After any change, before calling the work done:
+
+1. **Grep for the old value** across the repo (and `../majidev-backend` when relevant), excluding the Do Not Read folders, and update every hit or say why it stays (for example a test's expected value at a fixed date, or a docs example).
+2. **Check each copy below** that the change can touch:
+
+| Where | What it repeats |
+|---|---|
+| `/admin` (Firestore) | The live content; `src/data/` is only the fallback. Tell the user what to edit there, since Claude can't |
+| `src/data/*.js` | Built-in defaults: `experienceData.js` (role, company spelling), `project-links.js`, `skills.js`, `services.js`, `company-data.js`, `settings.js`, `resumes.js`, `github.js`, `contact-links.js` |
+| `index.html` | `<title>`, meta description / keywords, Open Graph and Twitter tags, JSON-LD `Person` (`jobTitle`, `worksFor`, `knowsAbout`, `sameAs`) and `WebPage` |
+| `src/ui/Helmet.jsx` | Per-page title, description, keywords, OG / Twitter tags and image (keep the image in step with `index.html`) |
+| `vite.config.js` | PWA manifest `name`, `short_name`, `description` (plain text, no Markdown) |
+| `public/sitemap.xml` | Every route in App's `pages` table, with `lastmod` set to the deploy date when content changed |
+| `public/robots.txt`, `netlify.toml` | Sitemap URL; CSP when a new origin is used |
+| `README.md` | Repo profile: title, About, Experience, Featured projects, Tech stack. It is static, so write fixed figures in a form that doesn't age ("since Oct 2022"), never a live count |
+| GitHub profile | Rebuilt from `/admin → GitHub` (`admin/githubReadme.js`); remind the user to republish |
+| `CLAUDE.md` / `AGENTS.md` | Keep both in step when a pattern changes |
+
+3. **Experience figures are computed** (`utils/getExpYears.js`, the backend's `experience.py`, the `Y-M-D` placeholder). Never hardcode a duration in site code or content; Google shows the figure from its last crawl, so after a content or SEO change remind the user to request indexing in Search Console.
+4. **Run `npm run build`** and report anything left for the user (admin edits, Firebase console, republishing the GitHub README).
+
 ## Commands
 ```bash
 npm run dev       # start dev server
