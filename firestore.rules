@@ -23,5 +23,16 @@ service cloud.firestore {
       allow read: if isSection(section);
       allow write: if isAdmin() && isSection(section);
     }
+
+    // Images uploaded in /admin, one document each ({ data: a data URL }); a content field refers to one as "upload:{id}"
+    // (src/utils/uploadedImage.js). Anyone can read an image whose id they know, but not list them. The size limit keeps
+    // them small (the admin scales them to about 150 kB).
+    match /images/{id} {
+      allow get: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(["data"])
+        && request.resource.data.data is string
+        && request.resource.data.data.size() <= 200000;
+    }
   }
 }

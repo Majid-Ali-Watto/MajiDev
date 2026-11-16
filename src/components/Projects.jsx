@@ -67,6 +67,7 @@ function Projects() {
 				list={projects}
 				buttons={["Live Preview", "Visit GitHub"]}
 				showAll
+				preview
 			/>
 			<ExploreMore />
 		</>

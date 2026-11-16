@@ -2,6 +2,7 @@ import { doc, getDoc, setDoc, writeBatch } from "firebase/firestore/lite";
 import { db } from "../config/firebaseApp";
 import { SECTION_DOC } from "../hooks/useContent";
 import { STATS_SOURCES, forSite, siteContent, statsFor } from "../data/siteContent";
+import { uploadedImageRef } from "../utils/uploadedImage";
 
 // Sections /admin edits. `stats` is derived from them (statsFor) and written alongside them, never edited.
 const STATS = "stats";
@@ -70,4 +71,13 @@ export function saveSection(key, value, useBuiltIn, stored) {
   batch.set(sectionDoc(key), data);
   batch.set(sectionDoc(STATS), statsData({ ...docs, [key]: data }));
   return batch.commit();
+}
+
+// Stores an uploaded image (a data URL) as its own document, images/{id}, and returns the "upload:{id}" reference a content
+// field keeps. A replaced or removed image's document stays behind (nothing refers to it); it is small and can be deleted
+// in the Firebase console.
+export async function saveImage(dataUrl) {
+  const id = crypto.randomUUID();
+  await setDoc(doc(db, "images", id), { data: dataUrl });
+  return uploadedImageRef(id);
 }
