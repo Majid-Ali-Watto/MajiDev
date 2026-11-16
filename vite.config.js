@@ -25,7 +25,7 @@ export default defineConfig({
 			manifest: {
 				name: "Majid Ali, Full Stack Web Developer",
 				short_name: "Majidev.",
-				description: "Hi 👋, I'm Pakistan based **Full Stack Web Developer** skilled in both front-end and back-end technologies. Freelancer & **Full Stack Developer @[Teresol](https://www.linkedin.com/company/teresolpvtltd/mycompany/) Pvt Ltd, Islamabad** since Oct 2022.",
+				description: "Portfolio of Majid Ali, Full Stack Web Developer and Senior Software Engineer (I) at AZM Development, Islamabad: Vue.js, Nuxt.js, React, Python/FastAPI, microservices and DevOps.",
 				theme_color: "#0D9488",
 				background_color: "#ffffff",
 				display: "standalone",
